@@ -205,7 +205,7 @@ class AccountController extends Controller
                     }
                 }
             }
-            $sql .= " ) VALUE (?,?,?,?,? ".$sql_img." )";
+            $sql .= " ) VALUE (?,?,?,?,?,? ".$sql_img." )";
             DB::insert($sql, $param); 
         }
         return redirect("/account/orders");
