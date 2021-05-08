@@ -187,8 +187,8 @@ class AccountController extends Controller
         $madon = $req->id;
         for($i=0;$i< sizeof($ma_sp); $i++){
         
-            $sql = "INSERT INTO binhluan(MA_NGUOIDUNG, MA_SP, NOIDUNG, DANHGIA, MA_DONBAN ";
-            $param = [$user->MA_NGUOIDUNG, $ma_sp[$i], $noidung[$i], $danhgia[$i], $madon];
+            $sql = "INSERT INTO binhluan(MA_NGUOIDUNG, MA_SP, NOIDUNG, DANHGIA, MA_DONBAN, NGAY ";
+            $param = [$user->MA_NGUOIDUNG, $ma_sp[$i], $noidung[$i], $danhgia[$i], $madon, date("Y-m-d")];
             $sql_img = "";
             if(is_array($images)){
                 foreach ($images[$i] as $key => $img){

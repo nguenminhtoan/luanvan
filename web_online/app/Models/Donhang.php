@@ -9,15 +9,22 @@ class Donhang extends Model
 {
     use HasFactory;
     
-    public static function list_dh_ch($mach, $batdau, $ketthuc){
+    public static function list_dh_ch($mach, $batdau, $ketthuc, $tt){
         $sql = "select donhang.*, vt.PHUONGTHUC_VANCHUYEN, tt.PHUONGTHUC_THANHTOAN,
                  t.TEN_TRANGTHAI, km.TEN_KM, km.GIAMGIA from donhang 
                  inner join vanchuyen vt on vt.MA_VANCHUYEN = donhang.MA_VANCHUYEN 
                  inner join thanhtoan tt on tt.MA_THANHTOAN = donhang.MA_THANHTOAN 
                  left join khuyenmai km on km.MA_KHUYENMAI = donhang.MA_KHUYENMAI 
                  inner join trangthai t on t.MA_TRANGTHAI = donhang.MA_TRANGTHAI
-                 WHERE MA_CUAHANG = ? AND t.MA_TRANGTHAI != 1 AND NGAYDAT BETWEEN ? AND ? ORDER BY  ma_donban DESC, ngaydat ASC ";
+                 WHERE MA_CUAHANG = ? AND t.MA_TRANGTHAI != 1 AND NGAYDAT BETWEEN ? AND ? ";
+        
         $param = [$mach, $batdau, $ketthuc];
+        if($tt){
+            $sql .= " AND donhang.MA_TRANGTHAI = ? ";
+            array_push($param, $tt);
+        }
+        $sql .= " ORDER BY  ma_donban DESC, ngaydat ASC  ";
+        
         $list = DB::select($sql, $param);
         return $list;
     }

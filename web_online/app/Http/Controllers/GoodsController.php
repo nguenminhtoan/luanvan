@@ -23,7 +23,7 @@ class GoodsController extends Controller
         $cuahang = DB::select('select *from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
         $batdau = $req->batdau ? $req->batdau :  date( "Y-m-d", strtotime( " -1 month" ) );
         $ketthuc = $req->ketthuc ? $req->ketthuc : date("Y-m-d");
-        
+
         $dhn = Hdnhap::list_sanpham($mach, $batdau,$ketthuc);
         return view("goods.goods_show",['batdau' => $batdau, 'ketthuc' => $ketthuc ,'donhang'=>$dhn,'cuahang'=>$cuahang[0],'mach'=>$mach]);
     }

@@ -15,9 +15,10 @@ class OrdersController extends Controller
         $cuahang = DB::select('select nd.*, xa.TEN_XA, huyen.TEN_HUYEN, tinh.TEN_TINH from Cuahang nd left join xa on nd.MA_XA = xa.MA_XA left join huyen on huyen.MA_HUYEN = xa.MA_HUYEN left join tinh on tinh.MA_TINH = huyen.MA_TINH WHERE nd.MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
         $batdau = $req->batdau ? $req->batdau :  date( "Y-m-d", strtotime( " -1 month" ) );
         $ketthuc = $req->ketthuc ? $req->ketthuc : date("Y-m-d");
-        $donhang = Donhang::list_dh_ch($mach, $batdau, $ketthuc);
-        
-       return view("orders.orders",['batdau' => $batdau, 'ketthuc' => $ketthuc ,'donhangban'=>$donhang,'cuahang'=>$cuahang[0],'mach'=>$mach]);
+        $trangthai = $req->trangthai;
+        $list_tt = DB::select("select * from trangthai WHERE MA_TRANGTHAI != 1");
+        $donhang = Donhang::list_dh_ch($mach, $batdau, $ketthuc, $trangthai);
+       return view("orders.orders",['list_tt' => $list_tt, "trangthai" => $trangthai ,'batdau' => $batdau, 'ketthuc' => $ketthuc ,'donhangban'=>$donhang,'cuahang'=>$cuahang[0],'mach'=>$mach]);
     }
     public function history(){
         $user = Session::get("MA_NGUOIDUNG");
