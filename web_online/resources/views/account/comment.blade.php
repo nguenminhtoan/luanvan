@@ -41,7 +41,7 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="col-sm-12">
-                                                        <div class="rang rang-hover">
+                                                        <div class="rang rang-hover rang-5">
                                                             <div class="step step5">
                                                                 <div class="icon"></div>
                                                             </div>
@@ -54,7 +54,7 @@
                                                             <div class="step step2">
                                                                 <div class="icon"></div>
                                                             </div>
-                                                            <div class="step step1">
+                                                            <div class="step step1 ">
                                                                 <div class="icon"></div>
                                                             </div>
 
@@ -74,7 +74,7 @@
                                             <div class="form-group col-sm-12">
                                                 <input type="hidden" name="MA_SP[]" value="{{$item->MA_SP}}">
                                                 <div class="input-group col-sm-12">
-                                                    <textarea class="form-control" rows="5" name="NOIDUNG[]" maxlength="1000" ></textarea>
+                                                    <textarea class="form-control" rows="5" name="NOIDUNG[]" maxlength="1000" required="" minlength="10" ></textarea>
                                                 </div>
                                             </div>
                                         </div>

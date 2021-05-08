@@ -71,7 +71,9 @@
                                                             <td class="text-right">{{number_format($item->DONGIA)}}VNĐ</td>
                                                         </tr>
                                                         <tr class="thanhtoan" hidden="">
-                                                            <td colspan="3" class="text-right">Thanh toán</td>
+                                                            <td colspan="3" class="text-right">
+                                                                Phương thức thanh toán
+                                                            </td>
                                                             <td class="text-left">{{$item->PHUONGTHUC_THANHTOAN}}<br>              
                                                             </td>
                                                             <td class="text-right"></td>
@@ -85,7 +87,16 @@
                                                         </tr>
                                                         @endif
                                                         <tr>
-                                                            <td colspan="4" class="text-right">Thành tiền</td>
+                                                            <td colspan="4">
+                                                                <div class="col-sm-9">
+                                                                    <a class="btn btn-success" href="/account/orders/{{$item->MA_DONBAN}}" >Chi tiết đơn hàng <i class="fa fa-angle-double-right"></i></a>
+                                                                    <a href="/account/cancel/{{$item->MA_DONBAN}}" onclick="return confirm('Bạn có chắc chắn hủy đơn hàng này không ?')" class="btn btn-default" >Hủy đơn</a>
+                                                                </div>
+                                                                <div class="col-md-3 text-right">
+                                                                    
+                                                                    <label>Thành tiền</label>
+                                                                </div>
+                                                            </td>
                                                             <td class="text-right">{{number_format($item->TONGTIEN)}}VNĐ</td>
                                                         </tr>
                                                     </tbody>
@@ -152,7 +163,16 @@
                                                         </tr>
                                                         @endif
                                                         <tr>
-                                                            <td colspan="4" class="text-right">Thành tiền</td>
+                                                            <td colspan="4">
+                                                                <div class="col-sm-9">
+                                                                    <a class="btn btn-success" href="/account/orders/{{$item->MA_DONBAN}}" >Chi tiết đơn hàng <i class="fa fa-angle-double-right"></i></a>
+                                                                    <a href="/account/cancel/{{$item->MA_DONBAN}}" onclick="return confirm('Bạn có chắc chắn hủy đơn hàng này không ?')" class="btn btn-default" >Hủy đơn</a>
+                                                                </div>
+                                                                <div class="col-md-3 text-right">
+                                                                    
+                                                                    <label>Thành tiền</label>
+                                                                </div>
+                                                            </td>
                                                             <td class="text-right">{{number_format($item->TONGTIEN)}}VNĐ</td>
                                                         </tr>
                                                     </tbody>
@@ -218,13 +238,24 @@
                                                         </tr>
                                                         @endif
                                                         <tr>
-                                                            <td colspan="4" class="text-right">
-                                                                @if($item->DANHGIA == 0)
-                                                                <a href="/account/comment/{{$item->MA_DONBAN}}" class="btn btn-primary">Đánh giá</a>
-                                                                @else
-                                                                <button disabled="" class="btn btn-dark">Đã Đánh giá</button>
-                                                                @endif
-                                                                Thành tiền
+                                                            <td colspan="4">
+                                                                <div class="col-sm-9">
+                                                                    <a class="btn btn-success" href="/account/orders/{{$item->MA_DONBAN}}" >Chi tiết đơn hàng <i class="fa fa-angle-double-right"></i></a>
+                                                                
+                                                                    @if($item->DANHGIA == 0)
+                                                                    <a href="/account/comment/{{$item->MA_DONBAN}}" class="btn btn-dark">Đánh giá</a>
+                                                                    @else
+                                                                    <a disabled="" style="background-color: #ff5e00 !important" class="btn btn-default">Đã đánh giá</a>
+                                                                    @endif
+                                                                    @if(strtotime($item->NGAYGIAO) >= date("Y/m/d", strtotime("-7 days")))
+                                                                    <a href="/account/return/{{$item->MA_DONBAN}}" class="btn btn-danger">Hoàn tiền trả hàng</a>
+                                                                    @endif
+                                                                    </div>
+                                                                <div class="col-md-3 text-right">
+                                                                    
+                                                                    <label>Thành tiền</label>
+                                                                </div>
+                                                                
                                                             </td>
                                                             <td class="text-right">{{number_format($item->TONGTIEN)}}VNĐ</td>
                                                         </tr>
@@ -291,7 +322,15 @@
                                                         </tr>
                                                         @endif
                                                         <tr>
-                                                            <td colspan="4" class="text-right">Thành tiền</td>
+                                                            <td colspan="4">
+                                                                <div class="col-sm-9">
+                                                                    <a class="btn btn-danger" href="/account/orders/{{$item->MA_DONBAN}}" >Chi tiết đơn hủy <i class="fa fa-angle-double-right"></i></a>
+                                                                </div>
+                                                                <div class="col-md-3 text-right">
+                                                                    
+                                                                    <label>Thành tiền</label>
+                                                                </div>
+                                                            </td>
                                                             <td class="text-right">{{number_format($item->TONGTIEN)}}VNĐ</td>
                                                         </tr>
                                                     </tbody>
@@ -357,7 +396,15 @@
                                                         </tr>
                                                         @endif
                                                         <tr>
-                                                            <td colspan="4" class="text-right">Thành tiền</td>
+                                                            <td colspan="4">
+                                                                <div class="col-sm-9">
+                                                                    <a class="btn btn-success" href="/account/orders/{{$item->MA_DONBAN}}" >Chi tiết đơn hàng <i class="fa fa-angle-double-right"></i></a>
+                                                                </div>
+                                                                <div class="col-md-3 text-right">
+                                                                    
+                                                                    <label>Thành tiền</label>
+                                                                </div>
+                                                            </td>
                                                             <td class="text-right">{{number_format($item->TONGTIEN)}}VNĐ</td>
                                                         </tr>
                                                     </tbody>
