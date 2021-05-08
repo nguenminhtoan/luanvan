@@ -219,8 +219,11 @@
                                                         @endif
                                                         <tr>
                                                             <td colspan="4" class="text-right">
+                                                                @if($item->DANHGIA == 0)
                                                                 <a href="/account/comment/{{$item->MA_DONBAN}}" class="btn btn-primary">Đánh giá</a>
-                                                                
+                                                                @else
+                                                                <button disabled="" class="btn btn-dark">Đã Đánh giá</button>
+                                                                @endif
                                                                 Thành tiền
                                                             </td>
                                                             <td class="text-right">{{number_format($item->TONGTIEN)}}VNĐ</td>

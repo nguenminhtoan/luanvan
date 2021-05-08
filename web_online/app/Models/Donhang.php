@@ -24,13 +24,14 @@ class Donhang extends Model
     
     public static function list_dh_nd($mand){
         $sql = "select donhang.*, vt.PHUONGTHUC_VANCHUYEN, vt.DONGIA, tt.PHUONGTHUC_THANHTOAN, ch.*, km.*,
-                 t.TEN_TRANGTHAI, km.TEN_KM, km.GIAMGIA, '' as SANPHAM from donhang 
+                 t.TEN_TRANGTHAI, km.TEN_KM, km.GIAMGIA, '' as SANPHAM, COUNT(*) as DANHGIA from donhang 
                  inner join vanchuyen vt on vt.MA_VANCHUYEN = donhang.MA_VANCHUYEN 
                  inner join thanhtoan tt on tt.MA_THANHTOAN = donhang.MA_THANHTOAN 
                  left join khuyenmai km on km.MA_KHUYENMAI = donhang.MA_KHUYENMAI 
+                 left join binhluan bl on bl.MA_DONBAN = donhang.MA_DONBAN
                  inner join trangthai t on t.MA_TRANGTHAI = donhang.MA_TRANGTHAI
                  inner join cuahang ch on ch.MA_CUAHANG = donhang.MA_CUAHANG
-                 WHERE MA_NGUOIDUNG = ? ORDER BY ngaydat, ma_donban DESC ";
+                 WHERE donhang.MA_NGUOIDUNG = ? GROUP BY donhang.MA_DONBAN ORDER BY ngaydat, ma_donban DESC ";
         $param = [$mand];
         $list = DB::select($sql, $param);
         
