@@ -63,9 +63,9 @@ Giỏ Hàng
                         <tr class="vanchuyen">
                             <td colspan="3" class="text-right">Vận chuyển</td>
                             <td class="text-left">
-                                <select class="form-control address" name="MA_VANCHUYEN[]" >
+                                <select class="form-control address" name="MA_VANCHUYEN[]" onchange="thanhtoan(this);" >
                                     @foreach ($vanchuyen as $item)
-                                    <option {{ $item->MA_VANCHUYEN == $giohang->MA_VANCHUYEN ? "selected" : "" }} value="{{$item->MA_VANCHUYEN}}">{{$item->PHUONGTHUC_VANCHUYEN}}</option>
+                                    <option {{ $item->MA_VANCHUYEN == $giohang->MA_VANCHUYEN ? "selected" : "" }} value="{{$item->MA_VANCHUYEN}}" data-gia="{{$item->DONGIA}}">{{$item->PHUONGTHUC_VANCHUYEN}}</option>
                                     @endforeach
                                 </select>              
                             </td>
@@ -195,6 +195,7 @@ Giỏ Hàng
 </div>
 
 <script type="text/javascript">
+    var giamgia = 0;
     $("#customer_id_province").change(function () {
         var ma_tinh = $(this).val();
         $("#customer_id_district").find("option").hide();
@@ -293,9 +294,24 @@ Giỏ Hàng
                 },
                 success: function(data) {
                     if (Number(data) != -1){
-                        alert(data);
+                        giamgia = ($("table").length - 1)*data;
+                        toanbo = 0;
+                        $.each($("table"), function(key, value){
+                            if(key != $("table").length - 1 ){
+                                toanbo = toanbo + Number($(value).find("tbody tr:last-child").find("td:last-child").html().replace("VNĐ", "").replaceAll(",", ""));
+                            }
+                        });
+                        $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo - giamgia) + "VNĐ");
                     }else{
                         alert("Mã khuyến mãi không tồn tại");
+                        toanbo = 0;
+                        $.each($("table"), function(key, value){
+                            if(key != $("table").length - 1 ){
+                                toanbo = toanbo + Number($(value).find("tbody tr:last-child").find("td:last-child").html().replace("VNĐ", "").replaceAll(",", ""));
+                            }
+                        });
+                        giamgia = 0;
+                        $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo - giamgia) + "VNĐ");
                     }
                 }
         });
@@ -311,7 +327,7 @@ Giỏ Hàng
                     if (data == 1){
                         $(event).closest("tr").remove();
                     } else{
-                        $(event).closest(".table-responsive").remove();
+                        $(event).closest(".table-bordered").remove();
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
@@ -329,27 +345,38 @@ Giỏ Hàng
                 MA_SP : ma_sp
             },
             success: function(data) {
-                if(data == 2){
+                if(data == -1){
                     $(event).closest("tr").remove();
                 }
-                else if (data == 3){
+                else if (data == -2){
                     $(event).closest(".table-responsive").remove();
                 }
                 else
                 {
-                    location.reload();
-//                    var gia = $(event).closest("tr").find("td").eq(3).html();
-//                    gia = gia.replace("VNĐ", "").replaceAll(",", "");
-//                    $(event).closest("tr").find("td").eq(4).html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(gia * soluong) + "VNĐ");
-//                    var tong = 0;
-//                    $.each($(event).closest("tbody").find("tr"), function(key, value){
-//                    tong = tong + Number($(value).find("td").eq(4).html().replace("VNĐ", "").replaceAll(",", ""));
-//                    })
-//                            $("#thanhtien").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(tong) + "VNĐ");
+                    //location.reload();
+                    soluong = data;
+                    $(event).closest("tr").find("input[name='SOLUONG[]']").val(soluong);
+                    var gia = $(event).closest("tr").find("td").eq(3).html();
+                    gia = gia.replace("VNĐ", "").replaceAll(",", "");
+                    $(event).closest("tr").find("td").eq(4).html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(gia * soluong) + "VNĐ");
+                    var tong = 0;
+                    $.each($(event).closest("tbody").find("tr"), function(key, value){
+                        if(key != 0 && key != $(event).closest("tbody").find("tr").length - 1 ){
+                            tong = tong + Number($(value).find("td:last-child").html().replace("VNĐ", "").replaceAll(",", ""));
+                        }
+                    })
+                    $(event).closest("tbody").find("tr:last-child").find("td").eq(1).html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(tong) + "VNĐ");
 //                    //var vanchuyen = Number($("#vanchuyen").html().replace("VNĐ", "").replaceAll(",", ""));
 //                    //var khuyenmai = Number($("#khuyenmai").html().replace("VNĐ", "").replaceAll(",", ""));
-//                    var toanbo = tong;
+                    var toanbo = 0;
 //                    $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo) + "VNĐ");
+                    $.each($("table"), function(key, value){
+                        if(key != $("table").length - 1 ){
+                            toanbo = toanbo + Number($(value).find("tbody tr:last-child").find("td:last-child").html().replace("VNĐ", "").replaceAll(",", ""));
+                        }
+                    });
+                    $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo - giamgia) + "VNĐ");
+
                 }
             }
         });
@@ -376,11 +403,17 @@ Giỏ Hàng
     url: '/cart/update_voucher',
             type: 'get',
             data:{
-            MA_KHUYENMAI : ma_khuyenmai
+                MA_KHUYENMAI : ma_khuyenmai
             },
             success: function(data) {
-            if (data == 1){
-            alert("cập nhật thành công!");
+            if (data > 0){
+                giamgia = $("table").length*data;
+                $.each($("table"), function(key, value){
+                    if(key != $("table").length - 1 ){
+                        toanbo = toanbo + Number($(value).find("tbody tr:last-child").find("td:last-child").html().replace("VNĐ", "").replaceAll(",", ""));
+                    }
+                });
+                $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo - giamgia) + "VNĐ");
             }
             else{
             alert("mã khuyến mãi không tồn tại !");
@@ -389,46 +422,62 @@ Giỏ Hàng
     });
     }
 
-    function thanhtoan(){
-    var ma_thanhtoan = $("select[name='MA_THANHTOAN']").find("option:selected").val();
-    var ma_vanchuyen = $("select[name='MA_VANCHUYEN']").find("option:selected").val();
-    $.ajax({
-    url: '/cart/update_pp',
-            type: 'get',
-            data:{
-            MA_THANHTOAN : ma_thanhtoan,
-                    MA_VANCHUYEN : ma_vanchuyen
-            },
-            success: function(data) {
-
+    function thanhtoan(evnt){
+        var vanchuyen = $(evnt).find("option:selected");
+        $(evnt).closest("tr").find("td:last-child").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(vanchuyen.attr("data-gia")) + "VNĐ");
+        var toanbo = 0;
+        var tong = 0;
+        $.each($(evnt).closest("tbody").find("tr"), function(key, value){
+            if(key != 0 && key != $(evnt).closest("tbody").find("tr").length - 1 ){
+                tong = tong + Number($(value).find("td:last-child").html().replace("VNĐ", "").replaceAll(",", ""));
             }
-    });
-    var ma_xa = $("select[name='MA_XA']").find("option:selected").val();
-    var chitiet = $("input[name='CHITIET']").val();
-    $.ajax({
-    url: '/cart/update_address',
-            type: 'get',
-            data:{
-            MA_XA : ma_xa,
-                    CHITIET : chitiet
-            },
-            success: function(data) {
+        })
+        $(evnt).closest("tbody").find("tr:last-child").find("td").eq(1).html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(tong) + "VNĐ");
 
+//                    $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo) + "VNĐ");
+        $.each($("table"), function(key, value){
+            if(key != $("table").length - 1 ){
+                toanbo = toanbo + Number($(value).find("tbody tr:last-child").find("td:last-child").html().replace("VNĐ", "").replaceAll(",", ""));
             }
-    });
-    var ma_khuyenmai = $("input[name='MA_KHUYENMAI']").val();
-    $.ajax({
-    url: '/cart/update_voucher',
-            type: 'get',
-            data:{
-            MA_KHUYENMAI : ma_khuyenmai
-            },
-            success: function(data) {
-
-
-            }
-    });
-    window.location.href = "/add_order"
+        });
+        $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo - giamgia) + "VNĐ");
+//        $.ajax({
+//        url: '/cart/update_pp',
+//                type: 'get',
+//                data:{
+//                    MA_THANHTOAN : ma_thanhtoan,
+//                        MA_VANCHUYEN : ma_vanchuyen
+//                },
+//                success: function(data) {
+//
+//                }
+//        });
+//        var ma_xa = $("select[name='MA_XA']").find("option:selected").val();
+//        var chitiet = $("input[name='CHITIET']").val();
+//        $.ajax({
+//        url: '/cart/update_address',
+//                type: 'get',
+//                data:{
+//                MA_XA : ma_xa,
+//                        CHITIET : chitiet
+//                },
+//                success: function(data) {
+//
+//                }
+//        });
+//        var ma_khuyenmai = $("input[name='MA_KHUYENMAI']").val();
+//        $.ajax({
+//        url: '/cart/update_voucher',
+//                type: 'get',
+//                data:{
+//                MA_KHUYENMAI : ma_khuyenmai
+//                },
+//                success: function(data) {
+//
+//
+//                }
+//        });
+//        window.location.href = "/add_order"
     }
 </script>
 @endsection

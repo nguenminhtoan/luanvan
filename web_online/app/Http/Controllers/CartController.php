@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
+use App\Models\Sanpham;
 use App\Models\Nguoidung;
 use App\Models\Noithanhtoan;
 use App\Models\Donhang;
@@ -170,13 +171,20 @@ class CartController extends Controller
             }
             $sp = DB::select("select donhang.MA_DONBAN, ctdonhang.SOLUONG from donhang LEFT JOIN ctdonhang ON donhang.MA_DONBAN = ctdonhang.MA_DONBAN where MA_SP = :MA_SP AND donhang.MA_NGUOIDUNG = :MA_NGUOIDUNG AND MA_TRANGTHAI = 1 AND donhang.MA_CUAHANG = :MA_CUAHANG", ["MA_SP" => $req->MA_SP,"MA_NGUOIDUNG" => $ma_nguoidung, "MA_CUAHANG" => $gia->MA_CUAHANG]);
             $hdon = DB::select("SELECT * from donhang WHERE MA_NGUOIDUNG = :MA_NGUOIDUNG AND MA_TRANGTHAI = 1 AND MA_CUAHANG = :MA_CUAHANG", ["MA_NGUOIDUNG" => $ma_nguoidung, "MA_CUAHANG" => $gia->MA_CUAHANG])[0];
+            $soluong = Sanpham::detail($req->MA_SP)->KHO;
             if(count($sp) > 0 ){ //trong gio hang co sang pham thi update con nguoc lai thi insert
-                
-                DB::update("UPDATE ctdonhang SET SOLUONG = SOLUONG + :SOLUONG WHERE MA_DONBAN = :MA_DONBAN AND MA_SP =:MA_SP", ["MA_SP"=>$req->MA_SP,"MA_DONBAN" => $hdon->MA_DONBAN, "SOLUONG" => $req->SOLUONG]);
+                $sl = DB::select("select SOLUONG FROM ctdonhang WHERE MA_DONBAN = :MA_DONBAN AND MA_SP =:MA_SP", ["MA_SP"=>$req->MA_SP,"MA_DONBAN" => $hdon->MA_DONBAN]);
+                if ($soluong > ($req->SOLUONG + $sl[0]->SOLUONG)){
+                    $soluong = $req->SOLUONG + $sl[0]->SOLUONG;
+                }
+                DB::update("UPDATE ctdonhang SET SOLUONG = :SOLUONG WHERE MA_DONBAN = :MA_DONBAN AND MA_SP =:MA_SP", ["MA_SP"=>$req->MA_SP,"MA_DONBAN" => $hdon->MA_DONBAN, "SOLUONG" => $soluong]);
                 //$tongtien = $req->SOLUONG * $gia->GIA;
                 //DB::update("UPDATE DONHANG SET TONGTIEN = TONGTIEN + :TONGTIEN WHERE MA_DONBAN = :MA_DONBAN", ["TONGTIEN" => $tongtien , "MA_DONBAN" => $hdon->MA_DONBAN]);
             }else{
-                DB::insert("INSERT INTO `ctdonhang`(MA_DONBAN, MA_SP, SOLUONG, DONGIA) VALUES(:MA_DONBAN, :MA_SP, :SOLUONG, :DONGIA)",["MA_DONBAN" => $hdon->MA_DONBAN,"MA_SP" => $req->MA_SP, "SOLUONG" => $req->SOLUONG, 'DONGIA' =>$gia->GIA]);
+                if ($soluong > $req->SOLUONG){
+                    $soluong = $req->SOLUONG;
+                }
+                DB::insert("INSERT INTO `ctdonhang`(MA_DONBAN, MA_SP, SOLUONG, DONGIA) VALUES(:MA_DONBAN, :MA_SP, :SOLUONG, :DONGIA)",["MA_DONBAN" => $hdon->MA_DONBAN,"MA_SP" => $req->MA_SP, "SOLUONG" => $soluong, 'DONGIA' =>$gia->GIA]);
                 //$tongtien = $req->SOLUONG * $gia->GIA;
                 //DB::insert("UPDATE DONHANG SET TONGTIEN = :TONGTIEN WHERE MA_DONBAN = :MA_DONBAN", ["TONGTIEN" => $tongtien , "MA_DONBAN" => $hdon->MA_DONBAN]);
                 
@@ -231,20 +239,26 @@ class CartController extends Controller
     
     public function update_soluong(Request $req){
         $ma_nguoidung = Session::get("MA_NGUOIDUNG")->MA_NGUOIDUNG;
-        $hdon = DB::select("SELECT * from donhang WHERE MA_NGUOIDUNG = :MA_NGUOIDUNG AND MA_TRANGTHAI = 1", ["MA_NGUOIDUNG" => $ma_nguoidung])[0];
+        $hdon = DB::select("SELECT * from donhang inner join ctdonhang on donhang.MA_DONBAN = ctdonhang.MA_DONBAN WHERE MA_NGUOIDUNG = :MA_NGUOIDUNG AND MA_TRANGTHAI = 1 AND ctdonhang.MA_SP = :MA_SP", ["MA_NGUOIDUNG" => $ma_nguoidung, "MA_SP" => $req->MA_SP])[0];
+        
+        
         if($req->SOLUONG == 0){
             DB::delete("delete from ctdonhang Where MA_DONBAN = :MA_DONBAN AND MA_SP =:MA_SP",["MA_DONBAN" => $hdon->MA_DONBAN, "MA_SP" => $req->MA_SP]);
             if(count(DB::select("select * from ctdonhang WHERE MA_DONBAN = :MA_DONBAN", ["MA_DONBAN" => $hdon->MA_DONBAN]) ) == 0){
                 DB::delete("DELETE FROM donhang where MA_DONBAN = :MA_DONBAN", ["MA_DONBAN" => $hdon->MA_DONBAN]); 
-                return 3;
+                return -2;
             }
             else{
-                return 2;
+                return -1;
             }
         }
         else{
-            DB::update("update ctdonhang set SOLUONG =:SOLUONG where MA_DONBAN = :MA_DONBAN AND MA_SP =:MA_SP",["MA_DONBAN" => $hdon->MA_DONBAN, "MA_SP" => $req->MA_SP,"SOLUONG"=>$req->SOLUONG]);
-            return 1;
+            $soluong = Sanpham::detail($req->MA_SP)->KHO;
+            if ($soluong > $req->SOLUONG){
+                $soluong = $req->SOLUONG;
+            }
+            DB::update("update ctdonhang set SOLUONG =:SOLUONG where MA_DONBAN = :MA_DONBAN AND MA_SP =:MA_SP",["MA_DONBAN" => $hdon->MA_DONBAN, "MA_SP" => $req->MA_SP,"SOLUONG"=>$soluong]);
+            return $soluong;
         }
     }
     

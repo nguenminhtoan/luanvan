@@ -365,7 +365,7 @@
                            <div class="option quantity">
                               <div class="input-group quantity-control" unselectable="on" style="user-select: none;">
                                  <span class="input-group-addon product_quantity_down fa fa-minus"></span>
-                                 <input class="form-control" type="number" name="SOLUONGMUA" value="1">
+                                 <input class="form-control" type="number" name="SOLUONGMUA" value="1" max="{{$ct_sp->KHO}}" min="1">
                                  <input type="hidden" name="{{$ct_sp->MA_SP}}" value="{{$ct_sp->MA_SP}}">								  
                                  <span class="input-group-addon product_quantity_up fa fa-plus"></span>
                               </div>
@@ -853,4 +853,20 @@
       </div>
    </div>
 </div>
+<script>
+$(".product_quantity_up").on("click", function(){
+    if ($("input[name='SOLUONGMUA']").val() >= {{$ct_sp->KHO}}){
+            $("input[name='SOLUONGMUA']").val({{$ct_sp->KHO - 1}});
+    }
+    
+});
+
+$("input[name='SOLUONGMUA']").keyup(function(){
+    if ($("input[name='SOLUONGMUA']").val() >= {{$ct_sp->KHO}}){
+            $("input[name='SOLUONGMUA']").val({{$ct_sp->KHO}});
+    }
+});
+
+</script>
+         
 @endsection

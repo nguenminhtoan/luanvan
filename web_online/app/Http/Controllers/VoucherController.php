@@ -5,21 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Khuyenmai;
-
+use Session;
 use DB;
 
 class VoucherController extends Controller
 {
     public function voucher(){
-        
+        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+        $cuahang = DB::select('select * from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
         $vc = DB::SELECT('select *from khuyenmai' );
         
-        return view ("voucher/voucher",['khuyenmai' => $vc]);
+        return view ("voucher/voucher",['khuyenmai' => $vc, "cuahang" => $cuahang[0]]);
     }
     public function voucher_add(){
         $loaisp = new Khuyenmai(); 
+        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+        $cuahang = DB::select('select * from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
         $khuyenmai = DB::SELECT('select * from khuyenmai' );
-        return view ("voucher.voucher_add",['loai' => $loaisp, 'khuyenmai' => $khuyenmai]);
+        return view ("voucher.voucher_add",['loai' => $loaisp, 'khuyenmai' => $khuyenmai, "cuahang" => $cuahang[0]]);
     }
     public function voucher_save(Request $req){
         
@@ -31,9 +34,11 @@ class VoucherController extends Controller
         }
     }
     public function voucher_edit(Request $req){
+        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+        $cuahang = DB::select('select * from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
         $loai = DB::select("SELECT * from khuyenmai WHERE MA_KHUYENMAI = :MA_KHUYENMAI", ["MA_KHUYENMAI" => $req->id]);
         $khuyenmai = DB::SELECT('select *from khuyenmai');
-        return view ("voucher/voucher_edit",['khuyenmai' => $khuyenmai, 'loai' => $loai[0]]);
+        return view ("voucher/voucher_edit",['khuyenmai' => $khuyenmai, 'loai' => $loai[0], "cuahang" => $cuahang[0]]);
         
     }
     public function voucher_update(Request $req) {
