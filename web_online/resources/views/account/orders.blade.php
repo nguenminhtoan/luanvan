@@ -247,7 +247,7 @@
                                                                     @else
                                                                     <a disabled="" style="background-color: #ff5e00 !important" class="btn btn-default">Đã đánh giá</a>
                                                                     @endif
-                                                                    @if(strtotime($item->NGAYGIAO) >= date("Y/m/d", strtotime("-7 days")))
+                                                                    @if(date("Y/m/d",strtotime($item->NGAYGIAO)) >= date("Y/m/d", strtotime("-14 days")))
                                                                     <a href="/account/return/{{$item->MA_DONBAN}}" class="btn btn-danger">Hoàn tiền trả hàng</a>
                                                                     @endif
                                                                     </div>
