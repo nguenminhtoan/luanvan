@@ -1,0 +1,429 @@
+@extends('layouts.layout_detail')
+@section('title')
+Giỏ Hàng
+@endsection
+@section('content')
+<div id="checkout-cart" class="container" method="post" action="/cart/add_order">
+    <ul class="breadcrumb">
+        <li><a href="/home"><i class="fa fa-home"></i></a></li>
+        <li><a href="/cart">Shopping Cart</a></li>
+    </ul>
+    <div class="row">
+        <div id="content" class="col-sm-12">
+            <h1>Sản phẩm trong giỏ của bạn</h1>
+            <form action="/cart/checkout" method="post" enctype="multipart/form-data">
+            @foreach($cuahang as $item)
+            {{ csrf_field() }}
+            <div class="table-responsive">
+                <h1>{{ $item->TEN_CUAHANG}}</h1>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td class="text-center">Ảnh</td>
+                            <td class="text-left">Tên</td>
+                            <td class="text-left">Số lượng</td>
+                            <td class="text-right">Giá</td>
+                            <td class="text-right">Tổng tiền</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (is_array($sanpham))
+                        @foreach ($sanpham as $sp)
+                        @if($item->MA_CUAHANG == $sp->MA_CUAHANG)
+                        <tr>
+                            <td class="text-center"><img src="{{$sp->URL}}" style="width: 47px; height: 47px; " alt="Sausage cowbee" title="Sausage cowbee" class="img-thumbnail"></td>
+                            <td class="text-left">{{$sp->TEN_SP}}<br>              
+                            </td>
+                            <td class="text-left">
+                                <div class="input-group btn-block" style="max-width: 200px;">
+                                    <input type="text" name="SOLUONG[]" value="{{$sp->SOLUONG}}" size="1" class="form-control">
+                                    <span class="input-group-btn">
+                                        <button type="button" data-toggle="tooltip" title="" class="btn btn-detele" onclick="remove_sp({{$sp -> MA_SP}}, this);" data-original-title="Remove"><i class="fa fa-times-circle"></i></button>
+                                    </span>&nbsp;&nbsp;&nbsp;
+                                    <span class="input-group-btn">
+                                        <button type="button" data-toggle="tooltip" title="" class="btn btn-update" onclick="update_sl({{$sp -> MA_SP}}, this);" data-original-title="Update"><i class="fa fa-refresh"></i></button>
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="text-right">{{number_format($sp->DONGIA)}}VNĐ</td>
+                            <td class="text-right">{{number_format($sp->THANHTIEN)}}VNĐ</td>
+                        </tr>
+                        @endif
+                        @endforeach 
+                        @endif
+                    </tbody>
+                </table> 
+                
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse">Thiết lập thanh toán &amp;  vận chuyển <i class="fa fa-caret-down"></i></a></h4>
+                        </div>
+                        <div id="collapse-shipping" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group required">
+                                        <label class="col-sm-2 control-label">Thanh toán bằng:</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control address" name="MA_THANHTOAN[]">
+                                                @foreach ($thanhtoan as $item)
+                                                <option  {{ $item->MA_THANHTOAN == $giohang->MA_THANHTOAN ? "selected" : "" }}  value="{{$item->MA_THANHTOAN}}" >{{$item->PHUONGTHUC_THANHTOAN}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group required">
+                                        <label class="col-sm-2 control-label">Vận chuyển:</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control address" name="MA_VANCHUYEN[]" >
+                                                @foreach ($vanchuyen as $item)
+                                                <option {{ $item->MA_VANCHUYEN == $giohang->MA_VANCHUYEN ? "selected" : "" }} value="{{$item->MA_VANCHUYEN}}">{{$item->PHUONGTHUC_VANCHUYEN}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>  
+                                    </div> 
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            @endforeach
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><a href="#collapse-shipping" class="accordion-toggle" data-toggle="collapse" >Thiết lập địa chỉ Thanh toán <i class="fa fa-caret-down"></i></a></h4>
+                    </div>
+                    <div id="collapse-shipping" class="panel-collapse collapse in">
+                        <input type="hidden" name="MA_NOI" value="{{$noithanhtoan->MA_NOI}}" />
+                        <div class="panel-body">
+                            <p>Thiết lập và xác nhận địa chỉ để giao hàng.</p>
+                            <div class="form-horizontal">
+                                <div class="form-group required">
+                                    <label class="col-sm-2 control-label" for="input-country">Tỉnh / Thành phố</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control address" name="MA_TINH" id="customer_id_province">
+                                            <option value="" >--</option>
+                                            @foreach ($tinh as $item)
+                                            <option value="{{$item->MA_TINH}}" {{ $item->MA_TINH ==  $noithanhtoan->MA_TINH ? "selected=''" : ""}} >{{$item->TEN_TINH}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <label class="col-sm-2 control-label" for="input-zone">Quận / Huyện</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control address" name="MA_HUYEN" id="customer_id_district">
+                                            <option value="" >--</option>
+                                            @foreach ($huyen as $item)
+                                            <option {{ $item->MA_TINH ==  $noithanhtoan->MA_TINH ? "" : 'hidden'}}  value="{{$item->MA_HUYEN}}" {{ $item->MA_HUYEN ==  $noithanhtoan->MA_HUYEN ? "selected=''" : ""}} data-tinh="{{$item->MA_TINH}}">{{$item->TEN_HUYEN}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <label class="col-sm-2 control-label" for="input-zone">Xã / Thị trấn</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control address" name="MA_XA" id="customer_id_ward">
+                                            <option value="" >--</option>
+                                            @foreach ($xa as $item)
+                                            @if ($item->MA_HUYEN ==  $noithanhtoan->MA_HUYEN)
+                                            <option {{ $item->MA_HUYEN ==  $noithanhtoan->MA_HUYEN ? "" : 'hidden'}}  value="{{$item->MA_XA}}"  {{ $item->MA_XA ==  $noithanhtoan->MA_XA ? "selected=''" : ""}} data-huyen="{{$item->MA_HUYEN}}">{{$item->TEN_XA}}</option>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <label class="col-sm-2 control-label" for="input-postcode">Đường / Số nhà</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="CHITIET" value="{{$noithanhtoan->CHITIET}}" placeholder="Đường / Số nhà" id="input-postcode" class="form-control">
+                                    </div>
+                                </div>
+                                <button type="button" onclick="update_address()" id="button-quote" data-loading-text="Loading..." class="btn btn-primary">Cập nhật thành mặc định</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-group">
+                <div class="form-horizontal">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#collapse-voucher" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true">Sử dụng phiếu khuyến mãi của bạn <i class="fa fa-caret-down"></i></a>
+                            </h4>
+                        </div>
+                        <div id="collapse-voucher" class="panel-collapse collapse in" aria-expanded="true">
+                            <div class="panel-body">
+                                <label class="col-sm-2 control-label" for="input-voucher">Phiếu khuyến mãi của bạn</label>
+                                <div class="input-group">
+                                    <input type="text" name="MA_KHUYENMAI" value="{{$giohang->MA_KHUYENMAI}}" placeholder="Voucher của bạn" id="input-voucher" class="form-control">
+                                    <span class="input-group-btn">
+                                        <input type="button" onclick="check_voucher()" value="Kiểm tra mã" id="button-voucher" data-loading-text="Loading..." class="btn btn-primary">
+                                    </span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-8">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="text-right"><strong>Thành tiền:</strong></td>
+                                <td class="text-right" id="toanbo">{{ number_format(array_sum(array_column($sanpham , 'THANHTIEN')) + $giohang->DONGIA - $giohang->GIAMGIA) }}VNĐ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="buttons clearfix">
+                <div class="pull-left"><a href="/home" class="btn btn-default">Tiếp tục mua</a></div>
+                <div class="pull-right"><button class="btn btn-primary">Đặt hàng</button></div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#customer_id_province").change(function () {
+        var ma_tinh = $(this).val();
+        $("#customer_id_district").find("option").hide();
+        $("#customer_id_ward").find("option").hide();
+        $("#customer_id_ward").find("option[value='']").show();
+        $("#customer_id_ward").find("option[value='']").prop("selected", true);
+        $("#customer_id_district").find("option[value='']").show();
+        $("#customer_id_district").find("option[value='']").prop("selected", true);
+        $("#customer_id_district").find("option[data-tinh='" + ma_tinh + "']").show();
+    });
+
+    $("#customer_id_district").change(function () {
+        var ma_huyen = $(this).val();
+        $("#customer_id_ward").find("option").hide();
+        $("#customer_id_ward").find("option[value='']").show();
+        $("#customer_id_ward").find("option[value='']").prop("selected", true);
+        $("#customer_id_ward").find("option[data-huyen='" + ma_huyen + "']").show();
+        //var ma_huyen = $("select[name='TEN_HUYEN'").find("option:selected").val();
+        $.ajax({
+            url: '/load_xa',
+                type: 'get',
+                data:{
+                MA_HUYEN : ma_huyen
+                },
+                success: function(data) {
+                $("select[name='MA_XA'").html();
+                $.each(data, function(index, value){
+                var html = "<option value=" + value.MA_XA + " data-huyen=" + value.MA_HUYEN + ">" + value.TEN_XA + "</option>";
+                $("#customer_id_ward").append(html);
+                });
+            }
+        });
+    });
+
+    $(document).ready(function() {
+    var itemver = 10;
+    if (itemver <= $(".vertical ul.megamenu >li").length)
+            $('.vertical ul.megamenu').append('<li class="loadmore"><i class="fa fa-plus-square"></i><span class="more-view"> More Categories</span></li>');
+    $('.horizontal ul.megamenu li.loadmore').remove();
+    var show_itemver = itemver - 1;
+    $('ul.megamenu > li.item-vertical').each(function(i){
+    if (i > show_itemver){
+    $(this).css('display', 'none');
+    }
+    });
+    $(".megamenu .loadmore").click(function(){
+    if ($(this).hasClass('open')){
+    $('ul.megamenu li.item-vertical').each(function(i){
+    if (i > show_itemver){
+    $(this).slideUp(200);
+    $(this).css('display', 'none');
+    }
+    });
+    $(this).removeClass('open');
+    $('.loadmore').html('<i class="fa fa-plus-square"></i><span class="more-view">More Categories</span>');
+    } else{
+    $('ul.megamenu li.item-vertical').each(function(i){
+    if (i > show_itemver){
+    $(this).slideDown(200);
+    }
+    });
+    $(this).addClass('open');
+    $('.loadmore').html('<i class="fa fa-minus-square"></i><span class="more-view">Close Categories</span>');
+    }
+    });
+    });
+    $("#show-megamenu").click(function () {
+    if ($('.megamenu-wrapper').hasClass('so-megamenu-active'))
+            $('.megamenu-wrapper').removeClass('so-megamenu-active');
+    else
+            $('.megamenu-wrapper').addClass('so-megamenu-active');
+    });
+    $('#remove-megamenu').click(function() {
+    $('.megamenu-wrapper').removeClass('so-megamenu-active');
+    return false;
+    });
+    $("#show-verticalmenu").click(function () {
+    if ($('.vertical-wrapper').hasClass('so-vertical-active'))
+            $('.vertical-wrapper').removeClass('so-vertical-active');
+    else
+            $('.vertical-wrapper').addClass('so-vertical-active');
+    });
+//	$('#remove-verticalmenu').click(function() {
+//            $('.vertical-wrapper').removeClass('so-vertical-active');
+//                return false;
+//            });	
+//        });
+
+    function check_voucher(){
+        var ma_khuyenmai = $("input[name='MA_KHUYENMAI']").val();
+        $.ajax({
+        url: '/cart/checkvoucher',
+                type: 'get',
+                data:{
+                MA_KHUYENMAI : ma_khuyenmai
+                },
+                success: function(data) {
+                    if (Number(data) != -1){
+                        alert(data);
+                    }else{
+                        alert("Mã khuyến mãi không tồn tại");
+                    }
+                }
+        });
+    }
+
+    function remove_sp(ma_sp, event){
+        $.ajax({
+             url: '/cart/delete',
+                type: 'get',
+                data: {'MA_SP': ma_sp},
+                dataType: 'json',
+                success: function(data) {
+                    if (data == 1){
+                        $(event).closest("tr").remove();
+                    } else{
+                        $(event).closest(".table-responsive").remove();
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert("Xóa không thành công");
+                }
+        });
+    };
+    function update_sl(ma_sp, event){
+    var soluong = $(event).closest("tr").find("input[name='SOLUONG[]']").val();
+        $.ajax({
+        url: '/cart/update',
+            type: 'get',
+            data:{
+                SOLUONG : soluong,
+                MA_SP : ma_sp
+            },
+            success: function(data) {
+                if(data == 2){
+                    $(event).closest("tr").remove();
+                }
+                else if (data == 3){
+                    $(event).closest(".table-responsive").remove();
+                }
+                else
+                {
+                    var gia = $(event).closest("tr").find("td").eq(3).html();
+                    gia = gia.replace("VNĐ", "").replaceAll(",", "");
+                    $(event).closest("tr").find("td").eq(4).html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(gia * soluong) + "VNĐ");
+                    var tong = 0;
+                    $.each($(event).closest("tbody").find("tr"), function(key, value){
+                    tong = tong + Number($(value).find("td").eq(4).html().replace("VNĐ", "").replaceAll(",", ""));
+                    })
+                            $("#thanhtien").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(tong) + "VNĐ");
+                    var vanchuyen = Number($("#vanchuyen").html().replace("VNĐ", "").replaceAll(",", ""));
+                    var khuyenmai = Number($("#khuyenmai").html().replace("VNĐ", "").replaceAll(",", ""));
+                    var toanbo = tong + vanchuyen - khuyenmai;
+                    $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo) + "VNĐ");
+                }
+            }
+        });
+    };
+    function update_address(){
+        var ma_xa = $("select[name='MA_XA']").find("option:selected").val();
+        var chitiet = $("input[name='CHITIET']").val();
+        $.ajax({
+        url: '/cart/update_address',
+                type: 'get',
+                data:{
+                MA_XA : ma_xa,
+                        CHITIET : chitiet
+                },
+                success: function(data) {
+                alert("cập nhật thành công!");
+                }
+        });
+    };
+    
+    function update_voucher(){
+    var ma_khuyenmai = $("input[name='MA_KHUYENMAI']").val();
+    $.ajax({
+    url: '/cart/update_voucher',
+            type: 'get',
+            data:{
+            MA_KHUYENMAI : ma_khuyenmai
+            },
+            success: function(data) {
+            if (data == 1){
+            alert("cập nhật thành công!");
+            }
+            else{
+            alert("mã khuyến mãi không tồn tại !");
+            }
+            }
+    });
+    }
+
+    function thanhtoan(){
+    var ma_thanhtoan = $("select[name='MA_THANHTOAN']").find("option:selected").val();
+    var ma_vanchuyen = $("select[name='MA_VANCHUYEN']").find("option:selected").val();
+    $.ajax({
+    url: '/cart/update_pp',
+            type: 'get',
+            data:{
+            MA_THANHTOAN : ma_thanhtoan,
+                    MA_VANCHUYEN : ma_vanchuyen
+            },
+            success: function(data) {
+
+            }
+    });
+    var ma_xa = $("select[name='MA_XA']").find("option:selected").val();
+    var chitiet = $("input[name='CHITIET']").val();
+    $.ajax({
+    url: '/cart/update_address',
+            type: 'get',
+            data:{
+            MA_XA : ma_xa,
+                    CHITIET : chitiet
+            },
+            success: function(data) {
+
+            }
+    });
+    var ma_khuyenmai = $("input[name='MA_KHUYENMAI']").val();
+    $.ajax({
+    url: '/cart/update_voucher',
+            type: 'get',
+            data:{
+            MA_KHUYENMAI : ma_khuyenmai
+            },
+            success: function(data) {
+
+
+            }
+    });
+    window.location.href = "/add_order"
+    }
+</script>
+@endsection
