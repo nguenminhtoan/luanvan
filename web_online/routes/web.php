@@ -173,6 +173,8 @@ Route::group(['prefix' => '/account'], function () {
     Route::get('/address',"AccountController@address");
     Route::get('/add_address',"AccountController@add_address");
     Route::post('/add_address/save',"AccountController@save");
+    Route::get('/comment/{id}',"AccountController@comment");
+    Route::post('/comment/{id}',"AccountController@update_comment");
     
 });
 

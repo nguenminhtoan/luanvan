@@ -218,7 +218,11 @@
                                                         </tr>
                                                         @endif
                                                         <tr>
-                                                            <td colspan="4" class="text-right">Thành tiền</td>
+                                                            <td colspan="4" class="text-right">
+                                                                <a href="/account/comment/{{$item->MA_DONBAN}}" class="btn btn-primary">Đánh giá</a>
+                                                                
+                                                                Thành tiền
+                                                            </td>
                                                             <td class="text-right">{{number_format($item->TONGTIEN)}}VNĐ</td>
                                                         </tr>
                                                     </tbody>

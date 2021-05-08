@@ -834,3 +834,216 @@
     border: 0;
     background-position: 0 0;
 } */
+
+
+
+
+.rangs{
+	height:26px;
+        position: relative;
+        
+}
+
+.rangs span{
+	margin-top: 5px;
+        float: left;
+       position: absolute;
+       top: -5px;
+	
+}
+
+.rangs .step .icon{
+	background-image: url("/images/unstar.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	height: 17px;
+	width: 17px;
+	margin-right: 2px;
+	float: left;
+	background-position: center;
+
+}
+	
+.rangs.rang-10 .step1 .icon{
+	background-image: url("/images/star.png");
+}
+
+	.rangs.rang-15 .step2 .icon{
+	background-image: url("/images/star50.png");
+}
+	.rangs.rang-15 .step1 .icon{
+	background-image: url("/images/star.png");
+}
+	
+.rangs.rang-20 .step1 .icon,
+.rangs.rang-20 .step2 .icon{
+	background-image: url("/images/star.png");
+}
+	
+	.rangs.rang-25 .step1 .icon,
+.rangs.rang-25 .step2 .icon{
+	background-image: url("/images/star.png");
+}
+	.rangs.rang-25 .step3 .icon{
+	background-image: url("/images/star50.png");
+}
+
+.rangs.rang-30 .step1 .icon,
+.rangs.rang-30 .step2 .icon,
+.rangs.rang-30 .step3 .icon{
+	background-image: url("/images/star.png");
+}
+	
+.rangs.rang-35 .step1 .icon,
+.rangs.rang-35 .step2 .icon,
+.rangs.rang-35 .step3 .icon{
+	background-image: url("/images/star.png");
+}
+	.rangs.rang-35 .step4 .icon{
+	background-image: url("/images/star50.png");
+}
+
+.rangs.rang-40 .step1 .icon,
+.rangs.rang-40 .step2 .icon,
+.rangs.rang-40 .step3 .icon,
+.rangs.rang-40 .step4 .icon{
+	background-image: url("/images/star.png");
+}
+
+.rangs.rang-45 .step1 .icon,
+.rangs.rang-45 .step2 .icon,
+.rangs.rang-45 .step3 .icon,
+.rangs.rang-45 .step4 .icon{
+	background-image: url("/images/star.png");
+}
+	.rangs.rang-45 .step5 .icon{
+	background-image: url("/images/star50.png");
+}
+	
+.rangs.rang-50 .step1 .icon,
+.rangs.rang-50 .step2 .icon,
+.rangs.rang-50 .step3 .icon,
+.rangs.rang-50 .step4 .icon,
+.rangs.rang-50 .step5 .icon{
+	background-image: url("/images/star.png");
+}
+
+
+.rang{
+    height:30px;
+}
+	
+.rang span{
+        margin-top: 5px;
+        
+
+}
+	
+	.rang.rang-1 .step1 .icon{
+		background-image: url("/images/star.png");
+	}
+	
+	.rang.rang-2 .step1 .icon,
+	.rang.rang-2 .step2 .icon{
+		background-image: url("/images/star.png");
+	}
+	
+	.rang.rang-3 .step1 .icon,
+	.rang.rang-3 .step2 .icon,
+	.rang.rang-3 .step3 .icon{
+		background-image: url("/images/star.png");
+	}
+	
+	.rang.rang-4 .step1 .icon,
+	.rang.rang-4 .step2 .icon,
+	.rang.rang-4 .step3 .icon,
+	.rang.rang-4 .step4 .icon{
+		background-image: url("/images/star.png");
+	}
+	
+	.rang.rang-5 .step1 .icon,
+	.rang.rang-5 .step2 .icon,
+	.rang.rang-5 .step3 .icon,
+	.rang.rang-5 .step4 .icon,
+	.rang.rang-5 .step5 .icon{
+		background-image: url("/images/star.png");
+	}
+	
+	.rang.rang-hover{
+		height: 50px;
+		float: left;
+                margin-left: 1px;
+	}
+	
+	.rang.rang-hover .step{
+		float: right;
+	}
+	
+	.rang.rang-hover .step5:hover .icon,
+	.rang.rang-hover .step5:hover + .step4 .icon,
+	.rang.rang-hover .step5:hover ~ .step3 .icon,
+	.rang.rang-hover .step5:hover ~ .step2 .icon,
+	.rang.rang-hover .step5:hover ~ .step1 .icon{
+		background-image: url("/images/star.png");
+		
+	}
+	
+	.rang.rang-hover .step4:hover .icon,
+	.rang.rang-hover .step4:hover + .step3 .icon,
+	.rang.rang-hover .step4:hover ~ .step2 .icon,
+	.rang.rang-hover .step4:hover ~ .step1 .icon
+	{
+		background-image: url("/images/star.png");
+		
+	}
+	
+	.rang.rang-hover .step3:hover .icon,
+	.rang.rang-hover .step3:hover + .step2 .icon,
+	.rang.rang-hover .step3:hover ~ .step1 .icon{
+		background-image: url("/images/star.png");
+		
+	}
+	
+	.rang.rang-hover .step2:hover .icon,
+	.rang.rang-hover .step2:hover + .step1 .icon{
+		background-image: url("/images/star.png");
+		
+	}
+	
+	.rang.rang-hover .step1:hover .icon{
+		background-image: url("/images/star.png");
+		
+	}
+	
+	
+	.rang .step .icon{
+		background-image: url("/images/unstar.png");
+		background-size:contain;
+		background-repeat: no-repeat;
+		height: 40px;
+		width: 40px;
+		margin-right: 3px;
+		float: left;
+	
+	}
+	
+	
+	
+	.rank{
+		display: table;	
+		float: left;
+	}
+	
+._2b-JH- {
+    width: 54px;
+    height: 54px;
+    position: relative;
+    overflow: hidden;
+    margin-right: 6px;
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border: 1px solid #ddd;
+    text-align: center;
+    padding-top: 15px;
+}

@@ -48,6 +48,7 @@ class Donhang extends Model
     public static function list_ct_dh($madb){
         $sql = "select * from ctdonhang
                 inner join sanpham sp on sp.MA_SP = ctdonhang.MA_SP
+                inner JOIN (select ha.MA_SP, MIN(URL) as URL from HINHANH ha GROUP BY ha.MA_SP) as h1 on h1.MA_SP = sp.MA_SP
                 WHERE ma_donban = ? ";
         $param = [$madb];
         $list = DB::select($sql, $param);
