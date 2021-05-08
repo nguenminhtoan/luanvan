@@ -67,5 +67,12 @@ class Donhang extends Model
         $list = DB::select($sql, $param)[0];
         return $list;
     }
-    
+    public static function tk_dh($mach){
+        $sql = "SELECT month(NGAYDAT) as THANG,count(NGAYDAT) AS TONG FROM DONHANG
+                            WHERE MA_CUAHANG= ? AND MA_TRANGTHAI not in (1,7,8) 
+                            group by month(NGAYDAT)";
+        $param = [$mach];
+        $list = DB::select($sql, $param)[0];
+        return $list[0];
+    }
 }

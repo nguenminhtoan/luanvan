@@ -36,8 +36,12 @@
                             <i class="mdi mdi-account-multiple widget-icon"></i>
                         </div>
                         <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Lượt truy cập</h5>
-                        <h5 class="text-muted fw-normal mt-0" title="Number of Customers">( Sản phẩm )</h5>
+                        <h5 class="text-muted fw-normal mt-0" title="Number of Customers">(Sản phẩm)</h5>
                         <h3 class="mt-3 mb-3">{{$cuahang -> LUOTXEM}} lượt</h3>
+                        <p class="mb-0 text-muted">
+                            <span class="text-danger me-2">{{$t_dh -> DH}} đơn</span>
+                            <span class="text-nowrap">Tổng đơn bán </span>
+                        </p>
                     </div>
                     <!-- end card-body-->
                 </div>
@@ -51,11 +55,14 @@
                             <i class="mdi mdi-cart-plus widget-icon"></i>
                         </div>
                         <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Đơn hàng bán được</h5>
-                        <h3 class="mt-3 mb-3">{{$dh -> DH}} đơn</h3>
+                        <h5 class="text-muted fw-normal mt-0" title="Number of Customers">(Tháng hiện tại)</h5>
+                        @foreach($dh as %item)
+                        <h3 class="mt-3 mb-3">{{$dh -> TONG[0]}} đơn</h3>
                         <p class="mb-0 text-muted">
-                            <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i> 1.08%</span>
+                            <span class="text-danger me-2"><i class="mdi {{ $dh->TONG[0] > $dh->TONG[1] ? 'mdi-arrow-up-bold' : 'mdi-arrow-down-bold'}}></i>{{ round((1-($dh->TONG[0]/$t->TONG[1]))*100) }}%</span>
                             <span class="text-nowrap">Kể từ tháng trước</span>
                         </p>
+                        @endforeach
                     </div>
                     <!-- end card-body-->
                 </div>

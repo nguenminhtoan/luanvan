@@ -55,7 +55,7 @@
                             <div class="collapse" id="sidebarDashboards">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="-crm.html">Phân tích bán hàng</a>
+                                        <a href="/admin/dashboard">Phân tích bán hàng</a>
                                     </li>
                                     <li>
                                         <a href="index.html">Marketing</a>
