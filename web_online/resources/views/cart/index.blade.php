@@ -12,24 +12,32 @@ Giỏ Hàng
         <div id="content" class="col-sm-12">
             <h1>Sản phẩm trong giỏ của bạn</h1>
             <form action="/cart/checkout" method="post" enctype="multipart/form-data">
+            <?php $thanhtien=0; ?>
             @foreach($cuahang as $item)
             {{ csrf_field() }}
-            <div class="table-responsive">
-                <h1>{{ $item->TEN_CUAHANG}}</h1>
+            
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <td class="text-center">Ảnh</td>
-                            <td class="text-left">Tên</td>
-                            <td class="text-left">Số lượng</td>
-                            <td class="text-right">Giá</td>
-                            <td class="text-right">Tổng tiền</td>
+                            <td colspan="5" class="text-left">{{$item->TEN_CUAHANG}} <a href="javascript:void(0);" style="float: right" onclick="show(this)" data-show="false" >xem thêm <b class="fa fa-caret-right"></b></a> </td>
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td class="text-center"><b>Ảnh</b></td>
+                            <td class="text-left"><b>Tên sản phẩm</b><br>              
+                            </td>
+                            <td class="text-left">
+                                <b>Số lượng
+                            </td>
+                            <td class="text-right"><b>Đơn giá</b></td>
+                            <td class="text-right"><b>Thành tiền</b></td>
+                        </tr>
                         @if (is_array($sanpham))
+                        <?php $tong = 0; ?>
                         @foreach ($sanpham as $sp)
                         @if($item->MA_CUAHANG == $sp->MA_CUAHANG)
+
                         <tr>
                             <td class="text-center"><img src="{{$sp->URL}}" style="width: 47px; height: 47px; " alt="Sausage cowbee" title="Sausage cowbee" class="img-thumbnail"></td>
                             <td class="text-left">{{$sp->TEN_SP}}<br>              
@@ -47,48 +55,34 @@ Giỏ Hàng
                             </td>
                             <td class="text-right">{{number_format($sp->DONGIA)}}VNĐ</td>
                             <td class="text-right">{{number_format($sp->THANHTIEN)}}VNĐ</td>
+                            <?php $tong += $sp->THANHTIEN ?>
                         </tr>
                         @endif
                         @endforeach 
                         @endif
+                        <tr class="vanchuyen">
+                            <td colspan="3" class="text-right">Vận chuyển</td>
+                            <td class="text-left">
+                                <select class="form-control address" name="MA_VANCHUYEN[]" >
+                                    @foreach ($vanchuyen as $item)
+                                    <option {{ $item->MA_VANCHUYEN == $giohang->MA_VANCHUYEN ? "selected" : "" }} value="{{$item->MA_VANCHUYEN}}">{{$item->PHUONGTHUC_VANCHUYEN}}</option>
+                                    @endforeach
+                                </select>              
+                            </td>
+                            <?php $tong += (int) ($giohang->MA_VANCHUYEN ? $vanchuyen[array_search($giohang->MA_VANCHUYEN, array_column($vanchuyen, "MA_VANCHUYEN"))]->DONGIA : $vanchuyen[0]->DONGIA) ?>
+                            <?php $thanhtien += $tong ?>
+                            <td class="text-right">{{ number_format($giohang->MA_VANCHUYEN ? $vanchuyen[array_search($giohang->MA_VANCHUYEN, array_column($vanchuyen, "MA_VANCHUYEN"))]->DONGIA : $vanchuyen[0]->DONGIA) }}VNĐ</td>
+                        </tr>
+                        
+                        <tr>
+                            <td colspan="4" class="text-right">Thành tiền</td>
+                            <td class="text-right">{{ number_format($tong) }}VNĐ</td>
+                        </tr>
                     </tbody>
                 </table> 
-                
-                <div class="panel-group" id="accordion">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse">Thiết lập thanh toán &amp;  vận chuyển <i class="fa fa-caret-down"></i></a></h4>
-                        </div>
-                        <div id="collapse-shipping" class="panel-collapse collapse in">
-                            <div class="panel-body">
-                                <div class="form-horizontal">
-                                    <div class="form-group required">
-                                        <label class="col-sm-2 control-label">Thanh toán bằng:</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control address" name="MA_THANHTOAN[]">
-                                                @foreach ($thanhtoan as $item)
-                                                <option  {{ $item->MA_THANHTOAN == $giohang->MA_THANHTOAN ? "selected" : "" }}  value="{{$item->MA_THANHTOAN}}" >{{$item->PHUONGTHUC_THANHTOAN}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group required">
-                                        <label class="col-sm-2 control-label">Vận chuyển:</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control address" name="MA_VANCHUYEN[]" >
-                                                @foreach ($vanchuyen as $item)
-                                                <option {{ $item->MA_VANCHUYEN == $giohang->MA_VANCHUYEN ? "selected" : "" }} value="{{$item->MA_VANCHUYEN}}">{{$item->PHUONGTHUC_VANCHUYEN}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>  
-                                    </div> 
-                                </div>    
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br>
+            
+            
+            
             @endforeach
             <div class="panel-group">
                 <div class="panel panel-default">
@@ -157,6 +151,16 @@ Giỏ Hàng
                         </div>
                         <div id="collapse-voucher" class="panel-collapse collapse in" aria-expanded="true">
                             <div class="panel-body">
+                                <label class="col-sm-2 control-label" for="input-postcode">Phương thức thanh toán</label>
+                                <div class="input-group col-sm-10">
+                                    <select class="form-control address" name="MA_THANHTOAN">
+                                        @foreach ($thanhtoan as $item)
+                                        <option  {{ $item->MA_THANHTOAN == $giohang->MA_THANHTOAN ? "selected" : "" }}  value="{{$item->MA_THANHTOAN}}" >{{$item->PHUONGTHUC_THANHTOAN}}</option>
+                                        @endforeach
+                                    </select>    
+                                </div>
+                            </div>
+                            <div class="panel-body">
                                 <label class="col-sm-2 control-label" for="input-voucher">Phiếu khuyến mãi của bạn</label>
                                 <div class="input-group">
                                     <input type="text" name="MA_KHUYENMAI" value="{{$giohang->MA_KHUYENMAI}}" placeholder="Voucher của bạn" id="input-voucher" class="form-control">
@@ -175,7 +179,7 @@ Giỏ Hàng
                         <tbody>
                             <tr>
                                 <td class="text-right"><strong>Thành tiền:</strong></td>
-                                <td class="text-right" id="toanbo">{{ number_format(array_sum(array_column($sanpham , 'THANHTIEN')) + $giohang->DONGIA - $giohang->GIAMGIA) }}VNĐ</td>
+                                <td class="text-right" id="toanbo">{{ number_format($thanhtien + $giohang->DONGIA - $giohang->GIAMGIA) }}VNĐ</td>
                             </tr>
                         </tbody>
                     </table>
@@ -333,18 +337,19 @@ Giỏ Hàng
                 }
                 else
                 {
-                    var gia = $(event).closest("tr").find("td").eq(3).html();
-                    gia = gia.replace("VNĐ", "").replaceAll(",", "");
-                    $(event).closest("tr").find("td").eq(4).html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(gia * soluong) + "VNĐ");
-                    var tong = 0;
-                    $.each($(event).closest("tbody").find("tr"), function(key, value){
-                    tong = tong + Number($(value).find("td").eq(4).html().replace("VNĐ", "").replaceAll(",", ""));
-                    })
-                            $("#thanhtien").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(tong) + "VNĐ");
-                    var vanchuyen = Number($("#vanchuyen").html().replace("VNĐ", "").replaceAll(",", ""));
-                    var khuyenmai = Number($("#khuyenmai").html().replace("VNĐ", "").replaceAll(",", ""));
-                    var toanbo = tong + vanchuyen - khuyenmai;
-                    $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo) + "VNĐ");
+                    location.reload();
+//                    var gia = $(event).closest("tr").find("td").eq(3).html();
+//                    gia = gia.replace("VNĐ", "").replaceAll(",", "");
+//                    $(event).closest("tr").find("td").eq(4).html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(gia * soluong) + "VNĐ");
+//                    var tong = 0;
+//                    $.each($(event).closest("tbody").find("tr"), function(key, value){
+//                    tong = tong + Number($(value).find("td").eq(4).html().replace("VNĐ", "").replaceAll(",", ""));
+//                    })
+//                            $("#thanhtien").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(tong) + "VNĐ");
+//                    //var vanchuyen = Number($("#vanchuyen").html().replace("VNĐ", "").replaceAll(",", ""));
+//                    //var khuyenmai = Number($("#khuyenmai").html().replace("VNĐ", "").replaceAll(",", ""));
+//                    var toanbo = tong;
+//                    $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo) + "VNĐ");
                 }
             }
         });

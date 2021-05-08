@@ -111,15 +111,12 @@ class CartController extends Controller
     public function check_out(Request $req){
         $ma_nguoidung = Session::get("MA_NGUOIDUNG")->MA_NGUOIDUNG;
         $hoadon = DB::select("select * from donhang WHERE MA_TRANGTHAI = 1 AND MA_NGUOIDUNG = :MA_NGUOIDUNG", ["MA_NGUOIDUNG" => $ma_nguoidung]);
-        $list = [$req->MA_VANCHUYEN, $req-> MA_THANHTOAN];
+        $list = [$req->MA_VANCHUYEN];
         $ma_vt = "";
-        $ma_tt = "";
+        $ma_tt = $req-> MA_THANHTOAN;
         foreach($hoadon as $key => $item){
             if (!is_null($list[0][$key])){
                 $ma_vt = $list[0][$key];
-            }
-            if (!is_null($list[1][$key])){
-                $ma_tt = $list[1][$key];
             }
             $tong = DB::select("select sum(SOLUONG*DONGIA) as TONG from ctdonhang WHERE MA_DONBAN = :MA_DONBAN", ["MA_DONBAN" => $item->MA_DONBAN])[0]->TONG;
             $phivt = DB::select("select DONGIA from vanchuyen WHERE MA_VANCHUYEN = :MA_VANCHUYEN", ["MA_VANCHUYEN" => $ma_vt])[0]->DONGIA;

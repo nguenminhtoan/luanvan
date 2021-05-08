@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Session;
 use App\Models\Trangthai;
 
 use DB;
@@ -12,14 +12,18 @@ class StatusController extends Controller
 {
     public function status(){
         
+        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+        $cuahang = DB::select('select * from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
         $status = DB::SELECT('select *from trangthai' );
         
-        return view ("status/status",['trangthai' => $status]);
+        return view ("status/status",['trangthai' => $status, "cuahang" => $cuahang[0]]);
     }
     public function status_add(){
         $loai = new Trangthai(); 
+        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+        $cuahang = DB::select('select * from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
         $trangthai = DB::SELECT('select * from trangthai' );
-        return view ("status/status_add",['loai' => $loai, 'trangthai' => $trangthai]);
+        return view ("status/status_add",['loai' => $loai, 'trangthai' => $trangthai, "cuahang" => $cuahang[0]]);
     }
     public function status_save(Request $req){
         
@@ -31,9 +35,11 @@ class StatusController extends Controller
         }
     }
     public function status_edit(Request $req){
+        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+        $cuahang = DB::select('select * from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
         $loai = DB::select("SELECT * from trangthai WHERE MA_TRANGTHAI = :MA_TRANGTHAI", ["MA_TRANGTHAI" => $req->id]);
         $trangthai = DB::SELECT('select *from trangthai');
-        return view ("status/status_edit",['trangthai' => $trangthai, 'loai' => $loai[0]]);
+        return view ("status/status_edit",['trangthai' => $trangthai, 'loai' => $loai[0], "cuahang" => $cuahang[0]]);
         
     }
     public function status_update(Request $req) {

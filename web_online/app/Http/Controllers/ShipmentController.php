@@ -5,21 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Vanchuyen;
-
+use Session;
 use DB;
 
 class ShipmentController extends Controller
 {
     public function shipment(){
         
+        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+        $cuahang = DB::select('select *from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
+        
         $vc = DB::SELECT('select *from vanchuyen' );
         
-        return view ("shipment/shipment",['vanchuyen' => $vc]);
+        return view ("shipment/shipment",['vanchuyen' => $vc, "cuahang" => $cuahang[0]]);
     }
     public function shipment_add(){
         $loaisp = new Vanchuyen(); 
+        
+        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+        $cuahang = DB::select('select *from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
         $vanchuyen = DB::SELECT('select * from vanchuyen' );
-        return view ("shipment/shipment_add",['loai' => $loaisp, 'vanchuyen' => $vanchuyen]);
+        return view ("shipment/shipment_add",['loai' => $loaisp, 'vanchuyen' => $vanchuyen, "cuahang" => $cuahang[0]]);
     }
     public function shipment_save(Request $req){
         
@@ -31,9 +37,12 @@ class ShipmentController extends Controller
         }
     }
     public function shipment_edit(Request $req){
+        
+        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+        $cuahang = DB::select('select *from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
         $loai = DB::select("SELECT * from vanchuyen WHERE MA_VANCHUYEN = :MA_VANCHUYEN", ["MA_VANCHUYEN" => $req->id]);
         $vanchuyen = DB::SELECT('select *from vanchuyen');
-        return view ("shipment/shipment_edit",['vanchuyen' => $vanchuyen, 'loai' => $loai[0]]);
+        return view ("shipment/shipment_edit",['vanchuyen' => $vanchuyen, 'loai' => $loai[0], "cuahang" => $cuahang[0]]);
         
     }
     public function shipment_update(Request $req) {

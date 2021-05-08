@@ -5,21 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Thanhtoan;
-
+use Session;
 use DB;
 
 class PaymentController extends Controller
 {
     public function payment(){
         
+        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+        $cuahang = DB::select('select *from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
         $ttinh = DB::SELECT('select *from thanhtoan' );
         
-        return view ("payment/payment",['loaisp' => $ttinh]);
+        return view ("payment/payment",['loaisp' => $ttinh, "cuahang" => $cuahang[0]]);
     }
     public function payment_add(){
         $loai = new Thanhtoan(); 
+        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+        $cuahang = DB::select('select *from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
         $pttt = DB::SELECT('select * from thanhtoan' );
-        return view ("payment/payment_add",['loai' => $loai,'thanhtoan'=>$pttt]);
+        return view ("payment/payment_add",['loai' => $loai,'thanhtoan'=>$pttt, "cuahang" => $cuahang[0]]);
     }
     public function payment_save(Request $req){
         
@@ -31,9 +35,11 @@ class PaymentController extends Controller
         }
     }
     public function payment_edit(Request $req){
+        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+        $cuahang = DB::select('select *from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
         $loai = DB::select("SELECT * from thanhtoan WHERE MA_THANHTOAN = :MA_THANHTOAN", ["MA_THANHTOAN" => $req->id]);
         $thanhtoan = DB::SELECT('select *from thanhtoan');
-        return view ("payment/payment_edit",['thanhtoan' => $thanhtoan, 'loai' => $loai[0]]);
+        return view ("payment/payment_edit",['thanhtoan' => $thanhtoan, 'loai' => $loai[0], "cuahang" => $cuahang[0]]);
         
     }
     public function payment_update(Request $req) {

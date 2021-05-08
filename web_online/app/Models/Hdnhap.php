@@ -13,7 +13,7 @@ class Hdnhap extends Model
     public static function list_sanpham($ma_ch, $batdau, $ketthuc){
         $sql = "SELECT hdnhap.*, SUM(ctnhap.SOLUONG) AS SOLUONG, (select GROUP_CONCAT(sp.TEN_SP) from ctnhap ct JOIN sanpham sp ON sp.MA_SP = ct.MA_SP WHERE ct.MA_DONNHAP = hdnhap.MA_DONNHAP group by ct.MA_DONNHAP) AS TEN_SP FROM hdnhap 
                             join ctnhap ON hdnhap.MA_DONNHAP = ctnhap.MA_DONNHAP
-                            JOIN nguoidung ON nguoidung.MA_NGUOIDUNG = hdnhap.MA_NGUOIDUNG where nguoidung.MA_CUAHANG = ? AND NGAYNHAP BETWEEN ? AND ? GROUP BY MA_DONNHAP DESC, NGAYNHAP ASC 
+                            JOIN nguoidung ON nguoidung.MA_NGUOIDUNG = hdnhap.MA_NGUOIDUNG where nguoidung.MA_CUAHANG = ? AND NGAYNHAP BETWEEN ? AND ? GROUP BY MA_DONNHAP ORDER BY MA_DONNHAP DESC, NGAYNHAP ASC 
                             ";
         
 //        $sql = "select * from hdnhap 
