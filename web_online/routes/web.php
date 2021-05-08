@@ -25,7 +25,7 @@ Route::get('/', function () {
 */
 
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', "middleware"=> "login"], function () {
     
     Route::get('/register_shop',"RegisterController@register_shop");
     Route::post('/create_shop',"RegisterController@create_shop");
