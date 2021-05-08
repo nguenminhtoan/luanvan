@@ -22,6 +22,7 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-sm-5">
+                        
                     </div>
                     <div class="col-sm-7">
                         
@@ -29,6 +30,7 @@
                         <div class="text-sm-end">
                             <form action="/admin/goods/index" method="get">
                             <div class="row">
+                                
                                 <div class="col-md-4">
                                         <input class="form-control" name="batdau" type="date" value="{{$batdau}}">
                                     
@@ -41,8 +43,6 @@
                                         <button type="submit" class="btn btn-light mb-2 me-1">Tìm kiếm</button>
                                         <button type="button" class="btn btn-light mb-2">Xuất HĐ</button>
                                 </div>
-                                <div class="col-md-4">
-                                <!-- end row -->
                             </div>
                             </form>
                         </div>

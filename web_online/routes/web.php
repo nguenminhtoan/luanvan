@@ -168,11 +168,17 @@ Route::group(['prefix' => '/cart'], function () {
 
 Route::group(['prefix' => '/account'], function () {  
     Route::get('/orders',"AccountController@orders");
+    Route::get('/orders/{id}',"AccountController@order_detail");
+    Route::get('/return/{id}',"AccountController@return_orders");
+    Route::post('/return/{id}',"AccountController@update_return_orders");
+    Route::get('/cancel/{id}',"AccountController@cancel");
     Route::get('/index',"AccountController@index");
     Route::post('/update/{id}',"AccountController@update");
     Route::get('/address',"AccountController@address");
     Route::get('/add_address',"AccountController@add_address");
     Route::post('/add_address/save',"AccountController@save");
+    Route::get('/comment/{id}',"AccountController@comment");
+    Route::post('/comment/{id}',"AccountController@update_comment");
     
 });
 

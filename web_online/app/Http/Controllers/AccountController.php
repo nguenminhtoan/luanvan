@@ -160,4 +160,126 @@ class AccountController extends Controller
         return view("account.orders",["donhang" => $donhang,'nguoidung'=>$nguoi_dung[0],'danhmuc'=>$danhmuc,'user'=>$user,'soluong'=>$soluong]);
     }
     
+    
+    public function comment(Request $req){
+        
+        $user = Session::get("MA_NGUOIDUNG");
+        $danhmuc = DB::select('select *from danhmuc');
+        $nguoi_dung = DB::select('select nd.*, xa.TEN_XA, huyen.TEN_HUYEN, tinh.TEN_TINH from Nguoidung nd join xa on nd.MA_XA = xa.MA_XA join huyen on huyen.MA_HUYEN = xa.MA_HUYEN join tinh on tinh.MA_TINH = huyen.MA_TINH where MA_NGUOIDUNG = :MA_NGUOIDUNG', ['MA_NGUOIDUNG' => $user->MA_NGUOIDUNG]); 
+        if ($user){
+            $soluong = DB::select("select COUNT(SOLUONG) AS SOLUONG from donhang dh join ctdonhang ct on ct.ma_donban = dh.ma_donban AND dh.MA_TRANGTHAI = 1 WHERE MA_NGUOIDUNG = :ID", ['ID' => $user -> MA_NGUOIDUNG])[0]->SOLUONG;
+        }else{
+            $soluong = 0;
+        }   
+        $donhang = Donhang::list_ct_dh($req->id);
+        
+        return view("account.comment",["donhang" => $donhang,'nguoidung'=>$nguoi_dung[0],'danhmuc'=>$danhmuc,'user'=>$user,'soluong'=>$soluong]);
+    }
+    
+    
+    public function update_comment(Request $req){
+        
+        $user = Session::get("MA_NGUOIDUNG");
+        $images = $req->file('input_img');
+        $ma_sp = $req->MA_SP;
+        $danhgia = $req->DANHGIA;
+        $noidung = $req->NOIDUNG;
+        $madon = $req->id;
+        for($i=0;$i< sizeof($ma_sp); $i++){
+        
+            $sql = "INSERT INTO binhluan(MA_NGUOIDUNG, MA_SP, NOIDUNG, DANHGIA, MA_DONBAN, NGAY ";
+            $param = [$user->MA_NGUOIDUNG, $ma_sp[$i], $noidung[$i], $danhgia[$i], $madon, date("Y-m-d")];
+            $sql_img = "";
+            if(is_array($images)){
+                foreach ($images[$i] as $key => $img){
+                    if ($img != ''){
+                        $name = $key.time().'.jpg';
+                        $img->move(public_path('/images/comment/'), $name);
+                        $sql .= ", FILE_".($key+1);
+                        $sql_img .= ",?";
+                        array_push($param, '/images/comment/'.$name);
+                    }
+                    else{
+                        $name = "";
+                        continue;
+                    }
+                }
+            }
+            $sql .= " ) VALUE (?,?,?,?,? ".$sql_img." )";
+            DB::insert($sql, $param); 
+        }
+        return redirect("/account/orders");
+        
+        
+    }
+    
+    public function order_detail(Request $req){
+        $user = Session::get("MA_NGUOIDUNG");
+        $danhmuc = DB::select('select *from danhmuc');
+        $nguoi_dung = DB::select('select nd.*, xa.TEN_XA, huyen.TEN_HUYEN, tinh.TEN_TINH from Nguoidung nd join xa on nd.MA_XA = xa.MA_XA join huyen on huyen.MA_HUYEN = xa.MA_HUYEN join tinh on tinh.MA_TINH = huyen.MA_TINH where MA_NGUOIDUNG = :MA_NGUOIDUNG', ['MA_NGUOIDUNG' => $user->MA_NGUOIDUNG]); 
+        if ($user){
+            $soluong = DB::select("select COUNT(SOLUONG) AS SOLUONG from donhang dh join ctdonhang ct on ct.ma_donban = dh.ma_donban AND dh.MA_TRANGTHAI = 1 WHERE MA_NGUOIDUNG = :ID", ['ID' => $user -> MA_NGUOIDUNG])[0]->SOLUONG;
+        }else{
+            $soluong = 0;
+        }   
+        $donhang = Donhang::get_dh_ma($req->id);
+        $noithanhtoan = DB::select("select noithanhtoan.CHITIET, noithanhtoan.MA_NGUOIDUNG, noithanhtoan.MACDINH, nguoidung.TEN_NGUOIDUNG, nguoidung.SDT, xa.TEN_XA, huyen.TEN_HUYEN, tinh.TEN_TINH  from noithanhtoan 
+                     join nguoidung on nguoidung.MA_NGUOIDUNG = noithanhtoan.MA_NGUOIDUNG
+                     join xa on xa.MA_XA = noithanhtoan.MA_XA 
+                     JOIN huyen on huyen.MA_HUYEN = xa.MA_HUYEN 
+                     JOIN tinh on tinh.MA_TINH = huyen.MA_TINH
+                     where noithanhtoan.MA_NOI = :ID",
+                     ['ID'=>$donhang->MA_NOI])[0];
+        
+        $sp = DB:: select('select sanpham.*, ctdonhang.SOLUONG, ctdonhang.DONGIA, ctdonhang.SOLUONG * ctdonhang.DONGIA as THANHTIEN, donhang.* ,h1.URL from donhang 
+                                    inner join ctdonhang on donhang.MA_DONBAN = ctdonhang.MA_DONBAN
+                                    inner join sanpham on ctdonhang.MA_SP = sanpham.MA_SP 
+                                    inner JOIN (select ha.MA_SP, MIN(URL) as URL from HINHANH ha GROUP BY ha.MA_SP) as h1 on h1.MA_SP = sanpham.MA_SP
+                                    WHERE donhang.MA_DONBAN = :MA_DONBAN',['MA_DONBAN'=>$req->id]);
+        
+        return view("account.detail",["sanpham" => $sp,'noithanhtoan'=>$noithanhtoan, 'donhang' =>$donhang,'nguoidung'=>$nguoi_dung[0],'danhmuc'=>$danhmuc,'user'=>$user,'soluong'=>$soluong]);
+    }
+    
+    public function return_orders(Request $req){
+        $user = Session::get("MA_NGUOIDUNG");
+        $danhmuc = DB::select('select *from danhmuc');
+        $nguoi_dung = DB::select('select nd.*, xa.TEN_XA, huyen.TEN_HUYEN, tinh.TEN_TINH from Nguoidung nd join xa on nd.MA_XA = xa.MA_XA join huyen on huyen.MA_HUYEN = xa.MA_HUYEN join tinh on tinh.MA_TINH = huyen.MA_TINH where MA_NGUOIDUNG = :MA_NGUOIDUNG', ['MA_NGUOIDUNG' => $user->MA_NGUOIDUNG]); 
+        if ($user){
+            $soluong = DB::select("select COUNT(SOLUONG) AS SOLUONG from donhang dh join ctdonhang ct on ct.ma_donban = dh.ma_donban AND dh.MA_TRANGTHAI = 1 WHERE MA_NGUOIDUNG = :ID", ['ID' => $user -> MA_NGUOIDUNG])[0]->SOLUONG;
+        }else{
+            $soluong = 0;
+        }   
+        $donhang = Donhang::get_dh_ma($req->id);
+        $noithanhtoan = DB::select("select noithanhtoan.CHITIET, noithanhtoan.MA_NGUOIDUNG, noithanhtoan.MACDINH, nguoidung.TEN_NGUOIDUNG, nguoidung.SDT, xa.TEN_XA, huyen.TEN_HUYEN, tinh.TEN_TINH  from noithanhtoan 
+                     join nguoidung on nguoidung.MA_NGUOIDUNG = noithanhtoan.MA_NGUOIDUNG
+                     join xa on xa.MA_XA = noithanhtoan.MA_XA 
+                     JOIN huyen on huyen.MA_HUYEN = xa.MA_HUYEN 
+                     JOIN tinh on tinh.MA_TINH = huyen.MA_TINH
+                     where noithanhtoan.MA_NOI = :ID",
+                     ['ID'=>$donhang->MA_NOI])[0];
+        
+        $sp = DB:: select('select sanpham.*, ctdonhang.SOLUONG, ctdonhang.DONGIA, ctdonhang.SOLUONG * ctdonhang.DONGIA as THANHTIEN, donhang.* ,h1.URL from donhang 
+                                    inner join ctdonhang on donhang.MA_DONBAN = ctdonhang.MA_DONBAN
+                                    inner join sanpham on ctdonhang.MA_SP = sanpham.MA_SP 
+                                    inner JOIN (select ha.MA_SP, MIN(URL) as URL from HINHANH ha GROUP BY ha.MA_SP) as h1 on h1.MA_SP = sanpham.MA_SP
+                                    WHERE donhang.MA_DONBAN = :MA_DONBAN',['MA_DONBAN'=>$req->id]);
+        
+        return view("account.return",["sanpham" => $sp,'noithanhtoan'=>$noithanhtoan, 'donhang' =>$donhang,'nguoidung'=>$nguoi_dung[0],'danhmuc'=>$danhmuc,'user'=>$user,'soluong'=>$soluong]);
+    }
+    
+    
+    
+    
+    public function update_return_orders(Request $req){
+        DB::update("update donhang set MA_TRANGTHAI = 8 WHERE MA_DONBAN = ?", [$req->id]);
+        return redirect("/account/orders");
+    }
+    
+    
+    
+    public function cancel(Request $req){
+        DB::update("update donhang set MA_TRANGTHAI = 7 WHERE MA_DONBAN = ?", [$req->id]);
+        return redirect("/account/orders");
+    }
+    
 }

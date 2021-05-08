@@ -21,23 +21,33 @@
         <div class="card">
             <div class="card-body">
                 <div class="row mb-2">
-                    <div class="col-sm-5">
+                    <div class="col-sm-3">
                     </div>
-                    <div class="col-sm-7">
+                    <div class="col-sm-9">
                         
                         
                         <div class="text-sm-end">
                             <form action="/admin/orders/index" method="get">
                             <div class="row">
-                                <div class="col-md-4">
+                                
+                                <div class="col-md-3">
+                                    <select name="trangthai" class="form-control">
+                                        <option value="" >Tất cả</option>
+                                        @foreach($list_tt as $item)
+                                        <option value="{{$item->MA_TRANGTHAI}}" {{ $trangthai == $item->MA_TRANGTHAI ? "selected" : "" }} >{{$item->TEN_TRANGTHAI}}</option>
+                                        @endforeach
+                                    </select>
+                                    
+                                </div>
+                                <div class="col-md-3">
                                         <input class="form-control" name="batdau" type="date" value="{{$batdau}}">
                                     
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                         <input class="form-control" name="ketthuc" type="date" value="{{$ketthuc}}">
                                     
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                         <button type="submit" class="btn btn-light mb-2 me-1">Tìm kiếm</button>
                                         <button type="button" class="btn btn-light mb-2">Xuất HĐ</button>
                                 </div>
