@@ -33,7 +33,6 @@ Route::group(['prefix' => 'admin', "middleware"=> "login"], function () {
     Route::get('/dashboard',"DashboardController@index");
     Route::get('/sodo',"DashboardController@sodo");
     Route::get('/sodo1',"DashboardController@sodo");
-    Route::get('/chat',"ChatController@chat");
     
     Route::group(['prefix' => '/categories'], function () {
         Route::get('/index', "CategoriesController@categories_all");
@@ -146,6 +145,14 @@ Route::group(['prefix' => 'admin', "middleware"=> "login"], function () {
         
     });
     
+    Route::group(['prefix' => '/chat'], function()
+    {
+        Route::get("/", "ChatController@index");
+        Route::get('messages', 'ChatController@fetchMessages');
+        Route::post('messages', 'ChatController@sendMessage');
+        Route::get('/chat',"ChatController@chat");
+        Route::post('reply', 'ChatController@replyMessage');
+    });
      
     Route::group(['prefix' => '/upload'], function()
     {
