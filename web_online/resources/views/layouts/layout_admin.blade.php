@@ -74,7 +74,7 @@
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a href="chat.html" class="side-nav-link">
+                            <a href="/admin/chat" class="side-nav-link">
                                 <i class="uil-comments-alt"></i>
                                 <span> Trò chuyện </span>
                             </a>
