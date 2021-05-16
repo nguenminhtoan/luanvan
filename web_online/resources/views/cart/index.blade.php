@@ -392,7 +392,9 @@ Giỏ Hàng
                         CHITIET : chitiet
                 },
                 success: function(data) {
-                alert("cập nhật thành công!");
+                    alert("cập nhật thành công!");
+                    $("input[name='MA_NOI']").val(data);
+                    return true;
                 }
         });
     };

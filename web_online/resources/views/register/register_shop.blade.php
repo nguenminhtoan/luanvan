@@ -5,9 +5,9 @@ Register Cửa hàng
 @section('content')
 <div id="account-register" class="container">
     <ul class="breadcrumb">
-        <li><a href="https://opencart.opencartworks.com/themes/so_supermarket/index.php?route=common/home"><i class="fa fa-home"></i></a></li>
-        <li><a href="https://opencart.opencartworks.com/themes/so_supermarket/index.php?route=account/account">Account</a></li>
-        <li><a href="https://opencart.opencartworks.com/themes/so_supermarket/index.php?route=account/register">Tạo cửa hàng</a></li>
+        <li><a href="/home"><i class="fa fa-home"></i></a></li>
+        <li><a href="/account">Account</a></li>
+        <li><a href="/account/register_shop">Tạo cửa hàng</a></li>
     </ul>
     <div class="row">
         <div id="content" class="col-sm-9">

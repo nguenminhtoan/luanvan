@@ -48,13 +48,13 @@
                         <p class="mb-0 text-muted">
                             @if($t->DH >0)
                                 @if( $dh->DH > $t->DH)
-                                <span class="text-danger me-2"><i class="mdi mdi-arrow-up-bold"}}></i>{{ round((1-($dh->DH/$t->DH))*100) }}%</span>
+                                <span class="text-danger me-2"><i class="mdi mdi-arrow-up-bold"}}></i>{{ abs(round((($dh->DH - $t->DH) / $t->DH)*100))}}%</span>
                                 @else 
-                                <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"}}></i>{{ round((1-($dh->DH/$t->DH))*100) }}%</span>
+                                <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"}}></i>{{ abs(round((($dh->DH - $t->DH) / $t->DH)*100))}}%</span>
                                 @endif
                             <span class="text-nowrap">Kể từ tháng trước</span>
                             @else 
-                            <span class="text-nowrap"><br><br></span>
+                            <span class="text-nowrap"><br></span>
                             @endif
                         </p>
                     </div>
@@ -77,13 +77,13 @@
                         <p class="mb-0 text-muted">
                             @if($t->DOANHTHU >0)
                                 @if( $dh->DOANHTHU > $t->DOANHTHU)
-                                <span class="text-danger me-2"><i class="mdi mdi-arrow-up-bold"}}></i>{{ round((1-($dh->DOANHTHU/$t->DOANHTHU))*100) }}%</span>
+                                <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"}}></i>{{ abs(round((($dh->DOANHTHU-$t->DOANHTHU)/$t->DOANHTHU)*100)) }}%</span>
                                 @else 
-                                <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"}}></i>{{ round((1-($dh->DOANHTHU/$t->DOANHTHU))*100) }}%</span>
+                                <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"}}></i>{{ abs(round((($dh->DOANHTHU-$t->DOANHTHU)/$t->DOANHTHU)*100)) }}%</span>
                                 @endif
                             <span class="text-nowrap">Kể từ tháng trước</span>
                             @else 
-                            <span class="text-nowrap"><br><br></span>
+                            <span class="text-nowrap"><br></span>
                             @endif
                         </p>
                     </div>
@@ -99,17 +99,17 @@
                             <i class="mdi mdi-pulse widget-icon"></i>
                         </div>
                         <h5 class="text-muted fw-normal mt-0" title="Growth">Lợi nhuận</h5>
-                        <h3 class="mt-3 mb-3">{{number_format($lnnow->LN)}} VNĐ</h3>
+                        <h3 class="mt-3 mb-3">{{ $lnnow != "" ? number_format($lnnow->LN) : 0 }} VNĐ</h3>
                         <p class="mb-0 text-muted">
-                            @if($lntrc->LN >0)
+                            @if($lnnow != "" && $lntrc != "" &&  $lntrc->LN >0)
                                 @if( $lnnow->LN > $lntrc->LN)
-                                <span class="text-danger me-2"><i class="mdi mdi-arrow-up-bold"}}></i>{{ round((1-($lnnow->LN/$lntrc->LN))*100) }}%</span>
+                                <span class="text-danger me-2"><i class="mdi mdi-arrow-up-bold"}}></i>{{ abs(round((($lnnow->LN - $lntrc->LN)/$lntrc->LN)*100)) }}%</span>
                                 @else 
-                                <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"}}></i>{{ round((1-($lnnow->LN/$lntrc->LN))*100) }}%</span>
+                                <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"}}></i>{{ abs(round((($lnnow->LN - $lntrc->LN)/$lntrc->LN)*100)) }}%</span>
                                 @endif
                             <span class="text-nowrap">Kể từ tháng trước</span>
                             @else 
-                            <span class="text-nowrap"><br><br></span>
+                            <span class="text-nowrap"><br></span>
                             @endif
                         </p>
                     </div>
@@ -146,9 +146,9 @@
                             data: {
                               labels: [@foreach($loinhuan as $key=>$item)
                                         @if($key == 0 )
-                                            "Tháng {{$item->TG}}",
-                                        @else    
                                             "Tháng {{$item->TG}}"
+                                        @else    
+                                            ,"Tháng {{$item->TG}}"
                                         @endif    
                                         @endforeach],
                               datasets: [
@@ -157,9 +157,9 @@
                                   backgroundColor: ["#CF8AB3", "#E8B772","#3cba9f","#e8c3b9","#c45850","#C750BB","#84828C","#A6963A","#3AA6A6","#3AA6A6","#3e95cd","#9EE647"],
                                   data: [@foreach($loinhuan AS $key=>$item)
                                             @if($key == 0 )
-                                            {{$item->LN}},
-                                            @else    
                                             {{$item->LN}}
+                                            @else    
+                                            ,{{$item->LN}}
                                             @endif   
                                         @endforeach] 
                                 }

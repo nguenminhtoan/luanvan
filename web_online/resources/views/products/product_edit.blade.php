@@ -24,7 +24,7 @@ tinymce.init({
                     <form action="/admin/product/update/{{$sanpham->MA_SP}}" method="POST" enctype="multipart/form-data" >
                         <div class="tab-pane show active" id="Thongtincoban">
                             <div class="row">
-                                <div class="col-lg-8">
+                                <div class="col-lg-12">
                                     <!-- end row-->
                                     <h3 class="mt-4">Thông tin cơ bản</h3>
                                     <p class="text-muted mb-4">
@@ -143,7 +143,7 @@ tinymce.init({
                         <!-- End Shipping Information Content-->
                         <div class="tab-pane show active" id="thongtinbanhang">
                             <div class="row">
-                                <div class="col-lg-8">
+                                <div class="col-lg-12">
                                     <!-- end row-->
                                     <h4 class="mt-4">Thông tin Bán Hàng</h4>
                                     <p class="text-muted mb-4">
@@ -174,7 +174,7 @@ tinymce.init({
                         <!-- Quản lý hình ảnh-->
                         <div class="tab-pane show active" id="quanlyhinhanh">
                             <div class="row">
-                                <div class="col-lg-8">
+                                <div class="col-lg-12">
                                     <!-- end row-->
                                     <h3 class="mt-4">Quản lý hình ảnh</h3>
                                     <p class="text-muted mb-4">
@@ -225,7 +225,7 @@ tinymce.init({
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-8">
+                                <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label for="new-adr-last-name" class="form-label">Mô tả sản phẩm</label>
                                             <textarea class="form-control" rows="20" name="CHI_TIET" rows="5" placeholder="Mô tả chi tiết sản phẩm">{{$sanpham -> CHI_TIET}}</textarea>

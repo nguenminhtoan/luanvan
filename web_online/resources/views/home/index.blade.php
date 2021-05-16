@@ -23,21 +23,33 @@ Trang chủ
                                     <div class="so-homeslider sohomeslider-inner-1">
                                         <div class="item">
                                             <a href=" #     " title="slide 1" target="_self">
-                                                <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/slider-1-1090x450.jpg"  alt="slide 1" />
+                                               <!--
+                                               <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/slider-1-1090x450.jpg"  alt="slide 1" />
+                                               -->
+                                                <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/my-pham-nhat-ban-02.jpg"  alt="slide 1" />
+
                                             </a>
                                             <div class="sohomeslider-description">
                                             </div>
                                         </div>
                                         <div class="item">
                                             <a href="#   " title="slide 2" target="_self">
+                                                <!--
                                                 <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/slider-2-1090x450.jpg"  alt="slide 2" />
+                                                 -->
+                                                <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/banner-dncosmetics.jpg"  alt="slide 2" />
+
                                             </a>
                                             <div class="sohomeslider-description">
                                             </div>
                                         </div>
                                         <div class="item">
                                             <a href=" #" title="slide 3" target="_self">
+                                                <!--
                                                 <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/slider-3-1090x450.jpg"  alt="slide 3" />
+                                                -->
+                                                <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/banner-emcos-1.jpg"  alt="slide 3" />
+                                                
                                             </a>
                                             <div class="sohomeslider-description">
                                             </div>
@@ -544,7 +556,7 @@ Trang chủ
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_32zq col-style">
                         <!-- default Grid  -->
                         <div class="module so-extraslider-ltr ">
-                            <h3 class="modtitle"><span>Recommended</span></h3>
+                            <h3 class="modtitle"><span>Sản phẩm được đánh giá</span></h3>
                             <div class="modcontent">
                                 <div id="so_extra_slider_1621587411615815444" class="so-extraslider button-type2 preset00-1 preset01-1 preset02-1 preset03-1 preset04-1 button-type2">
                                     <!-- Begin extraslider-inner -->
@@ -735,45 +747,40 @@ Trang chủ
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_0g1a col-style">
                         <div class="module so-latest-blog blog-sidebar preset01-1 preset02-1 preset03-1 preset04-1 preset05-1">
                             <h3 class="modtitle"><span>Bình luận mới nhất</span></h3>
+                            @foreach(array_chunk($binhluan,1) as $row)
                             <div class="modcontent clearfix">
                                 <div id="so_latest_blog_103_11637773541615815444" class="so-blog-external buttom-type1 button-type1">
                                     <div class="blog-external-simple">
                                         <div class="cat-wrap">
+                                            @foreach($row as $item)
                                             <div class="media">
                                                 <div class="item item-1">
                                                     <div class="media-body">
+                                                        
                                                         <h4 class="media-heading">
-                                                            <a href="https://opencart.opencartworks.com/themes/so_supermarket/index.php?route=extension/simple_blog/article/view&amp;simple_blog_article_id=2" title="Biten demons lector in henderit in vulp" target="_self">Biten demons lector in henderit in vulp</a>
+                                                            <a href="/detail/{{$item->MA_SP}}" title="{{$item->TEN_SP}}" target="_self">{{$item->TEN_SP}}</a>
+                                                            
                                                         </h4>
                                                         <div class="media-content">
-                                                            <div class="media-date-added"><i class="fa fa-calendar"></i> December 4th, 2017</div>
+                                                            <p>{{$item->TEN_NGUOIDUNG}}</p>
+                                                            <div class="rating">
+                                                                <span class="fa fa-stack"><i class="fa {{$item->DANHGIA > 0 ? 'fa-star': 'fa-star-o'}} fa-stack-2x"></i></span>
+                                                                <span class="fa fa-stack"><i class="fa {{$item->DANHGIA > 1 ? 'fa-star': 'fa-star-o'}} fa-stack-2x"></i></span>
+                                                                <span class="fa fa-stack"><i class="fa {{$item->DANHGIA > 2 ? 'fa-star': 'fa-star-o'}} fa-stack-2x"></i></span>
+                                                                <span class="fa fa-stack"><i class="fa {{$item->DANHGIA > 3 ? 'fa-star': 'fa-star-o'}} fa-stack-2x"></i></span>
+                                                                <span class="fa fa-stack"><i class="fa {{$item->DANHGIA > 4 ? 'fa-star': 'fa-star-o'}} fa-stack-2x"></i></span>
+                                                            </div>
+                                                            <div class="media-date-added"><i class="fa fa-calendar"></i>{{date($item->NGAY)}}</div>
                                                             <div class="media-subcontent">
-                                                                <span class="media-comment"><i class="fa fa-comments"></i>0  Comment</span>
+                                                                <span class="media-comment"><i class="fa fa-comments"></i>{{$item->SL}}</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        @endforeach
                                         </div>
-                                        <div class="clr1"></div>
-                                        <div class="cat-wrap">
-                                            <div class="media">
-                                                <div class="item item-2">
-                                                    <div class="media-body">
-                                                        <h4 class="media-heading">
-                                                            <a href="https://opencart.opencartworks.com/themes/so_supermarket/index.php?route=extension/simple_blog/article/view&amp;simple_blog_article_id=3" title="Commodo laoreet semper tincidun	sit" target="_self">Commodo laoreet semper tincidun	sit</a>
-                                                        </h4>
-                                                        <div class="media-content">
-                                                            <div class="media-date-added"><i class="fa fa-calendar"></i> November 15th, 2017</div>
-                                                            <div class="media-subcontent">
-                                                                <span class="media-comment"><i class="fa fa-comments"></i>0  Comment</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="clr1 clr2"></div>
+                                        
                                     </div>
                                 </div>
                                 <script type="text/javascript">
@@ -914,28 +921,24 @@ Trang chủ
                                     //]]>
                                 </script>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_x1cl col-style">
                         <div class="module testimonials">
-                            <h3 class="modtitle"><span>Testimonials</span></h3>
+                            <h3 class="modtitle"><span>Cửa hàng</span></h3>
                             <div class="slider-testimonials">
                                 <div class="contentslider" data-rtl="no" data-loop="yes" data-autoplay="no" data-autoheight="no" data-autowidth="no" data-delay="4" data-speed="0.6" data-margin="0" data-items_column0="1" data-items_column1="1" data-items_column2="1" data-items_column3="1" data-items_column4="1" data-arrows="no" data-pagination="yes" data-lazyload="yes" data-hoverpause="yes">
+                                    @foreach(array_chunk($cuahang,3) as $row)
+                                    @foreach($row as $item)
                                     <div class="item">
-                                        <div class="img"><img src="images/user-1.jpg" alt="Image"></div>
-                                        <div class="name">Johny Walker</div>
-                                        <p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore”</p>
+                                        <div class="img"><img src="{{$item->HINHANH}}" alt="Image"></div>
+                                        <div class="name">{{$item->TEN_CUAHANG}}</div>
+                                        <p>“{{$item->MOTA}}”</p>
                                     </div>
-                                    <div class="item">
-                                        <div class="img"><img src="images/user-2.jpg" alt="Image"></div>
-                                        <div class="name">Jen Nguyen</div>
-                                        <p>“Ut enim ad minim veniam, lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incidi”</p>
-                                    </div>
-                                    <div class="item">
-                                        <div class="img"><img src="images/user-3.jpg" alt="Image"></div>
-                                        <div class="name">Vin Jame</div>
-                                        <p>“sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, lorem ipsum dolor sit amet, consectetur adip”</p>
-                                    </div>
+                                    @endforeach
+                                    @endforeach
+                                    
                                 </div>
                             </div>
                         </div>
@@ -1344,7 +1347,7 @@ Trang chủ
                                                             </a>
                                                         </div>
                                                         @if ($item->GIAMOI < $item->GIA)
-                                                            @if((round((1-($item->GIAMOI/$item->GIA))*100))>0))
+                                                            @if((round((1-($item->GIAMOI/$item->GIA))*100))>0)
                                                             <span class="label label-sale">-{{(round((1-($item->GIAMOI/$item->GIA))*100))}}%</span>
                                                             @endif
                                                         @endif

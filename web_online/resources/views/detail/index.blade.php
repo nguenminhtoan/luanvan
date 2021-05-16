@@ -1,6 +1,7 @@
 @extends('layouts.layout_detail')
 @section('title', $ct_sp->TEN_SP)
 @section('content')
+
 <div class="breadcrumbs ">
    <div class="container">
       <div class="current-name">	  
@@ -43,9 +44,10 @@
                          </div>          
                      </div>
                      <div class="extraslider-inner products-list owl2-carousel owl2-theme owl2-loaded" data-effect="none">
+                         
+                                 @foreach (array_chunk($udai,5) as $key => $row)
                          <div class="owl2-stage-outer">
                              <div class="owl2-stage" >
-                                 @foreach (array_chunk($udai,5) as $key => $row)
                                     <div class="owl2-item {{$key == 0 ? 'active' : ''}}" >
                                        <div class="item ">
                                            @foreach($row as $item)
@@ -84,9 +86,11 @@
                                            @endforeach
                                        </div>
                                     </div>
-                                   @endforeach
+                                   
                              </div>
+                             
                          </div>
+                                 @endforeach
                      <!--End extraslider-inner -->
                      </div>
                      <script type="text/javascript">

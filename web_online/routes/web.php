@@ -32,6 +32,8 @@ Route::group(['prefix' => 'admin', "middleware"=> "login"], function () {
     
     Route::get('/dashboard',"DashboardController@index");
     Route::get('/sodo',"DashboardController@sodo");
+    Route::get('/sodo1',"DashboardController@sodo");
+    Route::get('/chat',"ChatController@chat");
     
     Route::group(['prefix' => '/categories'], function () {
         Route::get('/index', "CategoriesController@categories_all");
@@ -98,9 +100,10 @@ Route::group(['prefix' => 'admin', "middleware"=> "login"], function () {
         Route::get('/add', "ShipmentController@shipment_add");
         Route::post('/save', "ShipmentController@shipment_save");
         Route::get('/edit/{id}', "ShipmentController@shipment_edit");
-        Route::post('/update/{id}', "ShipmentController@shipment_update");
+        Route::post('/update/{id}', "ShipmentController@update_status");
         Route::get('/delete/{id}', "ShipmentController@shipment_detele");
-        
+        Route::get('/shipper', "ShipmentController@shipper");
+        Route::get('/detail/{id}', "ShipmentController@detail");
     });
 
     Route::group(['prefix' => '/status'], function () {

@@ -92,6 +92,7 @@
 
 
     <body class="product-category ltr layout-1">
+        
         <div id="wrapper" class="wrapper-fluid banners-effect-3">  
 
 
@@ -483,14 +484,18 @@
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12 col_5rbh  col-style">
                                     <div class="box-service box-footer">
                                         <div class="module clearfix">
+                                            @if(is_array($danhmuc))
                                             <h3 class="modtitle">Danh mục</h3>
+                                            @foreach($danhmuc as $item)
+                                            @if(!$item->DAN_MA_DANHMUC)
                                             <div class="modcontent">
                                                 <ul class="menu">
-                                                    @foreach($danhmuc as $item)
                                                     <li><a href="#">{{$item->TEN_DANHMUC}}</a></li>
-                                                    @endforeach
                                                 </ul>
                                             </div>
+                                            @endif
+                                            @endforeach
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

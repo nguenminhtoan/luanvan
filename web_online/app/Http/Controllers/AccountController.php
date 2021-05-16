@@ -20,6 +20,7 @@ use App\Models\Noithanhtoan;
 
 class AccountController extends Controller
 {
+    
     public function index() {
         $user = Session::get("MA_NGUOIDUNG");
         $danhmuc = DB::select('select *from danhmuc');
@@ -100,7 +101,16 @@ class AccountController extends Controller
     public function save(Request $req){
         $user = Session::get("MA_NGUOIDUNG");
         $noithanhtoan = new Noithanhtoan(['MA_NGUOIDUNG'=>$req->id,'MA_XA'=>$req->MA_XA,'CHITIET'=>$req->CHITIET]);
-        $sql = 'INSERT INTO `noithanhtoan`(`MA_XA`,`MA_NGUOIDUNG`,`CHITIET`) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET)';
+        $check = DB::select("select ntt.*,xa.MA_HUYEN, huyen.MA_TINH  from noithanhtoan ntt "
+                . "     join xa on xa.MA_XA = ntt.MA_XA JOIN huyen on huyen.MA_HUYEN = xa.MA_HUYEN where MA_NGUOIDUNG = :ID AND MACDINH =0",
+                        ['ID'=>$user->MA_NGUOIDUNG]);
+        if($check){
+            $sql = 'INSERT INTO `noithanhtoan`(`MA_XA`,`MA_NGUOIDUNG`,`CHITIET`, MACDINH) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET, 1)';
+        }else
+        {
+            $sql = 'INSERT INTO `noithanhtoan`(`MA_XA`,`MA_NGUOIDUNG`,`CHITIET`, MACDINH) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET, 0)';
+        }
+        
         $param = ["MA_XA" => $noithanhtoan->MA_XA, "MA_NGUOIDUNG" => $user->MA_NGUOIDUNG, "CHITIET"=> $noithanhtoan->CHITIET];
         if(DB::insert($sql, $param)){
             return redirect("/account/address".$req->id);

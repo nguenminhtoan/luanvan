@@ -13,8 +13,8 @@ class HomeController extends Controller
         
         $user = Session::get("MA_NGUOIDUNG");
         $danhmuc = DB::select('select *from danhmuc');
-        
-        
+        $binhluan = DB::select("SELECT bl.*, nd.TEN_NGUOIDUNG,COUNT(*)AS SL , sanpham.TEN_SP FROM binhluan bl JOIN nguoidung nd ON nd.MA_NGUOIDUNG = bl.MA_NGUOIDUNG join sanpham on sanpham.MA_SP = bl.MA_SP group by bl.MA_NGUOIDUNG");
+        $cuahang = DB::select("SELECT * from cuahang");
         $sanpham = Sanpham::sanpham(); 
         $udai = Sanpham::sell_shock();
         $spmoi = Sanpham::sanpham_moi();
@@ -37,7 +37,7 @@ class HomeController extends Controller
         }else{
             $soluong = 0;
         }
-        return view("home.index",["comment" => $comment,"rank" => $rank,'sanpham' => $sanpham,'spmoi' => $spmoi,'banchay' => $banchay,'danhmuc'=>$danhmuc,'udai'=>$udai,'user'=>$user, 'soluong' => $soluong/*'xemnhieu'=>$xemnhieu,'cndt'=>$cndt*/]);
+        return view("home.index",["cuahang"=>$cuahang,"binhluan"=>$binhluan,"comment" => $comment,"rank" => $rank,'sanpham' => $sanpham,'spmoi' => $spmoi,'banchay' => $banchay,'danhmuc'=>$danhmuc,'udai'=>$udai,'user'=>$user, 'soluong' => $soluong/*'xemnhieu'=>$xemnhieu,'cndt'=>$cndt*/]);
         
     }
     

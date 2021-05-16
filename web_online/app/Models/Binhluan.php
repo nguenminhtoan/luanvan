@@ -12,7 +12,7 @@ class Binhluan extends Model
     
     
     public static function binhluan_sp($ma_sp){
-        $sql = "SELECT * FROM binhluan bl JOIN nguoidung nd ON nd.MA_NGUOIDUNG = bl.MA_NGUOIDUNG  WHERE bl.ma_sp =  ?";
+        $sql = "SELECT * FROM binhluan bl JOIN nguoidung nd ON nd.MA_NGUOIDUNG = bl.MA_NGUOIDUNG join sanpham on sanpham.MA_SP = bl.MA_SP  WHERE bl.ma_sp =  ?";
         $param = [$ma_sp];
         $list = DB::select($sql, $param);
         return $list;

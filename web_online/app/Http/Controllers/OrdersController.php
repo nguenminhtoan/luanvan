@@ -42,7 +42,7 @@ class OrdersController extends Controller
     
     public function update_status(Request $req) {
         $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
-        DB::update("update donhang set ma_trangthai = ? Where ma_donban = ?", [$req->MA_TRANGTHAI , $req->id]);
+        DB::update("update donhang set ma_trangthai = ?, NGAYBAN =? Where ma_donban = ?", [$req->MA_TRANGTHAI ,date("Y/m/d") ,$req->id]);
         return redirect("/admin/orders/index");
     }
 }

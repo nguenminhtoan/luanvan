@@ -74,7 +74,7 @@ class RegisterController extends Controller {
         $nguoidung = Session::get("MA_NGUOIDUNG") -> MA_NGUOIDUNG;
         $count = DB::select("SELECT * FROM nguoidung WHERE MA_NGUOIDUNG = :MA_NGUOIDUNG AND MA_CUAHANG IS NOT NULL", ["MA_NGUOIDUNG" => $nguoidung]);
         if (count($count) > 0){
-            return redirect("/admin/goods/add"); // chuyển tới trang tổng quan
+            return redirect("/admin/dashboard"); // chuyển tới trang tổng quan
         }
         else{
             $nganh = DB::select("select * from nganhhang");
@@ -116,7 +116,7 @@ class RegisterController extends Controller {
             DB::update("update nguoidung set MA_CUAHANG = :MA_CUAHANG WHERE MA_NGUOIDUNG = :MA_NGUOIDUNG", ["MA_CUAHANG" => $ma_cuahang, "MA_NGUOIDUNG" => $user->MA_NGUOIDUNG]);
             $nguoi_dung = DB::select('select * from Nguoidung where MA_NGUOIDUNG = :MA_NGUOIDUNG', ['MA_NGUOIDUNG' => $user->MA_NGUOIDUNG]); 
             Session::put("MA_NGUOIDUNG",$nguoi_dung[0]);
-            return redirect("/admin/goods/add"); // chuyển tới trang tổng quan
+            return redirect("/admin/dashboard"); // chuyển tới trang tổng quan
         }
         else{
             return view("register/register_shop", ['nganhhang'=>$nganh, 'cuahang'=>$cuahang,'nguoidung'=>$nguoidung,'user' => $user,'danhmuc'=> $danhmuc,'tinh' => $tinh,'huyen' => $huyen,'xa' => $xa,'soluong'=>0]);

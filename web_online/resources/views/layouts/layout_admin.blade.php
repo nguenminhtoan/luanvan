@@ -52,7 +52,7 @@
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
                                 <i class="uil-home-alt"></i>
-                                <span class="badge bg-success float-end">3</span>
+                                <span class="badge bg-success float-end">2</span>
                                 <span>Tổng quan</span>
                             </a>
                             <div class="collapse" id="sidebarDashboards">
@@ -61,10 +61,7 @@
                                         <a href="/admin/dashboard">Phân tích bán hàng</a>
                                     </li>
                                     <li>
-                                        <a href="index.html">Marketing</a>
-                                    </li>
-                                    <li>
-                                        <a href="projects.html">Dự án</a>
+                                        <a href="/admin/ship/shipper">Shipper</a>
                                     </li>
                                 </ul>
                             </div>
@@ -77,7 +74,7 @@
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a href="chat.html" class="side-nav-link">
+                            <a href="/admin/chat" class="side-nav-link">
                                 <i class="uil-comments-alt"></i>
                                 <span> Trò chuyện </span>
                             </a>
@@ -128,16 +125,13 @@
                                         <a href="sellers.html">Nhân viên</a>
                                     </li>
                                     <li>
-                                        <a href="/cuahang/{{$cuahang->MA_CUAHANG}}">Hồ sơ shop</a>
+                                        <a href="/cuahang/{{$cuahang->MA_CUAHANG}}">Hồ sơ shop<span class="badge rounded-pill badge-success-lighten font-10 float-end">New</span></a>
                                     </li>
                                     <li>
                                         <a href="/admin/industries/index">Ngành Hàng shop</a>
                                     </li>
                                     <li>
                                         <a href="createproject.html">Trang trí shop<span class="badge rounded-pill badge-light-lighten font-10 float-end">New</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="/admin/categories/index">Danh mục của shop <span class="badge rounded-pill badge-success-lighten font-10 float-end">New</span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -208,39 +202,10 @@
                             <div class="collapse" id="sidebarTables">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="tables-basic.html">Doanh thu</a>
+                                        <a href="index.html">Marketing</a>
                                     </li>
                                     <li>
-                                        <a href="tables-datatable.html">Ví shop </a>
-                                    </li>
-                                    <li>
-                                        <a href="tables-basic.html">Tài khoản ngân hàng</a>
-                                    </li>
-                                    <li>
-                                        <a href="/admin/payment/index">Thiết lập thanh toán </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarTables" aria-expanded="false" aria-controls="sidebarTables" class="side-nav-link">
-                                <i class="uil-table"></i>
-                                <span> Tài chính </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarTables">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="tables-basic.html">Doanh thu</a>
-                                    </li>
-                                    <li>
-                                        <a href="tables-datatable.html">Ví shop </a>
-                                    </li>
-                                    <li>
-                                        <a href="tables-basic.html">Tài khoản ngân hàng</a>
-                                    </li>
-                                    <li>
-                                        <a href="tables-datatable.html">Thiết lập thanh toán </a>
+                                        <a href="projects.html">Dự án</a>
                                     </li>
                                 </ul>
                             </div>

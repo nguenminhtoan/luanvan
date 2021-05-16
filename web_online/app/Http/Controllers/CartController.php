@@ -66,14 +66,15 @@ class CartController extends Controller
             $sql = "UPDATE noithanhtoan set MA_XA = :MA_XA, CHITIET = :CHITIET WHERE MA_NGUOIDUNG = :MA_NGUOIDUNG AND MA_NOI = :MA_NOI";
             $param = ["MA_XA"=> $req->MA_XA, "CHITIET" => $req->CHITIET ,"MA_NGUOIDUNG" => $ma_nguoidung, "MA_NOI" => $ma_noi];
             DB::update($sql,$param);
-            return 1;
+            return $ma_noi;
         }
         else
         {
             $sql = "insert noithanhtoan (MA_XA, MA_NGUOIDUNG, CHITIET, MACDINH) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET, '1')";
             $param = ["MA_XA" => $req->MA_XA, "MA_NGUOIDUNG" => $ma_nguoidung, "CHITIET"=> $req->CHITIET];
             DB::insert($sql,$param);
-            return 1;
+            $ma_noi = DB::select("select * from noithanhtoan where MA_NGUOIDUNG = :MA_NGUOIDUNG AND MACDINH = 1",["MA_NGUOIDUNG" => $ma_nguoidung])[0]->MA_NOI;
+            return $ma_noi;
         }
         
     }
@@ -115,6 +116,13 @@ class CartController extends Controller
         $list = [$req->MA_VANCHUYEN];
         $ma_vt = "";
         $ma_tt = $req-> MA_THANHTOAN;
+        $ma_noi = $req->MA_NOI;
+        if(count(DB::select("select * from noithanhtoan where MA_NGUOIDUNG = :MA_NGUOIDUNG AND MACDINH = 1",["MA_NGUOIDUNG" => $ma_nguoidung])) == 0){
+            $sql = "insert noithanhtoan (MA_XA, MA_NGUOIDUNG, CHITIET, MACDINH) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET, '1')";
+            $param = ["MA_XA" => $req->MA_XA, "MA_NGUOIDUNG" => $ma_nguoidung, "CHITIET"=> $req->CHITIET];
+            DB::insert($sql,$param);
+            $ma_noi = DB::select("select * from noithanhtoan where MA_NGUOIDUNG = :MA_NGUOIDUNG AND MACDINH = 1",["MA_NGUOIDUNG" => $ma_nguoidung])[0]->MA_NOI;
+        }
         foreach($hoadon as $key => $item){
             if (!is_null($list[0][$key])){
                 $ma_vt = $list[0][$key];
@@ -132,7 +140,7 @@ class CartController extends Controller
             $sql = "update donhang set MA_TRANGTHAI = 2, MA_VANCHUYEN = :MA_VANCHUYEN, MA_THANHTOAN = :MA_THANHTOAN,"
                     . " MA_KHUYENMAI = :MA_KHUYENMAI, NGAYDAT = :NGAYDAT, TONGTIEN = :TONGTIEN, MA_NOI = :MA_NOI, DIACHI = :DIACHI WHERE MA_DONBAN = :MA_DONBAN";
             $param = ["MA_VANCHUYEN" => $ma_vt, "MA_THANHTOAN" => $ma_tt,
-                "MA_KHUYENMAI" => $req->MA_KHUYENMAI, "NGAYDAT" => date("Y/m/d"), "MA_DONBAN" => $item->MA_DONBAN, "MA_NOI" => $req->MA_NOI, "DIACHI" => $req->CHITIET, "TONGTIEN" => $tongtien];
+                "MA_KHUYENMAI" => $req->MA_KHUYENMAI, "NGAYDAT" => date("Y/m/d"), "MA_DONBAN" => $item->MA_DONBAN, "MA_NOI" => $ma_noi, "DIACHI" => $req->CHITIET, "TONGTIEN" => $tongtien];
             DB::update($sql, $param);
         }
         Session::put("complete", true);
