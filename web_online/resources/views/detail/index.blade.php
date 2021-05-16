@@ -295,12 +295,11 @@
                      	
                      			$('.large-image img').magnificPopup({
                      		items: [
-                                                                {src: 'https://opencart.opencartworks.com/themes/so_supermarket/image/cache/catalog/demo/product/health/8-1000x1000.jpg'},
-                     						{src: 'https://opencart.opencartworks.com/themes/so_supermarket/image/cache/catalog/demo/product/health/7-1000x1000.jpg'},
-                     						{src: 'https://opencart.opencartworks.com/themes/so_supermarket/image/cache/catalog/demo/product/health/2-1000x1000.jpg'},
-                     						{src: 'https://opencart.opencartworks.com/themes/so_supermarket/image/cache/catalog/demo/product/health/9-1000x1000.jpg'},
-                     						{src: 'https://opencart.opencartworks.com/themes/so_supermarket/image/cache/catalog/demo/product/health/11-1000x1000.jpg'},
-                     					],
+                                                            
+                                                            @foreach($ct_sp->HINHANH as $key => $item)
+                                                                {src: '{{$ct_sp->HINHANH[0]->URL}}'},
+                                                            @endforeach    
+                                  ],
                      		gallery: { enabled: true, preload: [0,2] },
                      		type: 'image',
                      		mainClass: 'mfp-fade',

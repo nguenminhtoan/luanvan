@@ -34,7 +34,7 @@ Nhập sản phẩm mới của cửa hàng
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-8">
+                                <div class="col-lg-12">
                                     <!-- end row-->
                                     <h3 class="mt-4">Thông tin nhập sản phẩm</h3>
                                     <p class="text-muted mb-4">

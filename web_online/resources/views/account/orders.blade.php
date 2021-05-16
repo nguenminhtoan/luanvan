@@ -267,7 +267,7 @@
                                     </div>
                                     <div class="tab-pane" id="tab-huy">
                                         <div id="review">
-@foreach($donhang as $item)
+                                        @foreach($donhang as $item)
                                             @if($item->MA_TRANGTHAI == 7)
                                                 <table class="table table-bordered">
                                                     <thead>
@@ -341,7 +341,7 @@
                                     </div>
                                     <div class="tab-pane" id="tab-tra">
                                         <div id="review">
-@foreach($donhang as $item)
+                                            @foreach($donhang as $item)
                                             @if($item->MA_TRANGTHAI == 8)
                                                 <table class="table table-bordered">
                                                     <thead>

@@ -6,20 +6,7 @@
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
-                <form class="d-flex">
-                    <div class="input-group">
-                        <input type="text" class="form-control form-control-light" id="dash-daterange">
-                        <span class="input-group-text bg-primary border-primary text-white">
-                            <i class="mdi mdi-calendar-range font-13"></i>
-                        </span>
-                    </div>
-                    <a href="javascript: void(0);" class="btn btn-primary ms-2">
-                        <i class="mdi mdi-autorenew"></i>
-                    </a>
-                    <a href="javascript: void(0);" class="btn btn-primary ms-1">
-                        <i class="mdi mdi-filter-variant"></i>
-                    </a>
-                </form>
+                
             </div>
             <h4 class="page-title">Bảng Thống Kê</h4>
         </div>
@@ -56,13 +43,20 @@
                         </div>
                         <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Đơn hàng bán được</h5>
                         <h5 class="text-muted fw-normal mt-0" title="Number of Customers">(Tháng hiện tại)</h5>
-                        @foreach($dh as %item)
-                        <h3 class="mt-3 mb-3">{{$dh -> TONG[0]}} đơn</h3>
+                        
+                        <h3 class="mt-3 mb-3">{{$dh->DH}} đơn</h3>
                         <p class="mb-0 text-muted">
-                            <span class="text-danger me-2"><i class="mdi {{ $dh->TONG[0] > $dh->TONG[1] ? 'mdi-arrow-up-bold' : 'mdi-arrow-down-bold'}}></i>{{ round((1-($dh->TONG[0]/$t->TONG[1]))*100) }}%</span>
+                            @if($t->DH >0)
+                                @if( $dh->DH > $t->DH)
+                                <span class="text-danger me-2"><i class="mdi mdi-arrow-up-bold"}}></i>{{ round((1-($dh->DH/$t->DH))*100) }}%</span>
+                                @else 
+                                <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"}}></i>{{ round((1-($dh->DH/$t->DH))*100) }}%</span>
+                                @endif
                             <span class="text-nowrap">Kể từ tháng trước</span>
+                            @else 
+                            <span class="text-nowrap"><br><br></span>
+                            @endif
                         </p>
-                        @endforeach
                     </div>
                     <!-- end card-body-->
                 </div>
@@ -79,10 +73,18 @@
                             <i class="mdi mdi-currency-usd widget-icon"></i>
                         </div>
                         <h5 class="text-muted fw-normal mt-0" title="Average Revenue">Doanh thu</h5>
-                        <h3 class="mt-3 mb-3">$6,254</h3>
+                        <h3 class="mt-3 mb-3">{{number_format($dh->DOANHTHU)}} VNĐ</h3>
                         <p class="mb-0 text-muted">
-                            <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i> 7.00%</span>
+                            @if($t->DOANHTHU >0)
+                                @if( $dh->DOANHTHU > $t->DOANHTHU)
+                                <span class="text-danger me-2"><i class="mdi mdi-arrow-up-bold"}}></i>{{ round((1-($dh->DOANHTHU/$t->DOANHTHU))*100) }}%</span>
+                                @else 
+                                <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"}}></i>{{ round((1-($dh->DOANHTHU/$t->DOANHTHU))*100) }}%</span>
+                                @endif
                             <span class="text-nowrap">Kể từ tháng trước</span>
+                            @else 
+                            <span class="text-nowrap"><br><br></span>
+                            @endif
                         </p>
                     </div>
                     <!-- end card-body-->
@@ -96,11 +98,19 @@
                         <div class="float-end">
                             <i class="mdi mdi-pulse widget-icon"></i>
                         </div>
-                        <h5 class="text-muted fw-normal mt-0" title="Growth">Sự phát triển</h5>
-                        <h3 class="mt-3 mb-3">+ 30.56%</h3>
+                        <h5 class="text-muted fw-normal mt-0" title="Growth">Lợi nhuận</h5>
+                        <h3 class="mt-3 mb-3">{{number_format($lnnow->LN)}} VNĐ</h3>
                         <p class="mb-0 text-muted">
-                            <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 4.87%</span>
+                            @if($lntrc->LN >0)
+                                @if( $lnnow->LN > $lntrc->LN)
+                                <span class="text-danger me-2"><i class="mdi mdi-arrow-up-bold"}}></i>{{ round((1-($lnnow->LN/$lntrc->LN))*100) }}%</span>
+                                @else 
+                                <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"}}></i>{{ round((1-($lnnow->LN/$lntrc->LN))*100) }}%</span>
+                                @endif
                             <span class="text-nowrap">Kể từ tháng trước</span>
+                            @else 
+                            <span class="text-nowrap"><br><br></span>
+                            @endif
                         </p>
                     </div>
                     <!-- end card-body-->
@@ -116,23 +126,56 @@
         <div class="card card-h-100">
             <div class="card-body">
                 <div class="dropdown float-end">
-                    <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a href="#bar-chart" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="mdi mdi-dots-vertical"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Báo cáo bán hàng</a>
+                        <a href="javascript:void(0);" class="dropdown-item">Báo cáo Doanh thu</a>
                         <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Báo cáo nhập khẩu</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Lợi nhuận</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Hoạt động</a>
+                        <a href="javascript:void(0);" class="dropdown-item">Báo cáo Lợi nhuận</a>
                     </div>
                 </div>
-                <h4 class="header-title mb-3">Sơ đồ chi tiết</h4>
+                <h4 class="header-title mb-3">Sơ đồ</h4>
                 <div dir="ltr">
-                    <div id="high-performing-product" class="apex-charts" data-colors="#727cf5,#e3eaef">Vẽ sơ đồ</div>
+                    <div id="high-performing-product" class="apex-charts" data-colors="#727cf5,#e3eaef">
+                        <canvas id="bar-chart" width="200px" height="100px"></canvas>
+                        <script>
+                        new Chart(document.getElementById("bar-chart"), {
+                            type: 'bar',
+                            data: {
+                              labels: [@foreach($loinhuan as $key=>$item)
+                                        @if($key == 0 )
+                                            "Tháng {{$item->TG}}",
+                                        @else    
+                                            "Tháng {{$item->TG}}"
+                                        @endif    
+                                        @endforeach],
+                              datasets: [
+                                {
+                                  label: "Population (millions)",
+                                  backgroundColor: ["#CF8AB3", "#E8B772","#3cba9f","#e8c3b9","#c45850","#C750BB","#84828C","#A6963A","#3AA6A6","#3AA6A6","#3e95cd","#9EE647"],
+                                  data: [@foreach($loinhuan AS $key=>$item)
+                                            @if($key == 0 )
+                                            {{$item->LN}},
+                                            @else    
+                                            {{$item->LN}}
+                                            @endif   
+                                        @endforeach] 
+                                }
+                              ]
+                            },
+                            options: {
+                              legend: { display: false },
+                              title: {
+                                display: true,
+                                text: 'Lợi nhuận từng tháng trong năm 2021'
+                              }
+                            }
+                        });
+                        </script>
+                    
+                    </div>
                 </div>
             </div>
             <!-- end card-body-->
@@ -165,24 +208,27 @@
                 <div class="chart-content-bg">
                     <div class="row text-center">
                         <div class="col-md-6">
-                            <p class="text-muted mb-0 mt-3">Tuần này</p>
+                            <p class="text-muted mb-0 mt-3">Tháng này</p>
                             <h2 class="fw-normal mb-3">
                                 <small class="mdi mdi-checkbox-blank-circle text-primary align-middle me-1"></small>
-                                <span>$58,254</span>
+                                <span>{{number_format($dh->DOANHTHU)}} VNĐ</span>
                             </h2>
                         </div>
                         <div class="col-md-6">
-                            <p class="text-muted mb-0 mt-3">Tuần trước</p>
+                            <p class="text-muted mb-0 mt-3">Tháng trước</p>
                             <h2 class="fw-normal mb-3">
                                 <small class="mdi mdi-checkbox-blank-circle text-success align-middle me-1"></small>
-                                <span>$69,524</span>
+                                <span>{{number_format($t->DOANHTHU)}} VNĐ</span>
                             </h2>
                         </div>
                     </div>
                 </div>
                 <div class="dash-item-overlay d-none d-md-block" dir="ltr">
-                    <h5>Thu thập hôm nay: $2,562.30</h5>
-                   
+                    @if($hnay->DOANHTHU > 0)
+                    <h5>Thu thập hôm nay: {{number_format($hnay->DOANHTHU)}} VNĐ</h5>
+                    @else 
+                    <h5>Thu thập hôm nay: Chưa có đơn hàng</h5>
+                    @endif
                 </div>
                 <div dir="ltr">
                     <div id="revenue-chart" class="apex-charts mt-3" data-colors="#727cf5,#0acf97"></div>
@@ -207,96 +253,26 @@
                 <div class="table-responsive">
                     <table class="table table-centered table-nowrap table-hover mb-0">
                         <tbody>
+                            @foreach($banchay as $item)
                             <tr>
                                 <td>
-                                    <h5 class="font-14 my-1 fw-normal">ASOS Ridley High Waist</h5>
-                                    <span class="text-muted font-13">07 April 2018</span>
+                                    <h5 class="font-14 my-1 fw-normal">{{$item->TEN_SP}}</h5>
+                                    <span class="text-muted font-13">&nbsp;</span>
                                 </td>
                                 <td>
-                                    <h5 class="font-14 my-1 fw-normal">$79.49</h5>
-                                    <span class="text-muted font-13">Price</span>
+                                    <h5 class="font-14 my-1 fw-normal">{{number_format($item->GIAMOI)}}</h5>
+                                    <span class="text-muted font-13">Giá</span>
                                 </td>
                                 <td>
-                                    <h5 class="font-14 my-1 fw-normal">82</h5>
-                                    <span class="text-muted font-13">Quantity</span>
+                                    <h5 class="font-14 my-1 fw-normal">{{$item->SOLUONG}}</h5>
+                                    <span class="text-muted font-13">Số lượng</span>
                                 </td>
                                 <td>
-                                    <h5 class="font-14 my-1 fw-normal">$6,518.18</h5>
-                                    <span class="text-muted font-13">Amount</span>
+                                    <h5 class="font-14 my-1 fw-normal">{{number_format($item->SOLUONG*$item->DONGIA)}}VNĐ</h5>
+                                    <span class="text-muted font-13">Tổng tiền</span>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">Marco Lightweight Shirt</h5>
-                                    <span class="text-muted font-13">25 March 2018</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$128.50</h5>
-                                    <span class="text-muted font-13">Price</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">37</h5>
-                                    <span class="text-muted font-13">Quantity</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$4,754.50</h5>
-                                    <span class="text-muted font-13">Amount</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">Half Sleeve Shirt</h5>
-                                    <span class="text-muted font-13">17 March 2018</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$39.99</h5>
-                                    <span class="text-muted font-13">Price</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">64</h5>
-                                    <span class="text-muted font-13">Quantity</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$2,559.36</h5>
-                                    <span class="text-muted font-13">Amount</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">Lightweight Jacket</h5>
-                                    <span class="text-muted font-13">12 March 2018</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$20.00</h5>
-                                    <span class="text-muted font-13">Price</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">184</h5>
-                                    <span class="text-muted font-13">Quantity</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$3,680.00</h5>
-                                    <span class="text-muted font-13">Amount</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">Marco Shoes</h5>
-                                    <span class="text-muted font-13">05 March 2018</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$28.49</h5>
-                                    <span class="text-muted font-13">Price</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">69</h5>
-                                    <span class="text-muted font-13">Quantity</span>
-                                </td>
-                                <td>
-                                    <h5 class="font-14 my-1 fw-normal">$1,965.81</h5>
-                                    <span class="text-muted font-13">Amount</span>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

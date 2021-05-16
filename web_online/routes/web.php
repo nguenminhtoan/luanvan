@@ -31,6 +31,7 @@ Route::group(['prefix' => 'admin', "middleware"=> "login"], function () {
     Route::post('/create_shop',"RegisterController@create_shop");
     
     Route::get('/dashboard',"DashboardController@index");
+    Route::get('/sodo',"DashboardController@sodo");
     
     Route::group(['prefix' => '/categories'], function () {
         Route::get('/index', "CategoriesController@categories_all");

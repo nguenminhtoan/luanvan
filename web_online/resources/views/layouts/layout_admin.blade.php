@@ -18,6 +18,9 @@
         <link href="/admin_css/css/app.min.css" rel="stylesheet" type="text/css" id="light-style" />
         <link href="/admin_css/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <!-- end demo js-->
+        <script src="/js/chartjs-example-charts.js"></script>
     </head>
     <body class="loading" data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
         <!-- Begin page -->
@@ -308,6 +311,5 @@
         <!-- third party js ends -->
         <!-- demo app -->
         <script src="/admin_css/js/demo.products.js"></script>
-        <!-- end demo js-->
     </body>
 </html>
