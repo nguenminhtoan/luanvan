@@ -60,128 +60,23 @@ Chăm sóc khách hàng
                             <div class="row">
                                 <div class="col">
                                     <div data-simplebar style="max-height: 550px">
-                                        <a href="javascript:void(0);" class="text-body">
+                                        @foreach($list_nguoidung as $item)
+                                        <a href="/admin/chat/chat?id={{$item->MA_NGUOIDUNG}}" class="text-body" id="user_id_{{$item->MA_NGUOIDUNG}}">
                                             <div class="d-flex align-items-start mt-1 p-2">
-                                                <img src="assets/images/users/avatar-2.jpg" class="me-2 rounded-circle" height="48" alt="Brandon Smith" />
+                                                <img src="assets/images/users/avatar-2.jpg" class="me-2 rounded-circle" height="48" alt="{{ $item->TEN_NGUOIDUNG }}" />
                                                 <div class="w-100 overflow-hidden">
                                                     <h5 class="mt-0 mb-0 font-14">
-                                                        <span class="float-end text-muted font-12">4:30am</span>
-                                                        Brandon Smith
+                                                        <span class="float-end text-muted font-12">{{ date("Y-m-d", strtotime($item->THOIGIAN)) == date("Y-m-d") ? date("H:m", strtotime($item->THOIGIAN)) : date("Y-m-d", strtotime($item->THOIGIAN))  }}</span>
+                                                        {{ $item->TEN_NGUOIDUNG }}
                                                     </h5>
                                                     <p class="mt-1 mb-0 text-muted font-14">
-                                                        <span class="w-25 float-end text-end"><span class="badge badge-danger-lighten">3</span></span>
-                                                        <span class="w-75">How are you today?</span>
+                                                        <span class="w-25 float-end text-end"><span class="badge badge-danger-lighten">{{ $item->TRANGTHAI == 0 ? "" : $item->TRANGTHAI }}</span></span>
+                                                        <span class="w-75">{{ $item->NOIDUNG}}</span>
                                                     </p>
                                                 </div>
                                             </div>
                                         </a>
-                                        <a href="javascript:void(0);" class="text-body">
-                                            <div class="d-flex align-items-start bg-light p-2">
-                                                <img src="assets/images/users/avatar-5.jpg" class="me-2 rounded-circle" height="48" alt="Shreyu N" />
-                                                <div class="w-100 overflow-hidden">
-                                                    <h5 class="mt-0 mb-0 font-14">
-                                                        <span class="float-end text-muted font-12">5:30am</span>
-                                                        Shreyu N
-                                                    </h5>
-                                                    <p class="mt-1 mb-0 text-muted font-14">
-                                                        <span class="w-75">Hey! a reminder for tomorrow's meeting...</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="javascript:void(0);" class="text-body">
-                                            <div class="d-flex align-items-start mt-1 p-2">
-                                                <img src="assets/images/users/avatar-7.jpg" class="me-2 rounded-circle" height="48" alt="Maria C" />
-                                                <div class="w-100 overflow-hidden">
-                                                    <h5 class="mt-0 mb-0 font-14">
-                                                        <span class="float-end text-muted font-12">Thu</span>
-                                                        Maria C
-                                                    </h5>
-                                                    <p class="mt-1 mb-0 text-muted font-14">
-                                                        <span class="w-25 float-end text-end"><span class="badge badge-danger-lighten">2</span></span>
-                                                        <span class="w-75">Are we going to have this week's planning meeting today?</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="javascript:void(0);" class="text-body">
-                                            <div class="d-flex align-items-start mt-1 p-2">
-                                                <img src="assets/images/users/avatar-10.jpg"
-                                                     class="me-2 rounded-circle" height="48" alt="Rhonda D" />
-                                                <div class="w-100 overflow-hidden">
-                                                    <h5 class="mt-0 mb-0 font-14">
-                                                        <span class="float-end text-muted font-12">Wed</span>
-                                                        Rhonda D
-                                                    </h5>
-                                                    <p class="mt-1 mb-0 text-muted font-14">
-                                                        <span class="w-75">Please check these design assets...</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="javascript:void(0);" class="text-body">
-                                            <div class="d-flex align-items-start mt-1 p-2">
-                                                <img src="assets/images/users/avatar-3.jpg"
-                                                     class="me-2 rounded-circle" height="48" alt="Michael H" />
-                                                <div class="w-100 overflow-hidden">
-                                                    <h5 class="mt-0 mb-0 font-14">
-                                                        <span class="float-end text-muted font-12">Tue</span>
-                                                        Michael H
-                                                    </h5>
-                                                    <p class="mt-1 mb-0 text-muted font-14">
-                                                        <span class="w-25 float-end text-end"><span class="badge badge-danger-lighten">6</span></span>
-                                                        <span class="w-75">Are you free for 15 min? I would like to discuss something...</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="javascript:void(0);" class="text-body">
-                                            <div class="d-flex align-items-start mt-1 p-2">
-                                                <img src="assets/images/users/avatar-6.jpg"
-                                                     class="me-2 rounded-circle" height="48" alt="Thomas R" />
-                                                <div class="w-100 overflow-hidden">
-                                                    <h5 class="mt-0 mb-0 font-14">
-                                                        <span class="float-end text-muted font-12">Tue</span>
-                                                        Thomas R
-                                                    </h5>
-                                                    <p class="mt-1 mb-0 text-muted font-14">
-                                                        <span class="w-75">Let's have meeting today between me, you and Tony...</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="javascript:void(0);" class="text-body">
-                                            <div class="d-flex align-items-start mt-1 p-2">
-                                                <img src="assets/images/users/avatar-8.jpg"
-                                                     class="me-2 rounded-circle" height="48" alt="Thomas J" />
-                                                <div class="w-100 overflow-hidden">
-                                                    <h5 class="mt-0 mb-0 font-14">
-                                                        <span class="float-end text-muted font-12">Tue</span>
-                                                        Thomas J
-                                                    </h5>
-                                                    <p class="mt-1 mb-0 text-muted font-14">
-                                                        <span class="w-75">Howdy?</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="javascript:void(0);" class="text-body">
-                                            <div class="d-flex align-items-start mt-1 p-2">
-                                                <img src="assets/images/users/avatar-1.jpg"
-                                                     class="me-2 rounded-circle" height="48" alt="Ricky J" />
-                                                <div class="w-100 overflow-hidden">
-                                                    <h5 class="mt-0 mb-0 font-14">
-                                                        <span
-                                                            class="float-end text-muted font-12">Mon</span>
-                                                        Ricky J
-                                                    </h5>
-                                                    <p class="mt-1 mb-0 text-muted font-14">
-                                                        <span class="w-25 float-end text-end"><span class="badge badge-danger-lighten">28</span></span>
-                                                        <span class="w-75">Are you interested in learning?</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
+                                        @endforeach
                                     </div>
                                     <!-- end slimscroll-->
                                 </div>
@@ -202,40 +97,16 @@ Chăm sóc khách hàng
         <div class="col-xxl-6 col-xl-12 order-xl-2">
             <div class="card">
                 <div class="card-body">
-                    <ul class="conversation-list" data-simplebar style="max-height: 537px">
-                        <li class="clearfix">
+                    <ul id="show_messages" class="conversation-list mes" data-simplebar style="height: 460px">
+                        <li class="clearfix odd" hidden="" id="template">
                             <div class="chat-avatar">
-                                <img src="assets/images/users/avatar-5.jpg" class="rounded" alt="Shreyu N" />
-                                <i>10:00</i>
+                                <img src="" alt="dominic" class="rounded" />
+                                <i class="time"></i>
                             </div>
                             <div class="conversation-text">
                                 <div class="ctext-wrap">
-                                    <i>Shreyu N</i>
-                                    <p>
-                                        Hello!
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="conversation-actions dropdown">
-                                <button class="btn btn-sm btn-link" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><i class='uil uil-ellipsis-v'></i></button>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="#">Sao chép tin nhấn</a>
-                                    <a class="dropdown-item" href="#">Chỉnh sửa</a>
-                                    <a class="dropdown-item" href="#">Xóa</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="clearfix odd">
-                            <div class="chat-avatar">
-                                <img src="assets/images/users/avatar-1.jpg" class="rounded" alt="dominic" />
-                                <i>10:01</i>
-                            </div>
-                            <div class="conversation-text">
-                                <div class="ctext-wrap">
-                                    <i>Dominic</i>
-                                    <p>
-                                        Hi, How are you? What about our next meeting?
+                                    <i id="name" >Dominic</i>
+                                    <p id="noidung" >
                                     </p>
                                 </div>
                             </div>
@@ -244,44 +115,22 @@ Chăm sóc khách hàng
                                         aria-expanded="false"><i class='uil uil-ellipsis-v'></i></button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="#">Copy Message</a>
-                                    <a class="dropdown-item" href="#">Edit</a>
                                     <a class="dropdown-item" href="#">Delete</a>
                                 </div>
                             </div>
                         </li>
-                        <li class="clearfix">
-                            <div class="chat-avatar">
-                                <img src="assets/images/users/avatar-5.jpg" class="rounded" alt="Shreyu N" />
-                                <i>10:01</i>
-                            </div>
-                            <div class="conversation-text">
-                                <div class="ctext-wrap">
-                                    <i>Shreyu N</i>
-                                    <p>
-                                        Yeah everything is fine
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="conversation-actions dropdown">
-                                <button class="btn btn-sm btn-link" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><i class='uil uil-ellipsis-v'></i></button>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="#">Copy Message</a>
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Delete</a>
-                                </div>
-                            </div>
-                        </li>
+                        @foreach($list_noidung as $item)
+                        @if ($item->TRA_MA_TRAODOI)
                         <li class="clearfix odd">
                             <div class="chat-avatar">
-                                <img src="assets/images/users/avatar-1.jpg" class="rounded" alt="dominic" />
-                                <i>10:02</i>
+                                <img src="{{$item->HINHANH}}" alt="dominic" class="rounded" />
+                                <i class="time">{{ date("Y-m-d", strtotime($item->THOIGIAN)) == date("Y-m-d") ? date("H:m", strtotime($item->THOIGIAN)) : date("Y-m-d", strtotime($item->THOIGIAN))  }}</i>
                             </div>
                             <div class="conversation-text">
                                 <div class="ctext-wrap">
-                                    <i>Dominic</i>
-                                    <p>
-                                        Wow that's great
+                                    <i id="name" >{{$item->TEN_CUAHANG}}</i>
+                                    <p id="noidung" >
+                                        {{$item->NOIDUNG}}
                                     </p>
                                 </div>
                             </div>
@@ -290,44 +139,21 @@ Chăm sóc khách hàng
                                         aria-expanded="false"><i class='uil uil-ellipsis-v'></i></button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="#">Copy Message</a>
-                                    <a class="dropdown-item" href="#">Edit</a>
                                     <a class="dropdown-item" href="#">Delete</a>
                                 </div>
                             </div>
                         </li>
+                        @else
                         <li class="clearfix">
                             <div class="chat-avatar">
-                                <img src="assets/images/users/avatar-5.jpg" alt="Shreyu N" class="rounded" />
-                                <i>10:02</i>
+                                <img src="//" alt="dominic" class="rounded" />
+                                <i class="time">{{ date("Y-m-d", strtotime($item->THOIGIAN)) == date("Y-m-d") ? date("H:m", strtotime($item->THOIGIAN)) : date("Y-m-d", strtotime($item->THOIGIAN))  }}</i>
                             </div>
                             <div class="conversation-text">
                                 <div class="ctext-wrap">
-                                    <i>Shreyu N</i>
-                                    <p>
-                                        Let's have it today if you are free
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="conversation-actions dropdown">
-                                <button class="btn btn-sm btn-link" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><i class='uil uil-ellipsis-v'></i></button>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="#">Copy Message</a>
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Delete</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="clearfix odd">
-                            <div class="chat-avatar">
-                                <img src="assets/images/users/avatar-1.jpg" alt="dominic" class="rounded" />
-                                <i>10:03</i>
-                            </div>
-                            <div class="conversation-text">
-                                <div class="ctext-wrap">
-                                    <i>Dominic</i>
-                                    <p>
-                                        Sure thing! let me know if 2pm works for you
+                                    <i id="name" >{{$item->TEN_NGUOIDUNG}}</i>
+                                    <p id="noidung" >
+                                        {{$item->NOIDUNG}}
                                     </p>
                                 </div>
                             </div>
@@ -336,116 +162,23 @@ Chăm sóc khách hàng
                                         aria-expanded="false"><i class='uil uil-ellipsis-v'></i></button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="#">Copy Message</a>
-                                    <a class="dropdown-item" href="#">Edit</a>
                                     <a class="dropdown-item" href="#">Delete</a>
                                 </div>
                             </div>
                         </li>
-                        <li class="clearfix">
-                            <div class="chat-avatar">
-                                <img src="assets/images/users/avatar-5.jpg" alt="Shreyu N" class="rounded" />
-                                <i>10:04</i>
-                            </div>
-                            <div class="conversation-text">
-                                <div class="ctext-wrap">
-                                    <i>Shreyu N</i>
-                                    <p>
-                                        Sorry, I have another meeting scheduled at 2pm. Can we have it
-                                        at 3pm instead?
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="conversation-actions dropdown">
-                                <button class="btn btn-sm btn-link" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><i class='uil uil-ellipsis-v'></i></button>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="#">Copy Message</a>
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Delete</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="clearfix">
-                            <div class="chat-avatar">
-                                <img src="assets/images/users/avatar-5.jpg" alt="Shreyu N" class="rounded" />
-                                <i>10:04</i>
-                            </div>
-                            <div class="conversation-text">
-                                <div class="ctext-wrap">
-                                    <i>Shreyu N</i>
-                                    <p>
-                                        We can also discuss about the presentation talk format if you have some extra mins
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="conversation-actions dropdown">
-                                <button class="btn btn-sm btn-link" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><i class='uil uil-ellipsis-v'></i></button>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="#">Copy Message</a>
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Delete</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="clearfix odd">
-                            <div class="chat-avatar">
-                                <img src="assets/images/users/avatar-1.jpg" alt="dominic" class="rounded" />
-                                <i>10:05</i>
-                            </div>
-                            <div class="conversation-text">
-                                <div class="ctext-wrap">
-                                    <i>Dominic</i>
-                                    <p>
-                                        3pm it is. Sure, let's discuss about presentation format, it would be great to finalize today. 
-                                        I am attaching the last year format and assets here...
-                                    </p>
-                                </div>
-                                <div class="card mt-2 mb-1 shadow-none border text-start">
-                                    <div class="p-2">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto">
-                                                <div class="avatar-sm">
-                                                    <span class="avatar-title rounded">
-                                                        .ZIP
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0">
-                                                <a href="javascript:void(0);"
-                                                   class="text-muted fw-bold">Hyper-admin-design.zip</a>
-                                                <p class="mb-0">2.3 MB</p>
-                                            </div>
-                                            <div class="col-auto">
-                                                <!-- Button -->
-                                                <a href="javascript:void(0);"
-                                                   class="btn btn-link btn-lg text-muted">
-                                                    <i class="dripicons-download"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="conversation-actions dropdown">
-                                <button class="btn btn-sm btn-link" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><i class='uil uil-ellipsis-v'></i></button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Copy Message</a>
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Delete</a>
-                                </div>
-                            </div>
-                        </li>
+                        @endif
+                        @endforeach
                     </ul>
                     <div class="row">
                         <div class="col">
                             <div class="mt-2 bg-light p-3 rounded">
-                                <form class="needs-validation" novalidate="" name="chat-form"
-                                      id="chat-form">
+                                <form class="needs-validation" novalidate="" name="chat-form" id="chat-form" action="/admin/chat/messages" method="post">
+                                    {{ csrf_field() }}
                                     <div class="row">
+                                        <input type="hidden" name="MA_NGUOIDUNG" value="{{$id}}" />
+                                        <input type="hidden" name="MA_TRAODOI" value="{{$ma_traodoi}}" />
                                         <div class="col mb-2 mb-sm-0">
-                                            <input type="text" id="send-message" class="form-control border-0" placeholder="Enter your text" required="">
+                                            <input type="text" id="send-message" name="NOIDUNG" class="form-control border-0" placeholder="Enter your text" required="">
                                             <div class="invalid-feedback">
                                                 Please enter your messsage
                                             </div>
@@ -455,7 +188,7 @@ Chăm sóc khách hàng
                                                 <a href="#" class="btn btn-light"><i class="uil uil-paperclip"></i></a>
                                                 <a href="#" class="btn btn-light"> <i class='uil uil-smile'></i> </a>
                                                 <div class="d-grid">
-                                                    <button type="submit" class="btn btn-success chat-send"><i class='uil uil-message'></i></button>
+                                                    <button onclick="send_chat()" type="button" class="btn btn-success chat-send"><i class='uil uil-message'></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -473,6 +206,90 @@ Chăm sóc khách hàng
             </div>
             <!-- end card -->
         </div>
+        <script src="{{ asset('js/app.js') }}"></script>
+<script>
+
+    var check = true;
+    var pusher = new Pusher('24d4b050dc48945113d1', {
+        encrypted: true,
+        cluster: "ap1"
+    });
+
+    // Subscribe to the channel we specified in our Laravel Event
+    var channel = pusher.subscribe('chat');
+    
+    // Bind a function to a Event (the full Laravel class)
+    channel.bind('App\\Events\\MessageSent', function(data) {
+        var template = $("#template").clone();
+        template.removeAttr("hidden");
+        template.removeAttr("id");
+        template.find("#noidung").html(data.data.NOIDUNG);
+        template.find(".chat-avatar").find("img").attr("src", data.data.HINHANH);
+        template.find(".chat-avatar").find(".time").html(data.data.THOIGIAN);
+        template.find("#name").html(data.data.TEN_CUAHANG);
+        var d = $('#show_messages .simplebar-content');
+        d.append(template);
+        $("#show_messages .simplebar-content-wrapper").scrollTop(d.prop("scrollHeight"));
+        $("input#send-message").val("");
+        check = true;
+    });
+    $('form').submit(function() {
+        return false;
+    });
+    $("input#send-message").keyup(function(event) {
+        if (event.keyCode == 13) {
+            send_chat();
+        }
+    });
+    
+    function send_chat(){
+        if(check){
+            $.ajax({
+                method: "post",
+                data: $("#chat-form").serialize(),
+                url: "/admin/chat/messages",
+                success: (function(data){
+                })
+            });
+            check = false;
+        }
+    }
+    
+    // Subscribe to the channel we specified in our Laravel Event
+    var replay_channel = pusher.subscribe('reply-chat');
+
+    // Bind a function to a Event (the full Laravel class)
+    replay_channel.bind('App\\Events\\MessageReply', function(data) {
+        if(data.data.MA_NGUOIDUNG == {{$id}}){
+            var template = $("#template").clone();
+            template.removeClass("odd");
+            template.removeAttr("hidden");
+            template.removeAttr("id");
+            template.find("#noidung").html(data.data.NOIDUNG);
+            template.find(".chat-avatar").find("img").attr("src", data.data.HINHANH);
+            template.find(".chat-avatar").find(".time").html(data.data.THOIGIAN);
+            template.find("#name").html(data.data.TEN_CUAHANG);
+            $("input[name='MA_TRAODOI']").val(data.data.MA_TRAODOI);
+            var d = $('#show_messages .simplebar-content');
+            d.append(template);
+            $("#show_messages .simplebar-content-wrapper").scrollTop(d.prop("scrollHeight"));
+        }else{
+            var item = $("#user_id_" + data.data.MA_NGUOIDUNG);
+            var number = item.find("p").find(".badge.badge-danger-lighten").html();
+            item.find("p").find(".badge.badge-danger-lighten").html(Number(number) + 1);
+            item.find("p").find(".w-75").html(data.data.NOIDUNG);
+        }
+    });
+    
+    
+    window.onload = function(){
+    // short timeout
+        setTimeout(function() {
+            var d = $('#show_messages .simplebar-content');
+            $("#show_messages .simplebar-content-wrapper").scrollTop(d.prop("scrollHeight"));
+        }, 15);
+    };
+</script>
         <!-- end chat area-->
         <!-- start user detail -->
         <div class="col-xxl-3 col-xl-6 order-xl-1 order-xxl-2">
@@ -522,38 +339,7 @@ Chăm sóc khách hàng
     </div>
     <!-- end row-->
 </div>
-<script src="{{ asset('js/app.js') }}"></script>
-<script>
-    
-    var pusher = new Pusher('24d4b050dc48945113d1', {
-        encrypted: true,
-        cluster: "ap1"
-    });
 
-    // Subscribe to the channel we specified in our Laravel Event
-    var channel = pusher.subscribe('chat');
-
-    // Bind a function to a Event (the full Laravel class)
-    channel.bind('App\\Events\\MessageSent', function(data) {
-        $('#message').append('<p>'+data.message+'</p>');
-    });
-    
-    $("textarea#send-message").keyup(function(event) {
-        if (event.keyCode == 13) {
-            $.ajax({
-                method: "post",
-                data: $("#form_message").serialize(),
-                url: "/admin/chat/messages",
-                success: (function(data){
-                })
-            });
-            $("#message").append('<div class="user row"><div class="img" style="padding:0px"><img src="/img/admin.jpg" width="30px" height="30px" class="img-circle"></div><div class="group"><span class="noidung">' + $("#form_message textarea").val() + '</span></div></div>');
-            var d = $('#message');
-            d.scrollTop(d.prop("scrollHeight"));
-            $("#form_message textarea").val("");
-        }
-    });
-</script>
 <!-- container -->
 
 @endsection
