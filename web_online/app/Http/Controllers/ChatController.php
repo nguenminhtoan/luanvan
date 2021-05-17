@@ -33,7 +33,9 @@ class ChatController extends Controller
         $list_nguoidung = Traodoi::list_by_ch($mach);
         $id = $request -> id;
         if (is_null($id)){
-            $id = $list_nguoidung[0]->MA_NGUOIDUNG;
+            if($list_nguoidung){
+                $id = $list_nguoidung[0]->MA_NGUOIDUNG;
+            }
         }else{
             Traodoi::update_status($mach,$id);
             $list_nguoidung = Traodoi::list_by_ch($mach);

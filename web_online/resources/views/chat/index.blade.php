@@ -60,7 +60,7 @@ Thêm danh mục
                         <footer>
                             <form id="form_message" action="/admin/chat/reply" method="post" >
                               {{ csrf_field() }}
-                              <input type="hidden" name="MA_CUAHANG" value="1"/>
+                              <input type="hidden" name="MA_CUAHANG" value="9"/>
                                 <input type="file" name="file_img" hidden="" />
                                 <textarea name="NOIDUNG" id="send-message" placeholder="Chat với khách hàng ..."></textarea>
                                 <button type="submit">sent</button>

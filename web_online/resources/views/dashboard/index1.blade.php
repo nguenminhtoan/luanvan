@@ -3,6 +3,7 @@
 Chăm sóc khách hàng
 @endsection
 @section('content')
+<!--chat-->
         <div id="shopee-mini-chat-embedded" style="position: fixed; right: 8px; bottom: 0px; z-index: 99999;">
             <div class="src-components-MainLayout-index__wrapper--27ZAv  src-components-MainLayout-index__container--pU83Q">
                 <div class="src-components-MainLayout-index__root--1hhpV">
@@ -97,6 +98,95 @@ Chăm sóc khách hàng
             <div class="ReactModalPortal"></div>
                 
         </div>
+<!--chat-->
+<!--hoatdong-->
+<h4 class="header-title mb-2">Hoạt động gần đây</h4>
+                <div data-simplebar style="max-height: 419px;">
+                    <div class="timeline-alt pb-0">
+                        <div class="timeline-item">
+                            <i class="mdi mdi-upload bg-info-lighten text-info timeline-icon"></i>
+                            <div class="timeline-item-info">
+                                <a href="#" class="text-info fw-bold mb-1 d-block">Bạn đã bán một mặt hàng</a>
+                                <small>Paul Burgess just purchased “Hyper - Admin Dashboard”!</small>
+                                <p class="mb-0 pb-2">
+                                    <small class="text-muted">5 minutes ago</small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <i class="mdi mdi-airplane bg-primary-lighten text-primary timeline-icon"></i>
+                            <div class="timeline-item-info">
+                                <a href="#" class="text-primary fw-bold mb-1 d-block">Sản phẩm trên thị trường Boootstrap </a>
+                                <small>Dave Gamache added
+                                    <span class="fw-bold">Admin Dashboard</span>
+                                </small>
+                                <p class="mb-0 pb-2">
+                                    <small class="text-muted">30 minutes ago</small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <i class="mdi mdi-microphone bg-info-lighten text-info timeline-icon"></i>
+                            <div class="timeline-item-info">
+                                <a href="#" class="text-info fw-bold mb-1 d-block">Robert Delaney</a>
+                                <small>Gửi cho bạn tin nhăn
+                                    <span class="fw-bold">"Are you there?"</span>
+                                </small>
+                                <p class="mb-0 pb-2">
+                                    <small class="text-muted">2 hours ago</small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <i class="mdi mdi-upload bg-primary-lighten text-primary timeline-icon"></i>
+                            <div class="timeline-item-info">
+                                <a href="#" class="text-primary fw-bold mb-1 d-block">Audrey Tobey</a>
+                                <small>Uploaded a photo
+                                    <span class="fw-bold">"Error.jpg"</span>
+                                </small>
+                                <p class="mb-0 pb-2">
+                                    <small class="text-muted">14 hours ago</small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <i class="mdi mdi-upload bg-info-lighten text-info timeline-icon"></i>
+                            <div class="timeline-item-info">
+                                <a href="#" class="text-info fw-bold mb-1 d-block">Bạn đã bán mặt hàng</a>
+                                <small>Paul Burgess just purchased “Hyper - Admin Dashboard”!</small>
+                                <p class="mb-0 pb-2">
+                                    <small class="text-muted">16 hours ago</small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <i class="mdi mdi-airplane bg-primary-lighten text-primary timeline-icon"></i>
+                            <div class="timeline-item-info">
+                                <a href="#" class="text-primary fw-bold mb-1 d-block">Product on the Bootstrap Market</a>
+                                <small>Dave Gamache added
+                                    <span class="fw-bold">Admin Dashboard</span>
+                                </small>
+                                <p class="mb-0 pb-2">
+                                    <small class="text-muted">22 hours ago</small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <i class="mdi mdi-microphone bg-info-lighten text-info timeline-icon"></i>
+                            <div class="timeline-item-info">
+                                <a href="#" class="text-info fw-bold mb-1 d-block">Robert Delaney</a>
+                                <small>Send you message
+                                    <span class="fw-bold">"Are you there?"</span>
+                                </small>
+                                <p class="mb-0 pb-2">
+                                    <small class="text-muted">2 days ago</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end timeline -->
+                </div>
+<!--hoatdong-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
         <canvas id="bar-chart" width="200px" height="100px"></canvas>
         <script>

@@ -49,6 +49,22 @@
                     </div>
                 </div>
                 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="new-adr-first-name" class="form-label">Số điện thoại</label>
+                            <input disabled="" class="form-control" type="number" placeholder="Số điện thoại " value="{{ $donhang -> SDT}}" />
+                        </div>
+                    </div>
+                     
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="new-adr-first-name" class="form-label">Địa chỉ</label>
+                            <input disabled="" class="form-control" type="text" placeholder="Địa chỉ" value="{{ $donhang -> CHITIET}}" />
+                        </div>
+                    </div>
+                </div>
+                
                  <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
