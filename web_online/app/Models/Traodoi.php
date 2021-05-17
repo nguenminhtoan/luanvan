@@ -24,6 +24,15 @@ class Traodoi extends Model
     }
     
     
+    public static function list_by_nd($mand){
+        $sql = "select ch.MA_CUAHANG, ch.TEN_CUAHANG, ch.HINHANH, td.NOIDUNG, td.THOIGIAN , max.TRANGTHAI, td.MA_TRAODOI, td.TRA_MA_TRAODOI  from traodoi as td
+            inner join ( select MAX(MA_TRAODOI) as MA_TRAODOI, SUM(CASE WHEN TRANGTHAI=0 THEN 1 ELSE 0 END) as TRANGTHAI from  traodoi where TRA_MA_TRAODOI IS NOT NULL GROUP BY MA_NGUOIDUNG, MA_CUAHANG) as max
+            on max.MA_TRAODOI = td.MA_TRAODOI
+            inner join cuahang ch on ch.MA_CUAHANG = td.MA_CUAHANG 
+            WHERE td.MA_NGUOIDUNG = ? GROUP BY td.MA_CUAHANG ORDER BY td.MA_TRAODOI DESC";
+        return DB::select($sql,[$mand]);
+    }
+    
     public static function list_by_ch_nd($mach, $nguoidung){
         $sql = "select ch.HINHANH, nd.TEN_NGUOIDUNG, td.NOIDUNG, td.THOIGIAN, td.TRA_MA_TRAODOI, ch.TEN_CUAHANG  from traodoi td
             inner join nguoidung nd on nd.MA_NGUOIDUNG = td.MA_NGUOIDUNG 

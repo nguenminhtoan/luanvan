@@ -17,6 +17,25 @@ class ChatController extends Controller
         return view("chat.index", ['cuahang'=>$cuahang[0]]);
     }
     
+    public function index_1(Request $request){
+        $mand = Session::get("MA_NGUOIDUNG")->MA_NGUOIDUNG;
+        $list = Traodoi::list_by_nd($mand);
+        
+        $id = $request -> id;
+        if (is_null($id)){
+            if($list){
+                $id = $list[0]->MA_CUAHANG;
+            }
+        }else{
+//            Traodoi::update_status($mach,$id);
+//            $list_nguoidung = Traodoi::list_by_ch($mach);
+        }
+        $cuahang = DB::select('select *from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $id]);
+        $list_noidung = Traodoi::list_by_ch_nd($id, $mand);
+        $data = ["list_nguoidung" => $list, "list_noidung" => $list_noidung, "MA_CUAHANG"=>$id, "TEN_CUAHANG"=> $cuahang[0]->TEN_CUAHANG];
+        return $data;
+    }
+    
     
     public function chat(Request $request){
         $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
