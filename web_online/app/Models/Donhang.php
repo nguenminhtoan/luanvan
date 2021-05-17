@@ -90,6 +90,7 @@ class Donhang extends Model
                 inner join thanhtoan tt on tt.MA_THANHTOAN = donhang.MA_THANHTOAN 
                 left join khuyenmai km on km.MA_KHUYENMAI = donhang.MA_KHUYENMAI 
                 inner join trangthai t on t.MA_TRANGTHAI = donhang.MA_TRANGTHAI
+                inner join noithanhtoan on noithanhtoan.MA_NGUOIDUNG = nd.MA_NGUOIDUNG
                 WHERE ma_donban = ? ";
         $param = [$madb];
         $list = DB::select($sql, $param)[0];

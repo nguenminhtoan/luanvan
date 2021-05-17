@@ -326,8 +326,11 @@
                   </div>
                   <div id="tab-tags">
                         Cửa hàng:
-                        <a class="btn  btn-sm " href="">{{$ct_sp->TEN_CUAHANG}}</a>															 
+                        <a class="btn  btn-sm " href="">{{$ct_sp->TEN_CUAHANG}}</a>
+                        <button type="button" title="Chat""><i class='fas fa-comments'></i><span>Chat Ngay</span>					
+                        </button>
                   </div>
+                    <br>
                   <div class="box-review">
                      <div class="rating">
                         <div class="rating-box">
