@@ -64,6 +64,18 @@ class ChatController extends Controller
 //      
         $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
         $cuahang = DB::select('select *from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach])[0];
+        
+        
+        $image = $request->file('input_img');
+        if ($image != ''){
+            $name = time().'.jpg';
+            $image->move(public_path('/images/chat/'.$request->MA_NGUOIDUNG), $name);
+            $name = '/images/chat/'.$request->MA_NGUOIDUNG."/".$name;
+        }
+        else{
+            $name = "";
+        }
+        
         $data = [
             "MA_NGUOIDUNG" => $request->MA_NGUOIDUNG,
             "NOIDUNG"=>$request->NOIDUNG,
@@ -71,14 +83,15 @@ class ChatController extends Controller
             "THOIGIAN" => date("H:m"),
             "TEN_CUAHANG" => $cuahang->TEN_CUAHANG,
             "HINHANH" => $cuahang->HINHANH,
-            "MA_TRAODOI" => $request->MA_TRAODOI
+            "MA_TRAODOI" => $request->MA_TRAODOI,
+            "FILE" => $name
         ];
 //        $message = $user->messages()->create([
 //          'message' => $request->input('message')
 //        ]);
 //        broadcast(new MessageSent($user, $message))->toOthers();
         event(new MessageSent($data));
-        Traodoi::tl_save($data["MA_TRAODOI"],$data["MA_NGUOIDUNG"], $data["MA_CUAHANG"], $data["NOIDUNG"], date("Y-m-d H:m:s"), '');
+        Traodoi::tl_save($data["MA_TRAODOI"],$data["MA_NGUOIDUNG"], $data["MA_CUAHANG"], $data["NOIDUNG"], date("Y-m-d H:m:s"), $name);
         return ['status' => 'Message Sent!'];
     }
     
@@ -88,6 +101,15 @@ class ChatController extends Controller
 //      
         $mand = Session::get("MA_NGUOIDUNG")->MA_NGUOIDUNG;
         $nguoidung = DB::select('select *from nguoidung where MA_NGUOIDUNG = :MA_NGUOIDUNG', ['MA_NGUOIDUNG' => $mand])[0];
+        $image = $request->file('input_img');
+        if ($image != ''){
+            $name = time().'.jpg';
+            $image->move(public_path('/images/chat/'.$request->MA_NGUOIDUNG), $name);
+            $name = '/images/chat/'.$mand."/".$name;
+        }
+        else{
+            $name = "";
+        }
         $data = [
             "MA_NGUOIDUNG" => $mand,
             "NOIDUNG"=>$request->NOIDUNG,
@@ -95,9 +117,10 @@ class ChatController extends Controller
             "MA_CUAHANG" => $request->MA_CUAHANG,
             "THOIGIAN" => date("H:m"),
             "HINHANH" => "",
+            "FILE" => $name
         ];
         
-        $traodoi = Traodoi::tl_save(null,$mand, $data["MA_CUAHANG"], $data["NOIDUNG"], date("Y-m-d H:m:s"), '');
+        $traodoi = Traodoi::tl_save(null,$mand, $data["MA_CUAHANG"], $data["NOIDUNG"], date("Y-m-d H:m:s"), $name);
         $data['MA_TRAODOI'] = $traodoi;
         //$data['TEN_CUAHANG'] = $traodoi;
 //        $message = $user->messages()->create([

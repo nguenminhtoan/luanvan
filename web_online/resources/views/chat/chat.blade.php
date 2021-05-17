@@ -172,7 +172,7 @@ Chăm sóc khách hàng
                     <div class="row">
                         <div class="col">
                             <div class="mt-2 bg-light p-3 rounded">
-                                <form class="needs-validation" novalidate="" name="chat-form" id="chat-form" action="/admin/chat/messages" method="post">
+                                <form class="needs-validation" novalidate="" name="chat-form" id="chat-form" action="/admin/chat/messages" method="post" enctype="multipart/form-data" >
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <input type="hidden" name="MA_NGUOIDUNG" value="{{$id}}" />
@@ -185,8 +185,9 @@ Chăm sóc khách hàng
                                         </div>
                                         <div class="col-sm-auto">
                                             <div class="btn-group">
-                                                <a href="#" class="btn btn-light"><i class="uil uil-paperclip"></i></a>
-                                                <a href="#" class="btn btn-light"> <i class='uil uil-smile'></i> </a>
+                                                <input name="file" type="input_img" hidden="" id="upload_file" accept="/img">
+                                                <label for="upload_file" class="btn btn-light"> <i class='uil uil-paperclip'></i> </label>
+                                                <a href="#" class="btn btn-light"><i class="uil uil-smile"></i></a>
                                                 <div class="d-grid">
                                                     <button onclick="send_chat()" type="button" class="btn btn-success chat-send"><i class='uil uil-message'></i></button>
                                                 </div>
