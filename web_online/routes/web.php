@@ -193,6 +193,7 @@ Route::group(['prefix' => '/account'], function () {
     
 });
 
+Route::get("/chat", "ChatController@index_1");
 Route::get('/home',"HomeController@index");
 Route::get('/',"HomeController@index");
 Route::get('/search',"DetailController@search");
