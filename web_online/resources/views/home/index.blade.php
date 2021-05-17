@@ -23,32 +23,26 @@ Trang chủ
                                     <div class="so-homeslider sohomeslider-inner-1">
                                         <div class="item">
                                             <a href=" #     " title="slide 1" target="_self">
-                                               <!--
+                                               
                                                <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/slider-1-1090x450.jpg"  alt="slide 1" />
-                                               -->
-                                                <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/my-pham-nhat-ban-02.jpg"  alt="slide 1" />
-
+                                               
                                             </a>
                                             <div class="sohomeslider-description">
                                             </div>
                                         </div>
                                         <div class="item">
                                             <a href="#   " title="slide 2" target="_self">
-                                                <!--
+                                                
                                                 <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/slider-2-1090x450.jpg"  alt="slide 2" />
-                                                 -->
-                                                <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/banner-dncosmetics.jpg"  alt="slide 2" />
-
+                                               
                                             </a>
                                             <div class="sohomeslider-description">
                                             </div>
                                         </div>
                                         <div class="item">
                                             <a href=" #" title="slide 3" target="_self">
-                                                <!--
+                                                
                                                 <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/slider-3-1090x450.jpg"  alt="slide 3" />
-                                                -->
-                                                <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/banner-emcos-1.jpg"  alt="slide 3" />
                                                 
                                             </a>
                                             <div class="sohomeslider-description">
