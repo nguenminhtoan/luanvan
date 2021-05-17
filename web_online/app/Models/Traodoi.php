@@ -15,7 +15,9 @@ class Traodoi extends Model
     
     
     public static function list_by_ch($mach){
-        $sql = "select nd.MA_NGUOIDUNG, nd.TEN_NGUOIDUNG, td.NOIDUNG, MAX(td.THOIGIAN) as THOIGIAN, SUM(CASE WHEN TRANGTHAI=0 AND TRA_MA_TRAODOI IS NULL THEN 1 ELSE 0 END) as TRANGTHAI from traodoi td
+        $sql = "select nd.MA_NGUOIDUNG, nd.TEN_NGUOIDUNG, td.NOIDUNG, td.THOIGIAN , max.TRANGTHAI, td.MA_TRAODOI from traodoi as td
+            inner join ( select MAX(MA_TRAODOI) as MA_TRAODOI, SUM(CASE WHEN TRANGTHAI=0 THEN 1 ELSE 0 END) as TRANGTHAI from  traodoi where TRA_MA_TRAODOI IS NULL GROUP BY MA_NGUOIDUNG) as max
+            on max.MA_TRAODOI = td.MA_TRAODOI
             inner join nguoidung nd on nd.MA_NGUOIDUNG = td.MA_NGUOIDUNG 
             WHERE td.MA_CUAHANG = ? GROUP BY td.MA_NGUOIDUNG ORDER BY td.MA_TRAODOI DESC";
         return DB::select($sql,[$mach]);

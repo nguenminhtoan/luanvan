@@ -99,7 +99,7 @@ class ChatController extends Controller
         
         $traodoi = Traodoi::tl_save(null,$mand, $data["MA_CUAHANG"], $data["NOIDUNG"], date("Y-m-d H:m:s"), '');
         $data['MA_TRAODOI'] = $traodoi;
-        $data['TEN_CUAHANG'] = $traodoi;
+        //$data['TEN_CUAHANG'] = $traodoi;
 //        $message = $user->messages()->create([
 //          'message' => $request->input('message')
 //        ]);

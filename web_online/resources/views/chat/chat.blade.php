@@ -61,7 +61,7 @@ Chăm sóc khách hàng
                                 <div class="col">
                                     <div data-simplebar style="max-height: 550px">
                                         @foreach($list_nguoidung as $item)
-                                        <a href="/admin/chat/chat?id={{$item->MA_NGUOIDUNG}}" class="text-body">
+                                        <a href="/admin/chat/chat?id={{$item->MA_NGUOIDUNG}}" class="text-body" id="user_id_{{$item->MA_NGUOIDUNG}}">
                                             <div class="d-flex align-items-start mt-1 p-2">
                                                 <img src="assets/images/users/avatar-2.jpg" class="me-2 rounded-circle" height="48" alt="{{ $item->TEN_NGUOIDUNG }}" />
                                                 <div class="w-100 overflow-hidden">
@@ -70,7 +70,7 @@ Chăm sóc khách hàng
                                                         {{ $item->TEN_NGUOIDUNG }}
                                                     </h5>
                                                     <p class="mt-1 mb-0 text-muted font-14">
-                                                        <span class="w-25 float-end text-end"><span class="badge badge-danger-lighten">{{ $item->TRANGTHAI }}</span></span>
+                                                        <span class="w-25 float-end text-end"><span class="badge badge-danger-lighten">{{ $item->TRANGTHAI == 0 ? "" : $item->TRANGTHAI }}</span></span>
                                                         <span class="w-75">{{ $item->NOIDUNG}}</span>
                                                     </p>
                                                 </div>
@@ -242,7 +242,6 @@ Chăm sóc khách hàng
         }
     });
     
-    
     function send_chat(){
         if(check){
             $.ajax({
@@ -255,9 +254,6 @@ Chăm sóc khách hàng
             check = false;
         }
     }
-    
-    
-    
     
     // Subscribe to the channel we specified in our Laravel Event
     var replay_channel = pusher.subscribe('reply-chat');
@@ -277,12 +273,22 @@ Chăm sóc khách hàng
             var d = $('#show_messages .simplebar-content');
             d.append(template);
             $("#show_messages .simplebar-content-wrapper").scrollTop(d.prop("scrollHeight"));
+        }else{
+            var item = $("#user_id_" + data.data.MA_NGUOIDUNG);
+            var number = item.find("p").find(".badge.badge-danger-lighten").html();
+            item.find("p").find(".badge.badge-danger-lighten").html(Number(number) + 1);
+            item.find("p").find(".w-75").html(data.data.NOIDUNG);
         }
     });
     
-    $(document).ready(function() {
-        $("#show_messages .simplebar-content-wrapper").scrollTop(d.prop("scrollHeight"));
-    });
+    
+    window.onload = function(){
+    // short timeout
+        setTimeout(function() {
+            var d = $('#show_messages .simplebar-content');
+            $("#show_messages .simplebar-content-wrapper").scrollTop(d.prop("scrollHeight"));
+        }, 15);
+    };
 </script>
         <!-- end chat area-->
         <!-- start user detail -->
