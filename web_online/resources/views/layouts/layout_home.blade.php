@@ -59,7 +59,8 @@
         <script src="/js/jquery.elevateZoom-3.0.8.min.js"></script>
         <script src="/js/jquery.cookie.js"></script>
         <script src="/js/so_megamenu.js"></script>
-
+        <script src="/js/typeahead.bundle.min.js"></script>
+        <script defer src="/js/micro.js"></script>
         <link href='https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700' rel='stylesheet' type='text/css'>
         <style type="text/css">
             body, #wrapper{font-family:'Poppins', sans-serif}
@@ -69,12 +70,13 @@
     </head>
     
     <body class="common-home ltr layout-1">
+        
         <div id="shopee-mini-chat-embedded" style="position: fixed; right: 8px; bottom: 0px; z-index: 99999;">
             <div class="src-components-MainLayout-index__wrapper--27ZAv  src-components-MainLayout-index__container--pU83Q">
                 <div class="src-components-MainLayout-index__root--1hhpV">
                     <div class="src-components-MainLayout-index__logo-wrapper--aKCJc">
                         <i class="_3kEAcT1Mk5 src-components-MainLayout-index__chat--3J2KN">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chat-icon" >
                                  <path d="M18 6.07a1 1 0 01.993.883L19 7.07v10.365a1 1 0 01-1.64.768l-1.6-1.333H6.42a1 1 0 01-.98-.8l-.016-.117-.149-1.783h9.292a1.8 1.8 0 001.776-1.508l.018-.154.494-6.438H18zm-2.78-4.5a1 1 0 011 1l-.003.077-.746 9.7a1 1 0 01-.997.923H4.24l-1.6 1.333a1 1 0 01-.5.222l-.14.01a1 1 0 01-.993-.883L1 13.835V2.57a1 1 0 011-1h13.22zm-4.638 5.082c-.223.222-.53.397-.903.526A4.61 4.61 0 018.2 7.42a4.61 4.61 0 01-1.48-.242c-.372-.129-.68-.304-.902-.526a.45.45 0 00-.636.636c.329.33.753.571 1.246.74A5.448 5.448 0 008.2 8.32c.51 0 1.126-.068 1.772-.291.493-.17.917-.412 1.246-.74a.45.45 0 00-.636-.637z"></path>
                             </svg>
                         </i>
@@ -219,8 +221,10 @@
                                                     </select>
                                                 </div>
 
-                                                <input class="autosearch-input form-control" type="search" value="" size="50" autocomplete="off" placeholder="nhập vào đây để tìm kiếm..." name="search">
-                                                <button type="submit" class="button-search btn btn-default btn-lg"><i class="fa fa-search"></i><span>Tìm</span></button>
+                                                <input class="autosearch-input form-control " type="search" value="" size="50" autocomplete="off" placeholder="nhập vào đây để tìm kiếm..." name="search">
+                                               
+                                                <button type="submit" class="button-search btn btn-default btn-lg words "><i class="fa fa-search"></i><span>Tìm</span></button>
+                                                <button type="button" class="mic" ><i class="fa fa-microphone"></i></button>
                                             </div>
                                         </form>
                                     </div>

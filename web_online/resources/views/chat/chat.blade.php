@@ -50,7 +50,7 @@ Chăm sóc khách hàng
                                 <form>
                                     <div class="mb-2 position-relative">
                                         <input type="text" class="form-control"
-                                               placeholder="People, groups & messages..." />
+                                               placeholder="Người, nhóm & tin nhắn..." />
                                         <span class="mdi mdi-magnify search-icon"></span>
                                     </div>
                                 </form>
@@ -293,26 +293,16 @@ Chăm sóc khách hàng
 </script>
         <!-- end chat area-->
         <!-- start user detail -->
-        <div class="col-xxl-3 col-xl-6 order-xl-1 order-xxl-2">
+        
+                                      
+        <div class="col-xxl-3 col-xl-6 order-xl-1 order-xxl-2" }}">
             <div class="card">
                 <div class="card-body">
                     <div class="dropdown float-end">
-                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="mdi mdi-dots-horizontal"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item">Thông tin</a>
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item">Chỉnh sửa thông tin</a>
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item">Xóa</a>
-                        </div>
+                        
                     </div>
                     <div class="mt-3 text-center">
-                        <h4>Shreyu N</h4>
-                        <button class="btn btn-primary btn-sm mt-1"><i class='uil uil-envelope-add me-1'></i>Gữi tin nhắn</button>
-                        <p class="text-muted mt-2 font-14">Lần cuối tương tác: <strong>Tương tác vài giờ trở lại</strong></p>
+                        <h4>//</h4> 
                     </div>
                     <div class="mt-3">
                         <hr class="" />
@@ -335,6 +325,7 @@ Chăm sóc khách hàng
             </div>
             <!-- end card-->
         </div>
+        
         <!-- end col -->
         <!-- end user detail -->
     </div>

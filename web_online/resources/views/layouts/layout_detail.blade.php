@@ -669,7 +669,7 @@
 
                 // Bind a function to a Event (the full Laravel class)
                 channel.bind('App\\Events\\MessageSent', function(data) {
-                    if(ma_cuahang == data.data.MA_CUAHANG && data.data.MA_NGUOIDUNG == {{$user->MA_NGUOIDUNG}}){
+                    if(ma_cuahang == data.data.MA_CUAHANG && data.data.MA_NGUOIDUNG == {{$user ? $user->MA_NGUOIDUNG : ""}}){
                         var template = $("#template_sent").clone();
                         template.find("pre").html(data.data.NOIDUNG);
                         template.css("display","block");
@@ -735,7 +735,7 @@
                         </svg>
                     </i>
                 </div>
-                <div class="src-components-MainLayout-index__operator-wrapper--151w3">
+                <div class="src-components-MainLayout-index__operator-wrapper--151w3"> 
                     <div class="src-components-MainLayout-index__operator-item-wrapper--1Zyy4">
                         <div class="">
                             <i class="_3kEAcT1Mk5 src-components-MainLayout-index__hide-dialog--3DGUg src-components-MainLayout-index__operator-item--3BQSc">

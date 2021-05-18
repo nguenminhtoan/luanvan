@@ -1,6 +1,6 @@
 @extends('layouts.layout_admin')
 @section('title')
-Thêm danh mục
+Trò chuyện
 @endsection
 @section('content')
 <div id="main" class="col-lg-12">
