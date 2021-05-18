@@ -561,7 +561,7 @@
         <div class="back-to-top"><i class="fa fa-angle-up"></i></div>    
             <script src="/js/js.js" ></script>
             <script>
-                
+                var closed;
                 var ma_cuahang;
                 
                 $("#cart").click(function(){
@@ -585,6 +585,10 @@
 //                                    var now = dateFormat(new Date(), "yyyy-mm-dd");
                                     template.find(".src-components-ConversationListsLayout-ConversationCells-index__timestamp--wvvBM").html(value.THOIGIAN);
                                     template.attr("onclick", "loadIndex("+ value.MA_CUAHANG + ")");
+                                    if (value.TRANGTHAI != 0){
+                                        template.find(".thong_bao").html(value.TRANGTHAI);
+                                    }
+                                    template.attr("id", "#user_id_" + value.MA_CUAHANG);
                                     $("#template").after(template);
                                 });
                                 
@@ -669,7 +673,7 @@
 
                 // Bind a function to a Event (the full Laravel class)
                 channel.bind('App\\Events\\MessageSent', function(data) {
-                    if(ma_cuahang == data.data.MA_CUAHANG && data.data.MA_NGUOIDUNG == {{$user ? $user->MA_NGUOIDUNG : ""}}){
+                    if(ma_cuahang == data.data.MA_CUAHANG && data.data.MA_NGUOIDUNG == {{$user ? $user->MA_NGUOIDUNG : "0" }}){
                         var template = $("#template_sent").clone();
                         template.find("pre").html(data.data.NOIDUNG);
                         template.css("display","block");
@@ -677,6 +681,11 @@
                         var d = $('#content_noidung');
                         d.append(template);
                         $("#content_noidung").scrollTop(d.prop("scrollHeight"));
+                    }else if(data.data.MA_NGUOIDUNG == {{$user ? $user->MA_NGUOIDUNG : "0" }}){
+                        var item = $("#user_id_" + data.data.MA_CUAHANG);
+                        item.find("pre").html(data.data.NOIDUNG);
+                        var i = Number(item.find(".thong_bao")) + 1;
+                        item.find(".thong_bao").html(i);
                     }
                 });
                 
@@ -718,12 +727,25 @@
                             })
                         });
                 }
+                
+               
+                
+                function Closed(){
+                    if($("#show_box").attr("data-close") == 1){
+                        $("#show_box").removeAttr("class");
+                        $("#show_box").addClass("src-components-MainLayout-index__wrapper--27ZAv");
+                        $("#show_box").attr("data-close", 0)
+                    }else {
+                        $("#show_box").attr("data-close", 1)
+                        $("#show_box").addClass("src-components-MainLayout-index__container--pU83Q");
+                    }
+                }
             </script>
     </div>
     <div id="shopee-mini-chat-embedded" style="position: fixed; right: 8px; bottom: 0px; z-index: 99999;">
-        <div class="src-components-MainLayout-index__wrapper--27ZAv  src-components-MainLayout-index__container--pU83Q">
+        <div id="show_box" data-close="1" class="src-components-MainLayout-index__wrapper--27ZAv src-components-MainLayout-index__container--pU83Q">
             <div class="src-components-MainLayout-index__root--1hhpV">
-                <div class="src-components-MainLayout-index__logo-wrapper--aKCJc">
+                <div onclick="Closed();" class="src-components-MainLayout-index__logo-wrapper--aKCJc">
                     <i class="_3kEAcT1Mk5 src-components-MainLayout-index__chat--3J2KN">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="chat-icon">
                              <path d="M18 6.07a1 1 0 01.993.883L19 7.07v10.365a1 1 0 01-1.64.768l-1.6-1.333H6.42a1 1 0 01-.98-.8l-.016-.117-.149-1.783h9.292a1.8 1.8 0 001.776-1.508l.018-.154.494-6.438H18zm-2.78-4.5a1 1 0 011 1l-.003.077-.746 9.7a1 1 0 01-.997.923H4.24l-1.6 1.333a1 1 0 01-.5.222l-.14.01a1 1 0 01-.993-.883L1 13.835V2.57a1 1 0 011-1h13.22zm-4.638 5.082c-.223.222-.53.397-.903.526A4.61 4.61 0 018.2 7.42a4.61 4.61 0 01-1.48-.242c-.372-.129-.68-.304-.902-.526a.45.45 0 00-.636.636c.329.33.753.571 1.246.74A5.448 5.448 0 008.2 8.32c.51 0 1.126-.068 1.772-.291.493-.17.917-.412 1.246-.74a.45.45 0 00-.636-.637z"></path>
@@ -735,17 +757,11 @@
                         </svg>
                     </i>
                 </div>
-                <div class="src-components-MainLayout-index__operator-wrapper--151w3"> 
-                    <div class="src-components-MainLayout-index__operator-item-wrapper--1Zyy4">
-                        <div class="">
-                            <i class="_3kEAcT1Mk5 src-components-MainLayout-index__hide-dialog--3DGUg src-components-MainLayout-index__operator-item--3BQSc">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="chat-icon">
-                                    <path d="M14 1a1 1 0 011 1v12a1 1 0 01-1 1H9v-1h5V2H9V1h5zM2 13v1h1v1H2a1 1 0 01-.993-.883L1 14v-1h1zm6 1v1H4v-1h4zM2 3.999V12H1V3.999h1zm5.854 1.319l2.828 2.828a.5.5 0 010 .708l-2.828 2.828a.5.5 0 11-.708-.707L9.121 9H4.5a.5.5 0 010-1h4.621L7.146 6.025a.5.5 0 11.708-.707zM3 1v1H2v.999H1V2a1 1 0 01.883-.993L2 1h1zm5 0v1H4V1h4z"></path>
-                                </svg>
-                            </i>
-                        </div>
-                    </div>
-                    <div class="src-components-MainLayout-index__operator-item-wrapper--1Zyy4">
+
+                <div class="src-components-MainLayout-index__operator-wrapper--151w3">
+                    
+                    <div style="width: 20px" onclick="Closed();" class="src-components-MainLayout-index__operator-item-wrapper--1Zyy4">
+
                         <div class="">
                             <i class="_3kEAcT1Mk5 src-components-MainLayout-index__minimize--30m1T src-components-MainLayout-index__operator-item--3BQSc"> 
                                 <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" class="chat-icon">
@@ -898,11 +914,12 @@
                                               </div>
                                               <div class="src-components-ConversationListsLayout-ConversationCells-index__container--OwwoK">
                                                  <div class="src-components-ConversationListsLayout-ConversationCells-index__upper--31gYr">
-                                                    <div class="src-components-ConversationListsLayout-ConversationCells-index__username--SOXgT" title="locknlockvn">locknlockvn</div>
+                                                    <div class="src-components-ConversationListsLayout-ConversationCells-index__username--SOXgT" title="locknlockvn"></div>
+                                                       <div class="thong_bao" style="color: red;"></div>
                                                  </div>
                                                  <div class="src-components-ConversationListsLayout-ConversationCells-index__lower--2JERn">
-                                                    <div class="src-components-ConversationListsLayout-ConversationCells-index__message--2aCpi"><span title="Săn sale ngay nhé">Săn sale ngay nhé</span></div>
-                                                    <div class="src-components-ConversationListsLayout-ConversationCells-index__timestamp--wvvBM">6 Th05</div>
+                                                    <div class="src-components-ConversationListsLayout-ConversationCells-index__message--2aCpi"><span ></span></div>
+                                                    <div class="src-components-ConversationListsLayout-ConversationCells-index__timestamp--wvvBM"></div>
                                                  </div>
                                               </div>
                                            </div>

@@ -261,7 +261,7 @@ Chăm sóc khách hàng
 
     // Bind a function to a Event (the full Laravel class)
     replay_channel.bind('App\\Events\\MessageReply', function(data) {
-        if(data.data.MA_NGUOIDUNG == {{$id}}){
+        if(data.data.MA_NGUOIDUNG == {{$id}} ){
             var template = $("#template").clone();
             template.removeClass("odd");
             template.removeAttr("hidden");

@@ -53,7 +53,12 @@ class Traodoi extends Model
     }
     
     public static  function update_status($mach,$mand){
-        $sql = "UPDATE traodoi set TRANGTHAI = 1 WHERE MA_CUAHANG = ? AND MA_NGUOIDUNG = ? ";
+        $sql = "UPDATE traodoi set TRANGTHAI = 1 WHERE MA_CUAHANG = ? AND MA_NGUOIDUNG = ? AND TRA_MA_TRAODOI IS NOT NULL";
+        DB::insert($sql, [$mach,$mand]);
+    }
+    
+    public static function update_status_nd($mach,$mand){
+        $sql = "UPDATE traodoi set TRANGTHAI = 1 WHERE MA_CUAHANG = ? AND MA_NGUOIDUNG = ? AND TRA_MA_TRAODOI IS NULL";
         DB::insert($sql, [$mach,$mand]);
     }
 }
