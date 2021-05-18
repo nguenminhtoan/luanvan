@@ -27,8 +27,8 @@ class ChatController extends Controller
                 $id = $list[0]->MA_CUAHANG;
             }
         }else{
-            Traodoi::update_status_nd($mach,$id);
-            $list = Traodoi::list_by_nd($mach);
+            Traodoi::update_status_nd($id,$mand);
+            $list = Traodoi::list_by_nd($id);
         }
         $cuahang = DB::select('select *from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $id]);
         $list_noidung = Traodoi::list_by_ch_nd($id, $mand);
