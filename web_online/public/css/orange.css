@@ -4206,8 +4206,8 @@ div.article-info .article-title h3 {
 .media-date-added.idx8, .media-date-added.idx4 {
   display: none; }
 /*================ HEADING ===================*/
-body svg {
-  display: none; }
+/*body svg {
+  display: none; }*/
 
 body .atm-i svg, body .content-main svg {
   display: block; }
