@@ -4207,7 +4207,7 @@ div.article-info .article-title h3 {
   display: none; }
 /*================ HEADING ===================*/
 body svg {
-  display: none; }
+  display: block; }
 
 body .atm-i svg, body .content-main svg {
   display: block; }

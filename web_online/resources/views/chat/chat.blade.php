@@ -31,16 +31,6 @@ Chăm sóc khách hàng
                                 Tất cả
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#favUsers" data-bs-toggle="tab" aria-expanded="true" class="nav-link py-2">
-                                Ưu đãi
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#friendUsers" data-bs-toggle="tab" aria-expanded="true" class="nav-link py-2">
-                                Bạn bè
-                            </a>
-                        </li>
                     </ul>
                     <!-- end nav-->
                     <div class="tab-content">
@@ -63,7 +53,7 @@ Chăm sóc khách hàng
                                         @foreach($list_nguoidung as $item)
                                         <a href="/admin/chat/chat?id={{$item->MA_NGUOIDUNG}}" class="text-body" id="user_id_{{$item->MA_NGUOIDUNG}}">
                                             <div class="d-flex align-items-start mt-1 p-2">
-                                                <img src="assets/images/users/avatar-2.jpg" class="me-2 rounded-circle" height="48" alt="{{ $item->TEN_NGUOIDUNG }}" />
+                                                <img src="images/user-1.jpg" class="me-2 rounded-circle" height="48" alt="{{ $item->TEN_NGUOIDUNG }}" />
                                                 <div class="w-100 overflow-hidden">
                                                     <h5 class="mt-0 mb-0 font-14">
                                                         <span class="float-end text-muted font-12">{{ date("Y-m-d", strtotime($item->THOIGIAN)) == date("Y-m-d") ? date("H:m", strtotime($item->THOIGIAN)) : date("Y-m-d", strtotime($item->THOIGIAN))  }}</span>

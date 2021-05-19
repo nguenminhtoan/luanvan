@@ -9,6 +9,7 @@ window.SpeechRecognition =
 
 const recognition = new SpeechRecognition();
 
+recognition.lang = "vi-VI";
 recognition.interimResults = true;
 
 const mic = document.querySelector(".mic");
@@ -17,9 +18,11 @@ let p = document.createElement("p");
 
 words.appendChild(p);
 
-recognition.addEventListener("result",(e)=>{
+recognition.addEventListener("result",(e) => { 
+    
     const transcript = e.results[0][0].transcript;
-    p.textContent = transcript; 
+    $(".autosearch-input.form-control ").val(transcript);
+//    p.textContent = transcript; 
 });
 
 
