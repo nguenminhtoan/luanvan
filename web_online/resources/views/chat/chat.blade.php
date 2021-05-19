@@ -90,7 +90,7 @@ Chăm sóc khách hàng
                     <ul id="show_messages" class="conversation-list mes" data-simplebar style="height: 460px">
                         <li class="clearfix odd" hidden="" id="template">
                             <div class="chat-avatar">
-                                <img src="" alt="dominic" class="rounded" />
+                                <img src="" alt="" class="rounded" />
                                 <i class="time"></i>
                             </div>
                             <div class="conversation-text">
@@ -113,7 +113,7 @@ Chăm sóc khách hàng
                         @if ($item->TRA_MA_TRAODOI)
                         <li class="clearfix odd">
                             <div class="chat-avatar">
-                                <img src="{{$item->HINHANH}}" alt="dominic" class="rounded" />
+                                <img src="{{$item->HINHANH}}" alt="" class="rounded" />
                                 <i class="time">{{ date("Y-m-d", strtotime($item->THOIGIAN)) == date("Y-m-d") ? date("H:m", strtotime($item->THOIGIAN)) : date("Y-m-d", strtotime($item->THOIGIAN))  }}</i>
                             </div>
                             <div class="conversation-text">
@@ -292,22 +292,18 @@ Chăm sóc khách hàng
                         
                     </div>
                     <div class="mt-3 text-center">
-                        <h4>//</h4> 
+                        <h4>{{$khach->TEN_NGUOIDUNG}}</h4> 
                     </div>
                     <div class="mt-3">
                         <hr class="" />
                         <p class="mt-4 mb-1"><strong><i class='uil uil-at'></i> Email:</strong></p>
-                        <p>support@coderthemes.com</p>
+                        <p>{{$khach->EMAIL}}</p>
                         <p class="mt-3 mb-1"><strong><i class='uil uil-phone'></i> Số điện thoại:</strong></p>
-                        <p>+1 456 9595 9594</p>
-                        <p class="mt-3 mb-1"><strong><i class='uil uil-location'></i> Địa chỉ:</strong></p>
-                        <p>California, USA</p>
-                        <p class="mt-3 mb-1"><strong><i class='uil uil-globe'></i> Ngôn ngữ:</strong></p>
-                        <p>English, German, Spanish</p>
-                        <p class="mt-3 mb-2"><strong><i class='uil uil-users-alt'></i> Các nhóm:</strong></p>
+                        <p>+{{$khach->SDT}}</p>
+                        <p class="mt-3 mb-1"><strong><i class='uil uil-location'></i> Địa chỉ giao hàng:</strong></p>
+                        <p>{{$khach->CHITIET}}</p>
                         <p>
-                            <span class="badge badge-success-lighten p-1 font-14">Công việc</span>
-                            <span class="badge badge-primary-lighten p-1 font-14">Bạn bè</span>
+                            <span class="badge badge-primary-lighten p-1 font-14">Khách hàng</span>
                         </p>
                     </div>
                 </div>
