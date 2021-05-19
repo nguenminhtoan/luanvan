@@ -31,16 +31,6 @@ Chăm sóc khách hàng
                                 Tất cả
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#favUsers" data-bs-toggle="tab" aria-expanded="true" class="nav-link py-2">
-                                Ưu đãi
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#friendUsers" data-bs-toggle="tab" aria-expanded="true" class="nav-link py-2">
-                                Bạn bè
-                            </a>
-                        </li>
                     </ul>
                     <!-- end nav-->
                     <div class="tab-content">
@@ -50,7 +40,7 @@ Chăm sóc khách hàng
                                 <form>
                                     <div class="mb-2 position-relative">
                                         <input type="text" class="form-control"
-                                               placeholder="People, groups & messages..." />
+                                               placeholder="Người, nhóm & tin nhắn..." />
                                         <span class="mdi mdi-magnify search-icon"></span>
                                     </div>
                                 </form>
@@ -63,7 +53,7 @@ Chăm sóc khách hàng
                                         @foreach($list_nguoidung as $item)
                                         <a href="/admin/chat/chat?id={{$item->MA_NGUOIDUNG}}" class="text-body" id="user_id_{{$item->MA_NGUOIDUNG}}">
                                             <div class="d-flex align-items-start mt-1 p-2">
-                                                <img src="assets/images/users/avatar-2.jpg" class="me-2 rounded-circle" height="48" alt="{{ $item->TEN_NGUOIDUNG }}" />
+                                                <img src="images/user-1.jpg" class="me-2 rounded-circle" height="48" alt="{{ $item->TEN_NGUOIDUNG }}" />
                                                 <div class="w-100 overflow-hidden">
                                                     <h5 class="mt-0 mb-0 font-14">
                                                         <span class="float-end text-muted font-12">{{ date("Y-m-d", strtotime($item->THOIGIAN)) == date("Y-m-d") ? date("H:m", strtotime($item->THOIGIAN)) : date("Y-m-d", strtotime($item->THOIGIAN))  }}</span>
@@ -133,6 +123,12 @@ Chăm sóc khách hàng
                                         {{$item->NOIDUNG}}
                                     </p>
                                 </div>
+                                
+                                @if($item->FILE)
+                                <div style="margin-top: 10px">
+                                    <img  style="width: 100px;text-align: right;" src="{{$item->FILE}}" />
+                                </div>
+                                @endif
                             </div>
                             <div class="conversation-actions dropdown">
                                 <button class="btn btn-sm btn-link" data-bs-toggle="dropdown"
@@ -142,6 +138,7 @@ Chăm sóc khách hàng
                                     <a class="dropdown-item" href="#">Delete</a>
                                 </div>
                             </div>
+                            
                         </li>
                         @else
                         <li class="clearfix">
@@ -156,6 +153,12 @@ Chăm sóc khách hàng
                                         {{$item->NOIDUNG}}
                                     </p>
                                 </div>
+                                
+                                @if($item->FILE)
+                                <div style="margin-top: 10px">
+                                    <img  style="width: 100px;text-align: right;" src="{{$item->FILE}}" />
+                                </div>
+                                @endif
                             </div>
                             <div class="conversation-actions dropdown">
                                 <button class="btn btn-sm btn-link" data-bs-toggle="dropdown"
@@ -172,7 +175,9 @@ Chăm sóc khách hàng
                     <div class="row">
                         <div class="col">
                             <div class="mt-2 bg-light p-3 rounded">
-                                <form class="needs-validation" novalidate="" name="chat-form" id="chat-form" action="/admin/chat/messages" method="post" enctype="multipart/form-data" >
+                                <div style="position: absolute; z-index: 0"><img id="show-temp" /></div>
+                                
+                                <form class="needs-validation" id="chat-form" name="chat-form" id="chat-form" action="/admin/chat/messages" method="post" enctype="multipart/form-data" >
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <input type="hidden" name="MA_NGUOIDUNG" value="{{$id}}" />
@@ -185,7 +190,7 @@ Chăm sóc khách hàng
                                         </div>
                                         <div class="col-sm-auto">
                                             <div class="btn-group">
-                                                <input name="file" type="input_img" hidden="" id="upload_file" accept="/img">
+                                                <input onchange="change_img(this)" name="input_img" type="file" hidden="" id="upload_file" accept="image/png,image/jpeg,image/jpg">
                                                 <label for="upload_file" class="btn btn-light"> <i class='uil uil-paperclip'></i> </label>
                                                 <a href="#" class="btn btn-light"><i class="uil uil-smile"></i></a>
                                                 <div class="d-grid">
@@ -208,6 +213,19 @@ Chăm sóc khách hàng
             <!-- end card -->
         </div>
         <script src="{{ asset('js/app.js') }}"></script>
+        <style>
+            #show-temp{
+                position: relative;
+                top: -110px;
+                left: -20px;
+                height: 80px;
+                width: 80px;
+                display: none;
+            }
+            #send-message{
+                z-index: 100;
+            }
+        </style>
 <script>
 
     var check = true;
@@ -216,6 +234,23 @@ Chăm sóc khách hàng
         cluster: "ap1"
     });
 
+    function change_img(event){
+       
+        if (event.files && event.files[0]) {
+            var reader = new FileReader();
+            var img = $("#show-temp")
+            reader.onload = function (e) {
+                img.attr("src", e.target.result);
+                img.css("display", "block");
+            }
+            reader.readAsDataURL(event.files[0]); // convert to base64 string
+        }
+    }    
+    
+    function remove_img(event){
+       $("#show-temp").remove();
+    }
+    
     // Subscribe to the channel we specified in our Laravel Event
     var channel = pusher.subscribe('chat');
     
@@ -228,10 +263,15 @@ Chăm sóc khách hàng
         template.find(".chat-avatar").find("img").attr("src", data.data.HINHANH);
         template.find(".chat-avatar").find(".time").html(data.data.THOIGIAN);
         template.find("#name").html(data.data.TEN_CUAHANG);
+        template.find(".conversation-text").append("<div style='margin-top: 10px' ><img style='width: 100px; text-align: right;' src='" +data.data.FILE + "' >")
         var d = $('#show_messages .simplebar-content');
         d.append(template);
         $("#show_messages .simplebar-content-wrapper").scrollTop(d.prop("scrollHeight"));
         $("input#send-message").val("");
+        if(data.data.FILE){
+            
+        }
+        clearImg();
         check = true;
     });
     $('form').submit(function() {
@@ -243,16 +283,33 @@ Chăm sóc khách hàng
         }
     });
     
+    function clearImg(){
+        $("input[type='file']").val("");
+        $("#show-temp").css("display", "none");
+    }
+    
     function send_chat(){
-        if(check){
+        if(check && $("input#send-message").val() != ""){
+            
+            var form = $("#chat-form");
+
+            // you can't pass Jquery form it has to be javascript form object
+            var formData = new FormData(form[0]);
+            formData.append('file',$("input[type='file']")[0].files);
             $.ajax({
                 method: "post",
-                data: $("#chat-form").serialize(),
+                enctype: 'multipart/form-data',
+                data: formData,
+                contentType: false,
+                processData: false,
                 url: "/admin/chat/messages",
                 success: (function(data){
                 })
             });
             check = false;
+            $(".invalid-feedback").css("display","none");
+        }else{
+            $(".invalid-feedback").css("display","block");
         }
     }
     
@@ -270,6 +327,7 @@ Chăm sóc khách hàng
             template.find(".chat-avatar").find("img").attr("src", data.data.HINHANH);
             template.find(".chat-avatar").find(".time").html(data.data.THOIGIAN);
             template.find("#name").html(data.data.TEN_CUAHANG);
+            template.find(".conversation-text").append("<div style='margin-top: 10px' ><img style='width: 100px; text-align: left;' src='" +data.data.FILE + "' >")
             $("input[name='MA_TRAODOI']").val(data.data.MA_TRAODOI);
             var d = $('#show_messages .simplebar-content');
             d.append(template);
@@ -293,26 +351,16 @@ Chăm sóc khách hàng
 </script>
         <!-- end chat area-->
         <!-- start user detail -->
-        <div class="col-xxl-3 col-xl-6 order-xl-1 order-xxl-2">
+        
+                                      
+        <div class="col-xxl-3 col-xl-6 order-xl-1 order-xxl-2" }}">
             <div class="card">
                 <div class="card-body">
                     <div class="dropdown float-end">
-                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="mdi mdi-dots-horizontal"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item">Thông tin</a>
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item">Chỉnh sửa thông tin</a>
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item">Xóa</a>
-                        </div>
+                        
                     </div>
                     <div class="mt-3 text-center">
-                        <h4>Shreyu N</h4>
-                        <button class="btn btn-primary btn-sm mt-1"><i class='uil uil-envelope-add me-1'></i>Gữi tin nhắn</button>
-                        <p class="text-muted mt-2 font-14">Lần cuối tương tác: <strong>Tương tác vài giờ trở lại</strong></p>
+                        <h4>//</h4> 
                     </div>
                     <div class="mt-3">
                         <hr class="" />
@@ -335,6 +383,7 @@ Chăm sóc khách hàng
             </div>
             <!-- end card-->
         </div>
+        
         <!-- end col -->
         <!-- end user detail -->
     </div>

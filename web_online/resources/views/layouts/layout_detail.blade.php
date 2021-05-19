@@ -1,13 +1,13 @@
-
-
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>@yield('title') &DoubleVerticalBar;SuperMarket E-Commerce</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1"> 
-        <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+        <title>SuperMarket &DoubleVerticalBar;  E-Commerce</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="SuperMarket is an advanced OpenCart 3 theme fully customizable and suitable for e-commerce websites of any purpose. The template is also the typical modern OpenCart theme by universality, attractiveness and easy customization." />
+        <meta name="keywords" content="OpenCart 3 theme, OpenCart theme, marketplace support, OpenCart Theme, OpenCart 3, Mobile layout theme, Multivendor Plugin, Multilayout, responsive design, HTML5, CSS3" />
+
 
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/font-awesome.min.css">
@@ -38,7 +38,6 @@
         <link rel="stylesheet" href="/css/header1.css">
         <link rel="stylesheet" href="/css/footer1.css">
         <link rel="stylesheet" href="/css/responsive.css">
-        <link rel="stylesheet" href="/css/nouislider.css">
         <link rel="stylesheet" href="/css/styles_21833f8f.4dca6f449469c62fd7ab.css">
         <script src="/js/jquery-2.1.1.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
@@ -60,52 +59,20 @@
         <script src="/js/jquery.elevateZoom-3.0.8.min.js"></script>
         <script src="/js/jquery.cookie.js"></script>
         <script src="/js/so_megamenu.js"></script>
-        <script src="/js/nouislider.js"></script>
-
-
-
-        <link href='https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700' rel='stylesheet' type='text/css'>  	
-
-
+        <script src="/js/typeahead.bundle.min.js"></script>
+        <script defer src="/js/micro.js"></script>
+        <link href='https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700' rel='stylesheet' type='text/css'>
         <style type="text/css">
             body, #wrapper{font-family:'Poppins', sans-serif}
-
         </style>
-
-
-
-
-
-
-
-
-
-
-        <link href="https://opencart.opencartworks.com/themes/so_supermarket/index.php?route=product/category&amp;path=25" rel="canonical" /><link href="https://opencart.opencartworks.com/themes/so_supermarket/image/catalog/favicon2.png" rel="icon" />	
-
-
+        <link href="#" rel="canonical" />
+        <link href="/images/favicon2.png" rel="icon" />
     </head>
-
-
-
-
-
-
-
-    <body class="product-category ltr layout-1">
-        
+    
+    <body class="common-home ltr layout-1">
         <div id="wrapper" class="wrapper-fluid banners-effect-3">  
-
-
-
-
-
-
             <div class="so-pre-loader no-pre-loader"><div class="so-loader-line" id="line-load"></div></div>
-
-
             <header id="header" class=" variant typeheader-1">
-
                 <div class="header-top hidden-compact">
                     <div class="container">
                         <div class="row">
@@ -115,17 +82,15 @@
 
                                 </div>
                                 <ul class="top-link list-inline hidden-lg ">
-                                    <li class="account" id="my_account"><a href="/account" title="My Account " class="btn-xs dropdown-toggle" data-toggle="dropdown"> <span class="hidden-xs">My Account </span> <span class="fa fa-caret-down"></span></a>
+                                    <li class="account" id="my_account">
+                                        <a href="/account" title="My Account " class="btn-xs dropdown-toggle" data-toggle="dropdown"> <span class="hidden-xs">Tài khoản của tôi </span> <span class="fa fa-caret-down"></span></a>
                                         <ul class="dropdown-menu ">
-                                            
                                             <li><a href="/register">Register</a></li>
                                             <li><a href="/login">Login</a></li>
-
                                         </ul>
                                     </li>
                                 </ul>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
@@ -161,8 +126,10 @@
                                                     </select>
                                                 </div>
 
-                                                <input class="autosearch-input form-control" type="search" value="" size="50" autocomplete="off" placeholder="nhập vào đây để tìm kiếm..." name="search">
-                                                <button type="submit" class="button-search btn btn-default btn-lg"><i class="fa fa-search"></i><span>Tìm</span></button>
+                                                <input class="autosearch-input form-control " type="search" value="" size="50" autocomplete="off" placeholder="nhập vào đây để tìm kiếm..." name="search">
+                                               
+                                                <button type="submit" class="button-search btn btn-default btn-lg words " style="right: 80px"><i class="fa fa-search"></i><span>Tìm</span></button>
+                                                <button type="button" class="mic" style="width: 30px" ><i class="fa fa-microphone"></i></button>
                                             </div>
                                         </form>
                                     </div>
@@ -205,17 +172,19 @@
                                     </li>
                                 </ul>
                                 @endif
+                                    &nbsp;&nbsp;
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="header-bottom ">
                     <div class="container">
+
                         <div class="row">
                             <div class="bottom1 menu-vertical col-lg-2 col-md-3 col-sm-3">
                                 <div class="responsive megamenu-style-dev">
                                     <div class="so-vertical-menu no-gutter">
-
                                         <nav class="navbar-default">
                                             <div class=" container-megamenu  container   vertical  ">
                                                 <div id="menuHeading">
@@ -223,43 +192,40 @@
                                                         <div class="megamenuToogle-pattern">
                                                             <div class="container">
                                                                 <div><span></span><span></span><span></span></div>
-                                                                Tất cả danh mục       
+                                                                Tất cả danh mục     
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="navbar-header">
                                                     <button type="button" id="show-verticalmenu" data-toggle="collapse"  class="navbar-toggle">
-                                                            <!-- <span class="icon-bar"></span>
-                                                            <span class="icon-bar"></span>
-                                                            <span class="icon-bar"></span> -->
+                                                           <!-- <span class="icon-bar"></span>
+                                                                  <span class="icon-bar"></span>
+                                                                  <span class="icon-bar"></span> -->
                                                         <i class="fa fa-bars"></i>
-                                                        <span>    Tất cả danh mục        </span>
+                                                        <span>    Tất cả danh mục      </span>
                                                     </button>
                                                 </div>
-
                                                 <div class="vertical-wrapper">
-
                                                     <span id="remove-verticalmenu" class="fa fa-times"></span>
-
                                                     <div class="megamenu-pattern">
                                                         <div class="container">
                                                             <ul class="megamenu"
                                                                 data-transition="slide" data-animationtime="300">
                                                                 @foreach ($danhmuc as $item)
                                                                 @if(!$item->DAN_MA_DANHMUC)
-                                                                    <li class="item-vertical css-menu with-sub-menu hover" >
-                                                                        <p class='close-menu'></p>
-                                                                        <a href="/search?ma_danhmuc={{$item->MA_DANHMUC}}" class="clearfix" >
-                                                                            <span>
-                                                                                <strong><img class="lazyload" data-sizes="auto" data-src="{{$item->HINHANH}}" style="width: 26px; height: 26px;" alt="">{{$item->TEN_DANHMUC}}</strong>
-                                                                            </span>
-                                                                            
+                                                                <li class="item-vertical css-menu with-sub-menu hover" >
+                                                                    <p class='close-menu'></p>
+                                                                    <a href="/search?ma_danhmuc={{$item->MA_DANHMUC}}" class="clearfix" >
+                                                                        <span>
+                                                                            <strong><img class="lazyload" data-sizes="auto" data-src="{{$item->HINHANH}}" style="width: 26px; height: 26px;" alt="">{{$item->TEN_DANHMUC}}</strong>
+                                                                        </span>
+
                                                                         @if (array_search($item->MA_DANHMUC, array_column($danhmuc, "DAN_MA_DANHMUC")))
-                                                                            <b class="fa fa-angle-right"></b>
-                                                                            @endif
-                                                                        </a>
-                                                                    
+                                                                        <b class="fa fa-angle-right"></b>
+                                                                        @endif
+                                                                    </a>
+
                                                                     @if (array_search($item->MA_DANHMUC, array_column($danhmuc, "DAN_MA_DANHMUC")))
                                                                     <div class="sub-menu" style="width: 250px; display: none; right: 0px;">
                                                                         <div class="content" style="display: none; height: 144px;">
@@ -272,8 +238,8 @@
                                                                                                     <ul>
                                                                                                         @foreach ($danhmuc as $row)
                                                                                                         @if($row->DAN_MA_DANHMUC && $row->DAN_MA_DANHMUC == $item->MA_DANHMUC)
-                                                                                                        <li><a href="/search?ma_danhmuc={{$row->MA_DANHMUC}}" onclick=" class="main-menu">{{$row->TEN_DANHMUC }}</a></li>
-                                                                                                        
+                                                                                                        <li><a href="/search?ma_danhmuc={{$row->MA_DANHMUC}}" onclick=" class ="main-menu">{{$row->TEN_DANHMUC }}</a></li>
+
                                                                                                         @endif
                                                                                                         @endforeach
                                                                                                     </ul>
@@ -286,7 +252,7 @@
                                                                         </div>				
                                                                     </div>
                                                                     @endif
-                                                                    </li>
+                                                                </li>
                                                                 @endif
                                                                 @endforeach
                                                             </ul>
@@ -343,26 +309,27 @@
                                 @else
                                 <div class="telephone hidden-xs hidden-sm hidden-md" >
                                     <ul>
-                                        <li><a href="/register"><i class="fa fa-register"></i>Đăng ký</a></li>
+                                        <li><a href="/register"><i class="fa fa-lock"></i>Đăng ký</a></li>
                                     </ul>
                                 </div>
                                 <div class="signin-w font-title hidden-md hidden-sm hidden-xs">
                                     <ul class="signin-link">
-                                        <li class="log login"><a href="/login"><i class="fa fa-login"></i> Đăng Nhập</a></li>
+                                        <li class="log login"><a href="/login"><i class="fa fa-lock"></i> Đăng Nhập</a></li>
                                     </ul>
                                 </div>
                                 @endif
                             </div>
-
                         </div>
                     </div>
                 </div>
             </header>
-        </div>
-        <div id="content" class=""> 
+            <div id="content" class=""> 
                 @yield('content')
-        </div>
-        <footer class="footer-container typefooter-1">
+            </div>	
+
+
+
+            <footer class="footer-container typefooter-1">
                 <div class="footer-main collapse description-has-toggle" id="collapse-footer">
                     <div class="so-page-builder">
                         <div class="container page-builder-ltr">
@@ -417,7 +384,7 @@
                                         <a href="#"><img src="/images/logo-footer.png" alt="image"></a>
                                         <ul>
                                             <li class="adres">
-                                                 Ninh Kiều, Cần Thơ, Việt Nam
+                                                Ninh Kiều, Cần Thơ, Việt Nam
                                             </li>
                                             <li class="phone">
                                                 (+0214)0 315 215 - (+0214)0 315 215
@@ -556,17 +523,64 @@
                     </div>
                 </div>
             </footer>
-
-        <script src="{{ asset('js/app.js') }}"></script>
-        <div class="back-to-top"><i class="fa fa-angle-up"></i></div>    
+            <div class="back-to-top"><i class="fa fa-angle-up"></i></div>    
             <script src="/js/js.js" ></script>
+            <script>
+                $("#cart").click(function () {
+                    window.location.href = "/cart"
+                });
+            </script>
+        </div>
+    <script src="{{ asset('js/app.js') }}"></script>
             <script>
                 var closed;
                 var ma_cuahang;
+                var check = true;
+                if (typeof(localStorage.getItem("chat-box"))=='undefined') {
+                    localStorage.setItem("chat-box",1);
+                }
                 
-                $("#cart").click(function(){
-                   window.location.href = "/cart" 
+                function Closed(){
+                    if(localStorage.getItem("chat-box") == "1"){
+                        $("#show_box").removeAttr("class");
+                        $("#show_box").addClass("src-components-MainLayout-index__wrapper--27ZAv");
+                        $("#show_box").attr("data-close", 0)
+                        localStorage.setItem("chat-box",0);
+                    }else {
+                        $("#show_box").attr("data-close", 1)
+                        $("#show_box").addClass("src-components-MainLayout-index__container--pU83Q");
+                        localStorage.setItem("chat-box",1);
+                    }
+                }
+                
+                
+                $("#send-message").keyup(function(event) {
+                    if (event.keyCode == 13) {
+                        send_chat();
+                    }
                 });
+
+                function change_img(event){
+
+                    if (event.files && event.files[0]) {
+                        var reader = new FileReader();
+                        var img = $("#show-temp")
+                        reader.onload = function (e) {
+                            img.attr("src", e.target.result);
+                            img.css("display", "block");
+                        }
+                        reader.readAsDataURL(event.files[0]); // convert to base64 string
+                    }
+                }    
+
+                 function remove_img(event){
+                    $("#show-temp").remove();
+                 }
+
+                function clearImg(){
+                    $("input[type='file']").val("");
+                    $("#show-temp").css("display", "none");
+                }
                 
                 window.onload = function(){
                 // short timeout
@@ -600,25 +614,26 @@
                                     if(value.TRA_MA_TRAODOI == null){
                                         template = $("#template-reply").clone();
                                         template.find("pre").html(value.NOIDUNG);
-                                        
+                                        if(value.FILE){
+                                            template.append("<div style='margin-top: 5px; text-align: right' ><img style='height: 60px; text-align: right;' src='" +value.FILE + "' >");
+                                        }
                                     }else{
                                         template = $("#template_sent").clone();
                                         template.find("pre").html(value.NOIDUNG);
+                                        if(value.FILE){
+                                            template.append("<div style='margin-top: 5px; text-align: left' ><img style='height: 60px; text-align: right;' src='" +value.FILE + "' >");
+                                        }
                                     }
                                     template.css("display","block");
                                     template.attr("onclick", "loadIndex("+value.MA_CUAHANG+")");
                                     $("#content_noidung").append(template);
-//                                    
-//                                    template.css("top", (key*48)+"px");
-//                                    template.css("display", "flex");
-//                                    template.find("img").attr("src", value.HINHANH);
-//                                    template.find(".src-components-ConversationListsLayout-ConversationCells-index__username--SOXgT").html(value.TEN_CUAHANG);
-//                                    template.find(".src-components-ConversationListsLayout-ConversationCells-index__message--2aCpi").html(value.NOIDUNG);
-////                                    var now = dateFormat(new Date(), "yyyy-mm-dd");
-//                                    template.find(".src-components-ConversationListsLayout-ConversationCells-index__timestamp--wvvBM").html(value.THOIGIAN);
-//                                    
-        
-//                                    $(".ReactVirtualized__Grid__innerScrollContainer").append(template);
+                                    if(localStorage.getItem("chat-box") == "0"){
+                                        $("#show_box").removeAttr("class");
+                                        $("#show_box").addClass("src-components-MainLayout-index__wrapper--27ZAv");
+                                    }else {
+                                        $("#show_box").attr("data-close", 1)
+                                        $("#show_box").addClass("src-components-MainLayout-index__container--pU83Q");
+                                    }
                                 });
                                 
                                 var d = $('#content_noidung');
@@ -645,10 +660,16 @@
                                     if(value.TRA_MA_TRAODOI == null){
                                         template = $("#template-reply").clone();
                                         template.find("pre").html(value.NOIDUNG);
+                                        if(value.FILE){
+                                            template.append("<div style='margin-top: 5px; text-align: right' ><img style='height: 60px; text-align: right;' src='" +value.FILE + "' >");
+                                        }
                                         
                                     }else{
                                         template = $("#template_sent").clone();
                                         template.find("pre").html(value.NOIDUNG);
+                                        if(value.FILE){
+                                            template.append("<div style='margin-top: 5px; text-align: left' ><img style='height: 60px; text-align: right;' src='" +value.FILE + "' >");
+                                        }
                                     }
                                     template.css("display","block");
                                     template.attr("onclick", "loadIndex("+value.MA_CUAHANG+")");
@@ -678,6 +699,9 @@
                         template.find("pre").html(data.data.NOIDUNG);
                         template.css("display","block");
                         $("#content_noidung").append(template);
+                        if(data.data.FILE){
+                            template.append("<div style='margin-top: 5px; text-align: left' ><img style='height: 60px; text-align: right;' src='" +data.data.FILE + "' >");
+                        }
                         var d = $('#content_noidung');
                         d.append(template);
                         $("#content_noidung").scrollTop(d.prop("scrollHeight"));
@@ -699,51 +723,47 @@
                     template.find("pre").html(data.data.NOIDUNG);
                     template.css("display","block");
                     $("#content_noidung").append(template);
+                    if(data.data.FILE){
+                        template.append("<div style='margin-top: 5px; text-align: right' ><img style='height: 60px; text-align: right;' src='" +data.data.FILE + "' >");
+                    }
                     var d = $('#content_noidung');
                     d.append(template);
                     $("#content_noidung").scrollTop(d.prop("scrollHeight"));
                     $("textarea#send-message").val("");
-                });
-
-                $("textarea#send-message").keyup(function(event) {
-                    if (event.keyCode == 13) {
-                        $.ajax({
-                            method: "post",
-                            data: $("#form_message").serialize(),
-                            url: "/admin/chat/reply",
-                            success: (function(data){
-                            })
-                        });
-                        
-                    }
+                    clearImg();
+                    check = true;
                 });
                 
                 function send(){
-                    $.ajax({
+                    if(check && $("#send-message").val() != ""){
+            
+                        var form = $("#form_message");
+
+                        // you can't pass Jquery form it has to be javascript form object
+                        var formData = new FormData(form[0]);
+                        formData.append('file',$("input[type='file']")[0].files);
+                        $.ajax({
                             method: "post",
-                            data: $("#form_message").serialize(),
+                            enctype: 'multipart/form-data',
+                            data: formData,
+                            contentType: false,
+                            processData: false,
                             url: "/admin/chat/reply",
                             success: (function(data){
                             })
                         });
-                }
-                
-               
-                
-                function Closed(){
-                    if($("#show_box").attr("data-close") == 1){
-                        $("#show_box").removeAttr("class");
-                        $("#show_box").addClass("src-components-MainLayout-index__wrapper--27ZAv");
-                        $("#show_box").attr("data-close", 0)
-                    }else {
-                        $("#show_box").attr("data-close", 1)
-                        $("#show_box").addClass("src-components-MainLayout-index__container--pU83Q");
+                        check = false;
+                        $(".invalid-feedback").css("display","none");
+                    }else{
+                        $(".invalid-feedback").css("display","block");
                     }
                 }
+                
+                
             </script>
     </div>
     <div id="shopee-mini-chat-embedded" style="position: fixed; right: 8px; bottom: 0px; z-index: 99999;">
-        <div id="show_box" data-close="1" class="src-components-MainLayout-index__wrapper--27ZAv src-components-MainLayout-index__container--pU83Q">
+        <div id="show_box" data-close="1" class="src-components-MainLayout-index__wrapper--27ZAv">
             <div class="src-components-MainLayout-index__root--1hhpV">
                 <div onclick="Closed();" class="src-components-MainLayout-index__logo-wrapper--aKCJc">
                     <i class="_3kEAcT1Mk5 src-components-MainLayout-index__chat--3J2KN">
@@ -820,6 +840,8 @@
                            </div>
                            <div class="src-components-ConversationDetailLayout-index__input--2w54V">
                               <div class="src-components-ConversationDetailLayout-InputFieldLayout-index__root--2-LH7">
+                                  <div class="invalid-feedback">vui lòng nhâp tin nhắn....</div>
+                                  <div onclick="$('#input_file').click()" style="position: absolute; z-index: 0"><img id="show-temp" /></div>
                                  <form method="post" enctype="multipart/form-data" id="form_message" >
                                      {{ csrf_field() }}
                                      <input name="MA_CUAHANG" type="hidden" value=""/>
@@ -828,7 +850,7 @@
                                           <textarea id="send-message" name="NOIDUNG" class="src-components-ConversationDetailLayout-InputFieldLayout-ChatEditor-index__editor--3D_Zq" placeholder="Gửi tin nhắn" style="overflow: hidden; height: 30px;"></textarea>
                                           <div class="src-components-ConversationDetailLayout-InputFieldLayout-ChatEditor-index__send-button--1uW8l">
                                               <i onclick="send()" class="_3kEAcT1Mk5 src-components-ConversationDetailLayout-InputFieldLayout-ChatEditor-index__button--3btwx">
-                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="chat-icon">
+                                                  <svg style="display: block" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="chat-icon">
                                                    <path d="M4 14.497v3.724L18.409 12 4 5.779v3.718l10 2.5-10 2.5zM2.698 3.038l18.63 8.044a1 1 0 010 1.836l-18.63 8.044a.5.5 0 01-.698-.46V3.498a.5.5 0 01.698-.459z"></path>
                                                 </svg>
                                              </i>
@@ -841,14 +863,14 @@
                                              
                                              <div class="src-components-ConversationDetailLayout-InputFieldLayout-Toolbar-index__drawer--1hRAt">
                                                 <div>
-                                                   <input accept="image/png,image/jpeg,image/jpg" multiple="" type="file" style="display: none;">
-                                                   <div class="">
+                                                   <input id="input_file" accept="image/png,image/jpeg,image/jpg" name="input_img" type="file" style="display: none;" onchange="change_img(this)">
+                                                   <label style="display: block" for="input_file" class="">
                                                       <i class="_3kEAcT1Mk5 src-components-ConversationDetailLayout-InputFieldLayout-Toolbar-index__image--R4hl2 src-components-ConversationDetailLayout-InputFieldLayout-Toolbar-index__label--2cJlV src-components-ConversationDetailLayout-InputFieldLayout-Toolbar-index__inactive-label--3LxJq">
                                                          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="chat-icon">
                                                             <path d="M19 18.974V5H5v14h.005l4.775-5.594a.5.5 0 01.656-.093L19 18.974zM4 3h16a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1zm11.5 8a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"></path>
                                                          </svg>
                                                       </i>
-                                                   </div>
+                                                   </label>
                                                 </div>
                                              </div>
                                              
@@ -949,7 +971,25 @@
 
         </div>
         <div class="ReactModalPortal"></div>
-
+        
     </div>
-</body>
-</html> 
+<style>
+    #show-temp{
+        position: relative;
+        top: -68px;
+        left: 0px;
+        height: 60px;
+        width: 60px;
+        display: none;
+    }
+    #send-message{
+        z-index: 100;
+    }
+
+    .invalid-feedback{
+        color: red;
+        display: none;
+    }
+</style>
+    </body>
+</html>

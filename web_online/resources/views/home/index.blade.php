@@ -23,32 +23,26 @@ Trang chủ
                                     <div class="so-homeslider sohomeslider-inner-1">
                                         <div class="item">
                                             <a href=" #     " title="slide 1" target="_self">
-                                               <!--
+                                               
                                                <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/slider-1-1090x450.jpg"  alt="slide 1" />
-                                               -->
-                                                <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/my-pham-nhat-ban-02.jpg"  alt="slide 1" />
-
+                                               
                                             </a>
                                             <div class="sohomeslider-description">
                                             </div>
                                         </div>
                                         <div class="item">
                                             <a href="#   " title="slide 2" target="_self">
-                                                <!--
+                                                
                                                 <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/slider-2-1090x450.jpg"  alt="slide 2" />
-                                                 -->
-                                                <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/banner-dncosmetics.jpg"  alt="slide 2" />
-
+                                               
                                             </a>
                                             <div class="sohomeslider-description">
                                             </div>
                                         </div>
                                         <div class="item">
                                             <a href=" #" title="slide 3" target="_self">
-                                                <!--
+                                                
                                                 <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/slider-3-1090x450.jpg"  alt="slide 3" />
-                                                -->
-                                                <img class="lazyload"   data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/home1/banner-emcos-1.jpg"  alt="slide 3" />
                                                 
                                             </a>
                                             <div class="sohomeslider-description">
@@ -597,7 +591,7 @@ Trang chủ
                                                             </h4>
                                                         </div>
                                                         <div  class="price">
-                                                            <span class="price-new">{{number_format($item->GIAMOI)}}VNĐ </span>&nbsp;&nbsp;
+                                                            <span class="price-new">{{number_format($item->GIAMOI)}} VNĐ </span>&nbsp;&nbsp;
                                                             <span class="price-old">{{ $item->GIA != $item->GIAMOI ? number_format($item->GIA).'VNĐ' : ' ' }}</span>&nbsp;
                                                         </div>
                                                     </div>
@@ -1033,7 +1027,7 @@ Trang chủ
                                                             <h4><a href="detail/{{$item->MA_SP}}" target="_self" title="{{ $item->TEN_SP }}">{{ $item->TEN_SP }}</a></h4>
                                                         </div>
                                                         <p class="price">
-                                                            <span class="price-new">{{number_format($item->GIAMOI)}}VNĐ</span>
+                                                            <span class="price-new">{{number_format($item->GIAMOI)}} VNĐ</span>
                                                             <span class="price-old">{{ $item->GIA != $item->GIAMOI ? number_format($item->GIA).'VNĐ' : ' ' }}</span>
                                                         </p>
                                                         <!-- </div> -->
@@ -1379,7 +1373,7 @@ Trang chủ
                                                             </h4>
                                                         </div>
                                                         <p class="price">
-                                                            <span class="price-new">{{number_format($item->GIAMOI)}}VNĐ</span>
+                                                            <span class="price-new">{{number_format($item->GIAMOI)}} VNĐ</span>
                                                             <span class="price-old">{{ $item->GIA != $item->GIAMOI ? number_format($item->GIA).'VNĐ' : ' ' }}</span>
                                                         </p>
                                                     </div>
@@ -1660,7 +1654,9 @@ Trang chủ
                                                                         </div>
                                                                         <div class="box-label">
                                                                             @if ($item->GIAMOI < $item->GIA)
-                                                                            <span class="label label-sale">-{{ round((1-($item->GIAMOI/$item->GIA))*100) }}%</span>
+                                                                                @if((round((1-($item->GIAMOI/$item->GIA))*100))>0)
+                                                                                <span class="label label-sale">-{{(round((1-($item->GIAMOI/$item->GIA))*100))}}%</span>
+                                                                                @endif
                                                                             @endif
                                                                         </div>
                                                                         <div class="so-quickview">
@@ -1687,8 +1683,8 @@ Trang chủ
                                                                         </div>
                                                                         <div  class="price">
                                                                             <span class="price-new">
-                                                                                <span class="price-new">{{number_format($item->GIAMOI)}}  </span>&nbsp;&nbsp;
-                                                                                <span class="price-old">{{number_format($item->GIA)}}  </span>&nbsp;
+                                                                                <span class="price-new">{{number_format($item->GIAMOI)}}VNĐ</span>&nbsp;&nbsp;
+                                                                                <span class="price-old">{{number_format($item->GIA)}} VNĐ</span>&nbsp;
                                                                             </span>
                                                                         </div>
                                                                     </div>

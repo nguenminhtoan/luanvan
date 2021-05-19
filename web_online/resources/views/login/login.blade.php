@@ -6,8 +6,8 @@ Login
 <div class="container">
    <ul class="breadcrumb">
       <li><a href="/home"><i class="fa fa-home"></i></a></li>
-      <li><a href="https://opencart.opencartworks.com/themes/so_supermarket/index.php?route=account/account">Account</a></li>
-      <li><a href="/login">Login</a></li>
+      <li><a href="/account">Tài Khoản của tôi</a></li>
+      <li><a href="/login">Đăng nhập</a></li>
    </ul>
    <div class="row">
       <div id="content" class="col-md-9 col-sm-12 fluid-sidebar">

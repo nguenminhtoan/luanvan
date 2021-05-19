@@ -3,24 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
+            <file>file:/D:/luan_van/code/web_online/resources/views/layouts/layout_home.blade.php</file>
+            <file>file:/D:/luan_van/code/web_online/public/js/micro.js</file>
+            <file>file:/D:/luan_van/code/web_online/resources/views/layouts/layout_detail.blade.php</file>
+            <file>file:/D:/luan_van/code/web_online/.env</file>
+            <file>file:/D:/luan_van/code/web_online/app/Http/Controllers/DetailController.php</file>
             <file>file:/D:/luan_van/code/web_online/resources/views/home/index.blade.php</file>
-            <file>file:/D:/luan_van/code/web_online/app/Http/Controllers/OrdersController.php</file>
-            <file>file:/D:/luan_van/code/web_online/app/Models/Donhang.php</file>
-            <file>file:/D:/luan_van/code/web_online/resources/views/shipment/detail_orders.blade.php</file>
-            <file>file:/D:/luan_van/code/web_online/app/Http/Controllers/ShipmentController.php</file>
-            <file>file:/D:/luan_van/code/web_online/resources/views/shipment/shipper.blade.php</file>
-            <file>file:/D:/luan_van/code/web_online/resources/views/orders/detail_orders.blade.php</file>
             <file>file:/D:/luan_van/code/web_online/routes/web.php</file>
-=======
-            <file>file:/D:/git/luanvan/web_online/app/Models/Traodoi.php</file>
-            <file>file:/D:/git/luanvan/web_online/app/Http/Controllers/ChatController.php</file>
-            <file>file:/D:/git/luanvan/web_online/app/Events/MessageReply.php</file>
-            <file>file:/D:/git/luanvan/web_online/resources/views/chat/index.blade.php</file>
-            <file>file:/D:/git/luanvan/web_online/routes/web.php</file>
-            <file>file:/D:/git/luanvan/web_online/resources/views/chat/chat.blade.php</file>
-            <file>file:/D:/git/luanvan/web_online/app/Events/MessageSent.php</file>
->>>>>>> 0a3397bb34760fa94a17375093bbe0ea636f64ca
         </group>
     </open-files>
 </project-private>

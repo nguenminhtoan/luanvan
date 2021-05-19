@@ -18,14 +18,6 @@ Chỉnh sửa Ngành hàng
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">Mã Ngành Hàng</label>
-                                                <input class="form-control" type="text" name="MA_NGANH" placeholder="Mã Ngành Hàng" id="ma_nganh" value={{$loai -> MA_NGANH}} >
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
                                                 <label class="form-label">Tên Ngành Hàng</label>
                                                 <input class="form-control" name="TEN" type="text" placeholder="Tên Ngành Hàng" id="ten" value={{$loai -> TEN}}>
                                             </div>

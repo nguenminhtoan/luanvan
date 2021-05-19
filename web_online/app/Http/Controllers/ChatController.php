@@ -125,8 +125,8 @@ class ChatController extends Controller
         $image = $request->file('input_img');
         if ($image != ''){
             $name = time().'.jpg';
-            $image->move(public_path('/images/chat/'.$request->MA_NGUOIDUNG), $name);
-            $name = '/images/chat/'.$mand."/".$name;
+            $image->move(public_path('/images/chat/'), $name);
+            $name = '/images/chat/'.$name;
         }
         else{
             $name = "";

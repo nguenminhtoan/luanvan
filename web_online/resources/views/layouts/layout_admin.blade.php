@@ -105,7 +105,7 @@
                             <div class="collapse" id="sidebarEmail">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="Email.html">Email</a>
+                                        <a href="/admin/chat/chat">Chăm sóc khách hàng<span class="badge rounded-pill badge-light-lighten font-10 float-end">New</span></a>
                                     </li>
                                     <li>
                                         <a href="readEmail.html">Đọc mail</a>
@@ -121,17 +121,12 @@
                             </a>
                             <div class="collapse" id="sidebarProjects">
                                 <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="sellers.html">Nhân viên</a>
-                                    </li>
+                                    
                                     <li>
                                         <a href="/cuahang/{{$cuahang->MA_CUAHANG}}">Hồ sơ shop<span class="badge rounded-pill badge-success-lighten font-10 float-end">New</span></a>
                                     </li>
                                     <li>
                                         <a href="/admin/industries/index">Ngành Hàng shop</a>
-                                    </li>
-                                    <li>
-                                        <a href="createproject.html">Trang trí shop<span class="badge rounded-pill badge-light-lighten font-10 float-end">New</span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -187,9 +182,6 @@
                                     <li>
                                         <a href="/admin/voucher/index">Các hình thức khuyến mãi</a>
                                     </li>
-                                    <li>
-                                        <a href="pages-faq.html">FAQ</a>
-                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -210,27 +202,7 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarCharts" aria-expanded="false" aria-controls="sidebarCharts" class="side-nav-link">
-                                <i class="uil-chart"></i>
-                                <span> Dữ liệu </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarCharts">
-                                <ul class="side-nav-second-level">
-
-                                    <li>
-                                        <a href="charts-brite.html">Phân tích hoạt động</a>
-                                    </li>
-                                    <li>
-                                        <a href="charts-chartjs.html">Đánh giá yêu thích</a>
-                                    </li>
-                                    <li>
-                                        <a href="charts-sparkline.html">Sparklines</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+                        
                     </ul>
 
                     <!-- End Sidebar -->
