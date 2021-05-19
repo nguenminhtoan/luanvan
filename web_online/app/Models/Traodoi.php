@@ -34,11 +34,18 @@ class Traodoi extends Model
     }
     
     public static function list_by_ch_nd($mach, $nguoidung){
-        $sql = "select ch.HINHANH, nd.TEN_NGUOIDUNG, td.NOIDUNG, td.THOIGIAN, td.TRA_MA_TRAODOI, ch.TEN_CUAHANG  from traodoi td
+        $sql = "select count(*) as COUNT from traodoi td WHERE td.MA_CUAHANG = ? AND td.MA_NGUOIDUNG = ? ORDER BY td.MA_TRAODOI";
+        $count = DB::select($sql,[$mach, $nguoidung])[0]->COUNT;
+        if ($count > 200){
+            $count = $count - 200;
+        }else{
+            $count = 0;
+        }
+        $sql = "select ch.HINHANH, nd.TEN_NGUOIDUNG, td.NOIDUNG, td.THOIGIAN, td.TRA_MA_TRAODOI, ch.TEN_CUAHANG, td.FILE_1 AS FILE  from traodoi td
             inner join nguoidung nd on nd.MA_NGUOIDUNG = td.MA_NGUOIDUNG 
             inner join cuahang ch on ch.MA_CUAHANG = td.MA_CUAHANG
-            WHERE td.MA_CUAHANG = ? AND td.MA_NGUOIDUNG = ? ORDER BY td.MA_TRAODOI ASC LIMIT 100";
-        return DB::select($sql,[$mach, $nguoidung]);
+            WHERE td.MA_CUAHANG = ? AND td.MA_NGUOIDUNG = ? ORDER BY td.MA_TRAODOI ASC LIMIT ?, 200";
+        return DB::select($sql,[$mach, $nguoidung, $count]);
     }
     
     

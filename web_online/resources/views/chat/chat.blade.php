@@ -123,6 +123,12 @@ Chăm sóc khách hàng
                                         {{$item->NOIDUNG}}
                                     </p>
                                 </div>
+                                
+                                @if($item->FILE)
+                                <div style="margin-top: 10px">
+                                    <img  style="width: 100px;text-align: right;" src="{{$item->FILE}}" />
+                                </div>
+                                @endif
                             </div>
                             <div class="conversation-actions dropdown">
                                 <button class="btn btn-sm btn-link" data-bs-toggle="dropdown"
@@ -132,6 +138,7 @@ Chăm sóc khách hàng
                                     <a class="dropdown-item" href="#">Delete</a>
                                 </div>
                             </div>
+                            
                         </li>
                         @else
                         <li class="clearfix">
@@ -146,6 +153,12 @@ Chăm sóc khách hàng
                                         {{$item->NOIDUNG}}
                                     </p>
                                 </div>
+                                
+                                @if($item->FILE)
+                                <div style="margin-top: 10px">
+                                    <img  style="width: 100px;text-align: right;" src="{{$item->FILE}}" />
+                                </div>
+                                @endif
                             </div>
                             <div class="conversation-actions dropdown">
                                 <button class="btn btn-sm btn-link" data-bs-toggle="dropdown"
@@ -162,7 +175,9 @@ Chăm sóc khách hàng
                     <div class="row">
                         <div class="col">
                             <div class="mt-2 bg-light p-3 rounded">
-                                <form class="needs-validation" novalidate="" name="chat-form" id="chat-form" action="/admin/chat/messages" method="post" enctype="multipart/form-data" >
+                                <div style="position: absolute; z-index: 0"><img id="show-temp" /></div>
+                                
+                                <form class="needs-validation" id="chat-form" name="chat-form" id="chat-form" action="/admin/chat/messages" method="post" enctype="multipart/form-data" >
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <input type="hidden" name="MA_NGUOIDUNG" value="{{$id}}" />
@@ -175,7 +190,7 @@ Chăm sóc khách hàng
                                         </div>
                                         <div class="col-sm-auto">
                                             <div class="btn-group">
-                                                <input name="file" type="input_img" hidden="" id="upload_file" accept="/img">
+                                                <input onchange="change_img(this)" name="input_img" type="file" hidden="" id="upload_file" accept="image/png,image/jpeg,image/jpg">
                                                 <label for="upload_file" class="btn btn-light"> <i class='uil uil-paperclip'></i> </label>
                                                 <a href="#" class="btn btn-light"><i class="uil uil-smile"></i></a>
                                                 <div class="d-grid">
@@ -198,6 +213,19 @@ Chăm sóc khách hàng
             <!-- end card -->
         </div>
         <script src="{{ asset('js/app.js') }}"></script>
+        <style>
+            #show-temp{
+                position: relative;
+                top: -110px;
+                left: -20px;
+                height: 80px;
+                width: 80px;
+                display: none;
+            }
+            #send-message{
+                z-index: 100;
+            }
+        </style>
 <script>
 
     var check = true;
@@ -206,6 +234,23 @@ Chăm sóc khách hàng
         cluster: "ap1"
     });
 
+    function change_img(event){
+       
+        if (event.files && event.files[0]) {
+            var reader = new FileReader();
+            var img = $("#show-temp")
+            reader.onload = function (e) {
+                img.attr("src", e.target.result);
+                img.css("display", "block");
+            }
+            reader.readAsDataURL(event.files[0]); // convert to base64 string
+        }
+    }    
+    
+    function remove_img(event){
+       $("#show-temp").remove();
+    }
+    
     // Subscribe to the channel we specified in our Laravel Event
     var channel = pusher.subscribe('chat');
     
@@ -218,10 +263,15 @@ Chăm sóc khách hàng
         template.find(".chat-avatar").find("img").attr("src", data.data.HINHANH);
         template.find(".chat-avatar").find(".time").html(data.data.THOIGIAN);
         template.find("#name").html(data.data.TEN_CUAHANG);
+        template.find(".conversation-text").append("<div style='margin-top: 10px' ><img style='width: 100px; text-align: right;' src='" +data.data.FILE + "' >")
         var d = $('#show_messages .simplebar-content');
         d.append(template);
         $("#show_messages .simplebar-content-wrapper").scrollTop(d.prop("scrollHeight"));
         $("input#send-message").val("");
+        if(data.data.FILE){
+            
+        }
+        clearImg();
         check = true;
     });
     $('form').submit(function() {
@@ -233,16 +283,33 @@ Chăm sóc khách hàng
         }
     });
     
+    function clearImg(){
+        $("input[type='file']").val("");
+        $("#show-temp").css("display", "none");
+    }
+    
     function send_chat(){
-        if(check){
+        if(check && $("input#send-message").val() != ""){
+            
+            var form = $("#chat-form");
+
+            // you can't pass Jquery form it has to be javascript form object
+            var formData = new FormData(form[0]);
+            formData.append('file',$("input[type='file']")[0].files);
             $.ajax({
                 method: "post",
-                data: $("#chat-form").serialize(),
+                enctype: 'multipart/form-data',
+                data: formData,
+                contentType: false,
+                processData: false,
                 url: "/admin/chat/messages",
                 success: (function(data){
                 })
             });
             check = false;
+            $(".invalid-feedback").css("display","none");
+        }else{
+            $(".invalid-feedback").css("display","block");
         }
     }
     
@@ -260,6 +327,7 @@ Chăm sóc khách hàng
             template.find(".chat-avatar").find("img").attr("src", data.data.HINHANH);
             template.find(".chat-avatar").find(".time").html(data.data.THOIGIAN);
             template.find("#name").html(data.data.TEN_CUAHANG);
+            template.find(".conversation-text").append("<div style='margin-top: 10px' ><img style='width: 100px; text-align: left;' src='" +data.data.FILE + "' >")
             $("input[name='MA_TRAODOI']").val(data.data.MA_TRAODOI);
             var d = $('#show_messages .simplebar-content');
             d.append(template);
