@@ -170,7 +170,43 @@ class RegisterController extends Controller {
         }
     }
     
+    public function rest_pass(Request $req){
+        $danhmuc = DB::select('select *from danhmuc');
+        $nguoidung = new Nguoidung();
+        $user = Session::get("MA_NGUOIDUNG");
+        return view("register.reset_pass",['nguoidung'=> $nguoidung,'err'=>'','danhmuc'=> $danhmuc, 'user' => $user, 'soluong' => 0]);
+   
+    }
     
+    public function update_pass(Request $req){
+        $user = DB::select('select * from nguoidung where email = ?', [$req->email]);
+        if(count($user) > 0) {
+            $token = $this->generateRandomString(6);
+            $mk = Hash::make($token);
+            DB::update("update nguoidung set MATKHAU = ? where MA_NGUOIDUNG = ? ", [$mk, $user[0]->MA_NGUOIDUNG]);
+            $data = [
+                "to" => $user[0]->EMAIL,
+                "subject" => "[Rest pass] thay đổi mật khẩu tại shop SupperMarket",
+                "template" => "rest_pass",
+                "data" => [
+                    "email" => $user[0]->EMAIL,
+                    "pass" => $token
+                ]
+            ];
+
+            $email = new SendEmail($data);
+            Mail::to($data["to"])->send($email);
+            return redirect("/home");
+        }else{
+            $err = "email không tồn tại";
+            $danhmuc = DB::select('select *from danhmuc');
+            $nguoidung = new Nguoidung();
+            $user = Session::get("MA_NGUOIDUNG");
+            return view("register.reset_pass",['nguoidung'=> $nguoidung,'err'=>$err,'danhmuc'=> $danhmuc, 'user' => $user, 'soluong' => 0]);
+        }
+   
+    }
+
     public function generateRandomString($length = 10) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);

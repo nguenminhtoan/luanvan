@@ -208,6 +208,8 @@ Route::get('/logout',"LoginController@logout");
 
 Route::get('/register',"RegisterController@index");
 Route::post('/register/create',"RegisterController@create");
+Route::get('/register/rest',"RegisterController@rest_pass");
+Route::post('/register/update_pass',"RegisterController@update_pass");
 
 Route::get('/detail/{id}',"DetailController@index");
 Route::get('/account/{id}',"AccountController@index");
