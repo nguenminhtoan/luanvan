@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 
 use App\Models\Nguoidung;
+use Illuminate\Support\Facades\Hash;
 
 use Session;
 
@@ -23,15 +24,15 @@ class LoginController extends Controller
         
         $user = Session::get("MA_NGUOIDUNG");
         $nguoidung = new Nguoidung(["EMAIL"=>$req->EMAIL,"MATKHAU"=>$req->MATKHAU]);
-        if(count(DB::select('select * from Nguoidung where EMAIL = :EMAIL and MATKHAU = :MATKHAU', ['EMAIL' => $nguoidung->EMAIL, 'MATKHAU'=>$nguoidung->MATKHAU]) )> 0){
-            $nguoi_dung = DB::select('select * from Nguoidung where EMAIL = :EMAIL and MATKHAU = :MATKHAU', ['EMAIL' => $nguoidung->EMAIL, 'MATKHAU'=>$nguoidung->MATKHAU]); 
-            Session::put("MA_NGUOIDUNG",$nguoi_dung[0]);
+        $taikhoan = DB::select('select * from Nguoidung where EMAIL = :EMAIL or SDT = :SDT', ['EMAIL' => $nguoidung->EMAIL, 'SDT'=>$nguoidung->EMAIL]);
+        if(count($taikhoan)> 0 && Hash::check($nguoidung->MATKHAU, $taikhoan[0]->MATKHAU)){
+            Session::put("MA_NGUOIDUNG",$taikhoan[0]);
             return redirect("/home");
         }
         else
         {
             $danhmuc = DB::select('select *from danhmuc');
-            $err = "Email hoac mat khau khong dung";
+            $err = "Email hoặc mật khẩu không đúng";
             return view("login.login",['nguoidung'=> $nguoidung, 'err'=>$err,'danhmuc'=> $danhmuc,'user' => $user,  'soluong' => 0]);
         }
 

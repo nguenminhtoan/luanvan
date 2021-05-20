@@ -13,6 +13,9 @@ use App\Models\Nguoidung;
 use App\Models\Cuahang;
 use DB;
 use App\Models\Danhmuc;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendEmail;
 use Session;
 
 /**
@@ -38,25 +41,55 @@ class RegisterController extends Controller {
         $huyen  = DB::select("select *from huyen");
         $xa = DB::select("select *from xa");
         $danhmuc = DB::SELECT('select *from danhmuc');
-        $nguoidung = new Nguoidung(["TEN_NGUOIDUNG" => $req->TEN_NGUOIDUNG, "GIOITINH" => $req->GIOITINH, "SDT" => $req->SDT,'GIOITINH'=> $req-> GIOITINH ,'NGAYSINH'=>$req-> NGAYSINH ,'TK_MANGXH'=>$req->TK_MANGXH,"EMAIL" =>$req ->EMAIL ,"MATKHAU" =>$req ->MATKHAU,'MA_XA' =>$req->MA_XA]);
+        $nguoidung = new Nguoidung(["TEN_NGUOIDUNG" => $req->TEN_NGUOIDUNG, 
+            "GIOITINH" => $req->GIOITINH, "SDT" => $req->SDT,'GIOITINH'=> $req-> GIOITINH ,'NGAYSINH'=>$req-> NGAYSINH ,
+            'TK_MANGXH'=>$req->TK_MANGXH,"EMAIL" =>$req ->EMAIL ,"MATKHAU" =>$req ->MATKHAU,'MA_XA' =>$req->MA_XA,
+            "MA_TINH" =>$req->MA_TINH, "MA_HUYEN" => $req->MA_HUYEN]);
         $err = [];
         if (count(DB::select('select * from Nguoidung where EMAIL = :EMAIL', ['EMAIL' => $nguoidung->EMAIL])) > 0) {
-            array_push($err, "Tài khoản đã tồn tại!");  
+            array_push($err, "Email đã được sử dụng !");  
         } 
         
-        if (strlen($nguoidung->SDT) < 9 || strlen($nguoidung->SDT) > 10) {
-            array_push($err, "Số điện thoại đã sai!");
+        if (count(DB::select('select * from Nguoidung where SDT = :SDT', ['SDT' => $nguoidung->SDT])) > 0) {
+            array_push($err, "Số điện thoại đã được sử dụng !");  
+        } 
+        
+        if (is_null($nguoidung->MA_XA)) {
+            array_push($err, "vui lòng chọn địa chỉ !");  
+        } 
+        
+        if (strlen($nguoidung->SDT) < 9 || strlen($nguoidung->SDT) > 11) {
+            array_push($err, "Số điện thoại không chính xác !");
         }
-        if (strlen($nguoidung->MATKHAU) < 5) {
-            array_push($err, "Mật khẩu không đủ 5 ký tự!");
+        if (strlen($nguoidung->MATKHAU) < 6) {
+            array_push($err, "Mật khẩu phải lớn hơn 5 ký tự!");
         }
         if(count($err) == 0){
-            $sql = "INSERT INTO `nguoidung`(`TEN_NGUOIDUNG`, `GIOITINH`,`NGAYSINH`, `SDT`,`TK_MANGXH`,`EMAIL`,`MATKHAU`,`MA_XA`) VALUES (:TEN_NGUOIDUNG, :GIOITINH,:NGAYSINH, :SDT,:TK_MANGXH, :EMAIL , :MATKHAU, :MA_XA)";
+            
+            $token = $this->generateRandomString(150);
+            $mk = Hash::make($nguoidung->MATKHAU);
+            $sql = "INSERT INTO `nguoidung`(`TEN_NGUOIDUNG`, `GIOITINH`,`NGAYSINH`, `SDT`,`TK_MANGXH`,`EMAIL`,`MATKHAU`,`MA_XA`, TOKEN, STATUS, ADMIN) VALUES (:TEN_NGUOIDUNG, :GIOITINH,:NGAYSINH, :SDT,:TK_MANGXH, :EMAIL , :MATKHAU, :MA_XA, :TOKEN, :STATUS, 1)";
             $param = ['TEN_NGUOIDUNG' => $nguoidung->TEN_NGUOIDUNG, 'GIOITINH' => $nguoidung->GIOITINH, 'NGAYSINH' => $nguoidung->NGAYSINH,
-                        'SDT' => $nguoidung->SDT, 'TK_MANGXH' => $nguoidung->TK_MANGXH,'EMAIL' => $nguoidung->EMAIL,'MATKHAU'=>$nguoidung->MATKHAU, 'MA_XA' =>$nguoidung->MA_XA];
+                        'SDT' => $nguoidung->SDT, 'TK_MANGXH' => $nguoidung->TK_MANGXH,'EMAIL' => $nguoidung->EMAIL,'MATKHAU'=>$mk, 'MA_XA' =>$nguoidung->MA_XA, "TOKEN" => $token, "STATUS" => 0];
             if (DB::insert($sql, $param)) {
-                $nguoi_dung = DB::select('select * from Nguoidung where EMAIL = :EMAIL and MATKHAU = :MATKHAU', ['EMAIL' => $nguoidung->EMAIL, 'MATKHAU'=>$nguoidung->MATKHAU]); 
+                $nguoi_dung = DB::select('select * from Nguoidung where EMAIL = :EMAIL', ['EMAIL' => $nguoidung->EMAIL]); 
                 Session::put("MA_NGUOIDUNG",$nguoi_dung[0]);
+                if(isset($nguoi_dung[0]->EMAIL)){
+                    $data = [
+                        "to" => $nguoidung->EMAIL,
+                        "subject" => "[Xác thực] xác thực đăng ký tài khoản tại shop SupperMarket",
+                        "template" => "xacthuc_mail",
+                        "data" => [
+                            "name" => $nguoi_dung[0]->TEN_NGUOIDUNG,
+                            "link" => "http://localhost:8000/verify?token_id=".$token,
+                            "phai" => $nguoi_dung[0]->GIOITINH
+                        ]
+                    ];
+
+                    $email = new SendEmail($data);
+                    Mail::to($data["to"])->send($email);
+                }
+                
                 return redirect("/home");
             }
         }
@@ -70,6 +103,19 @@ class RegisterController extends Controller {
         
     }
     
+    public function verify(Request $req){
+        $nguoidung = DB::select('select * from Nguoidung where TOKEN = ?', [$req->token_id]);
+        if(count($nguoidung) > 0){
+            Session::put("MA_NGUOIDUNG",$nguoidung[0]);
+            DB::update('update nguoidung set STATUS = 1 where TOKEN = ?', [$req->token_id]);
+            $danhmuc = DB::SELECT('select *from danhmuc');
+            return view("register.verify", ['danhmuc' => $danhmuc, "soluong" => 0, "user"=> $nguoidung[0]]);
+        }
+        else{
+            return redirect("/home");
+        }
+    }
+
     public function register_shop(){
         $nguoidung = Session::get("MA_NGUOIDUNG") -> MA_NGUOIDUNG;
         $count = DB::select("SELECT * FROM nguoidung WHERE MA_NGUOIDUNG = :MA_NGUOIDUNG AND MA_CUAHANG IS NOT NULL", ["MA_NGUOIDUNG" => $nguoidung]);
@@ -122,5 +168,16 @@ class RegisterController extends Controller {
             return view("register/register_shop", ['nganhhang'=>$nganh, 'cuahang'=>$cuahang,'nguoidung'=>$nguoidung,'user' => $user,'danhmuc'=> $danhmuc,'tinh' => $tinh,'huyen' => $huyen,'xa' => $xa,'soluong'=>0]);
         
         }
+    }
+    
+    
+    public function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }
