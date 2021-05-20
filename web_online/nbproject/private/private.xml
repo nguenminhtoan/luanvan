@@ -3,10 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/D:/luan_van/code/web_online/resources/views/register/register.blade.php</file>
             <file>file:/D:/luan_van/code/web_online/.env</file>
             <file>file:/D:/luan_van/code/web_online/resources/views/login/login.blade.php</file>
             <file>file:/D:/luan_van/code/web_online/routes/web.php</file>
+=======
+            <file>file:/D:/git/luanvan/web_online/app/Models/Traodoi.php</file>
+            <file>file:/D:/git/luanvan/web_online/app/Http/Controllers/ChatController.php</file>
+            <file>file:/D:/git/luanvan/web_online/resources/views/layouts/layout_home.blade.php</file>
+            <file>file:/D:/git/luanvan/web_online/app/Events/MessageReply.php</file>
+            <file>file:/D:/git/luanvan/web_online/routes/web.php</file>
+            <file>file:/D:/git/luanvan/web_online/resources/views/chat/chat.blade.php</file>
+            <file>file:/D:/git/luanvan/web_online/resources/views/layouts/layout_detail.blade.php</file>
+            <file>file:/D:/git/luanvan/web_online/app/Events/MessageSent.php</file>
+>>>>>>> 43d5fcfc53a0495b0e2bf56b13462eb27cfc82d6
         </group>
     </open-files>
 </project-private>

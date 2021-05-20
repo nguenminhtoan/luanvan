@@ -1047,3 +1047,8 @@
     text-align: center;
     padding-top: 15px;
 }
+
+.message-error{
+    color: red;
+    margin-left: 200px;
+}

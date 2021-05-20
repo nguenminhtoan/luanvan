@@ -44,11 +44,11 @@
                         <label class="col-sm-2 control-label" for="input-lastname">Giới tính</label>
                         <div class="col-sm-10">
                             <label class="radio-inline">
-                                <input type="radio" name="GIOITINH" value="Nam">
+                                <input type="radio" name="GIOITINH" {{($nguoidung ->GIOITINH == "Nam" || is_null($nguoidung ->GIOITINH)) ? 'checked' : ''}}  value="Nam">
                                 Nam
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="GIOITINH" value="Nữ" >
+                                <input type="radio" name="GIOITINH" {{$nguoidung ->GIOITINH == "Nữ" ? 'checked' : ''}}  value="Nữ" >
                                 Nữ
                             </label>
                         </div>
@@ -75,16 +75,16 @@
                     <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-lastname">Tỉnh - Huyện</label>
                         <div class="col-sm-10">
-                            <select class="form-control address" name="TEN_TINH" id="customer_id_province">
+                            <select class="form-control address" name="MA_TINH" id="customer_id_province">
                                 <option value="" >--</option>
                                 @foreach ($tinh as $item)
-                                <option value="{{$item->MA_TINH}}" >{{$item->TEN_TINH}}</option>
+                                <option value="{{$item->MA_TINH}}" {{ $item->MA_TINH ==  $nguoidung->MA_TINH ? "selected=''" : ""}}  >{{$item->TEN_TINH}}</option>
                                 @endforeach
                             </select>
-                            <select class="form-control address" name="TEN_HUYEN" id="customer_id_district">
+                            <select class="form-control address" name="MA_HUYEN" id="customer_id_district">
                                 <option value="" >--</option>
                                 @foreach ($huyen as $item)
-                                <option hidden=""  value="{{$item->MA_HUYEN}}" data-tinh="{{$item->MA_TINH}}">{{$item->TEN_HUYEN}}</option>
+                                <option {{ $item->MA_TINH ==  $nguoidung->MA_TINH ? "" : 'hidden'}}  value="{{$item->MA_HUYEN}}" {{ $item->MA_HUYEN ==  $nguoidung->MA_HUYEN ? "selected=''" : ""}}  data-tinh="{{$item->MA_TINH}}">{{$item->TEN_HUYEN}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -94,14 +94,18 @@
                         <div class="col-sm-10">
                             <select class="form-control address" name="MA_XA" id="customer_id_ward">
                                 <option value="" >--</option>
-                                
+                                @foreach ($xa as $item)
+                                @if ($item->MA_HUYEN ==  $nguoidung->MA_HUYEN)
+                                <option {{ $item->MA_HUYEN ==  $nguoidung->MA_HUYEN ? "" : 'hidden'}}  value="{{$item->MA_XA}}"  {{ $item->MA_XA ==  $nguoidung->MA_XA ? "selected=''" : ""}} data-huyen="{{$item->MA_HUYEN}}">{{$item->TEN_XA}}</option>
+                                @endif
+                                @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-telephone">Số điện thoại</label>
                         <div class="col-sm-10">
-                            <input type="tel" name="SDT" value="{{$nguoidung ->SDT}}" placeholder="Số điện thoại" id="input-telephone" class="form-control">
+                            <input type="tel" name="SDT" maxlength="11" value="{{$nguoidung ->SDT}}" placeholder="Số điện thoại" id="input-telephone" class="form-control">
                         </div>
                     </div>
                 </fieldset>

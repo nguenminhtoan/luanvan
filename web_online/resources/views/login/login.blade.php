@@ -25,7 +25,7 @@ Login
                   <h2>Đăng nhập tài khoản</h2>
                   <p><strong></strong></p>
                   <form action="/login/auth" method="post" enctype="multipart/form-data">
-                      <ul class="message-error" >
+                      <ul class="" >
                         @if ($err != '')
                         <div class="alert alert-danger">
                             <ul>
@@ -36,8 +36,8 @@ Login
                         </ul>
                         {{ csrf_field() }}
                      <div class="form-group">
-                        <label class="control-label" for="input-email"> Địa chỉ E-Mail</label>
-                        <input type="username " name="EMAIL" value="{{$nguoidung ->EMAIL}}" placeholder="E-Mail" id="input-email" class="form-control">
+                        <label class="control-label" for="input-email"> Địa chỉ E-Mail hoặc Số điện thoại</label>
+                        <input type="username " name="EMAIL" value="{{$nguoidung ->EMAIL}}" placeholder="E-Mail hoặc số điện thoại" id="input-email" class="form-control">
                      </div>
                      <div class="form-group">
                         <label class="control-label" for="input-password">Mật khẩu</label>
