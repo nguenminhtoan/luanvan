@@ -74,9 +74,9 @@
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a href="/admin/chat" class="side-nav-link">
+                            <a href="/admin/chat/chat" class="side-nav-link">
                                 <i class="uil-comments-alt"></i>
-                                <span> Trò chuyện </span>
+                                <span>Trao đổi <span class="badge rounded-pill badge-success-lighten font-10 float-end"> Chăm sóc khách hàng </span> </span>
                             </a>
                         </li>
                         <li class="side-nav-item">
@@ -96,23 +96,7 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
-                                <i class="uil-envelope"></i>
-                                <span> Chăm sóc khách hàng </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarEmail">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="/admin/chat/chat">Chăm sóc khách hàng<span class="badge rounded-pill badge-light-lighten font-10 float-end">New</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="readEmail.html">Đọc mail</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+                        
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
                                 <i class="uil-briefcase"></i>
@@ -123,7 +107,7 @@
                                 <ul class="side-nav-second-level">
                                     
                                     <li>
-                                        <a href="/cuahang/{{$cuahang->MA_CUAHANG}}">Hồ sơ shop<span class="badge rounded-pill badge-success-lighten font-10 float-end">New</span></a>
+                                        <a href="/cuahang/{{$cuahang->MA_CUAHANG}}">Hồ sơ shop<span class="badge rounded-pill badge-light-lighten font-10 float-end">mới</span></a>
                                     </li>
                                     <li>
                                         <a href="/admin/industries/index">Ngành Hàng shop</a>

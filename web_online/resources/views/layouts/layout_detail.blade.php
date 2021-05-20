@@ -61,7 +61,7 @@
         <script src="/js/jquery.cookie.js"></script>
         <script src="/js/so_megamenu.js"></script>
         <script src="/js/nouislider.js"></script>
-
+        <script defer src="/js/micro.js"></script>
 
 
         <link href='https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700' rel='stylesheet' type='text/css'>  	
@@ -162,7 +162,8 @@
                                                 </div>
 
                                                 <input class="autosearch-input form-control" type="search" value="" size="50" autocomplete="off" placeholder="nhập vào đây để tìm kiếm..." name="search">
-                                                <button type="submit" class="button-search btn btn-default btn-lg"><i class="fa fa-search"></i><span>Tìm</span></button>
+                                                <button type="submit" class="button-search btn btn-default btn-lg words " style="right: 80px"><i class="fa fa-search"></i><span>Tìm</span></button>
+                                                <button type="button" class="mic" style="width: 30px" ><i class="fa fa-microphone"></i></button>
                                             </div>
                                         </form>
                                     </div>

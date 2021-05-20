@@ -147,7 +147,7 @@ Route::group(['prefix' => 'admin', "middleware"=> "login"], function () {
     
     Route::group(['prefix' => '/chat'], function()
     {
-        Route::get("/", "ChatController@index");
+        Route::get("/", "ChatController@chat");
         Route::get('messages', 'ChatController@fetchMessages');
         Route::post('messages', 'ChatController@sendMessage');
         Route::get('/chat',"ChatController@chat");
