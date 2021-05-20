@@ -6,7 +6,10 @@ use App\Models\Sanpham;
 use App\Models\Nguoidung;
 use App\Models\Noithanhtoan;
 use App\Models\Donhang;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendEmail;
 use Session;
+
 class CartController extends Controller
 {
     public  function index(){
@@ -48,7 +51,7 @@ class CartController extends Controller
                                     inner join sanpham on ctdonhang.MA_SP = sanpham.MA_SP 
                                     inner JOIN (select ha.MA_SP, MIN(URL) as URL from HINHANH ha GROUP BY ha.MA_SP) as h1 on h1.MA_SP = sanpham.MA_SP
                                     WHERE donhang.MA_TRANGTHAI = 1 And donhang.MA_NGUOIDUNG = :MA_NGUOIDUNG',['MA_NGUOIDUNG'=>$user->MA_NGUOIDUNG]);
-            return view ("cart.index",["cuahang" => $cuahang ,'giohang' => $giohang ,'noithanhtoan'=>$noithanhtoan,"vanchuyen"=>$vanchuyen,
+            return view ("cart.index",["cuahang" => $cuahang ,'giohang' => $giohang ,'noithanhtoan'=>$noithanhtoan,"vanchuyen"=>$vanchuyen, 'errors' => [],
                 "thanhtoan"=>$thanhtoan,"sanpham"=>$sp,'danhmuc'=>$danhmuc,'soluong'=>$soluong,'user'=>$user,'tinh'=>$tinh,'huyen'=>$huyen,'xa'=>$xa]);
         }
         else{
@@ -117,32 +120,132 @@ class CartController extends Controller
         $ma_vt = "";
         $ma_tt = $req-> MA_THANHTOAN;
         $ma_noi = $req->MA_NOI;
-        if(count(DB::select("select * from noithanhtoan where MA_NGUOIDUNG = :MA_NGUOIDUNG AND MACDINH = 1",["MA_NGUOIDUNG" => $ma_nguoidung])) == 0){
-            $sql = "insert noithanhtoan (MA_XA, MA_NGUOIDUNG, CHITIET, MACDINH) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET, '1')";
-            $param = ["MA_XA" => $req->MA_XA, "MA_NGUOIDUNG" => $ma_nguoidung, "CHITIET"=> $req->CHITIET];
-            DB::insert($sql,$param);
-            $ma_noi = DB::select("select * from noithanhtoan where MA_NGUOIDUNG = :MA_NGUOIDUNG AND MACDINH = 1",["MA_NGUOIDUNG" => $ma_nguoidung])[0]->MA_NOI;
+        
+        $error = [];
+        if(is_null($ma_noi = $req->MA_XA)){
+            array_push($error, "Vui lòng chọn nơi nhận hàng");
         }
-        foreach($hoadon as $key => $item){
-            if (!is_null($list[0][$key])){
-                $ma_vt = $list[0][$key];
-            }
-            $tong = DB::select("select sum(SOLUONG*DONGIA) as TONG from ctdonhang WHERE MA_DONBAN = :MA_DONBAN", ["MA_DONBAN" => $item->MA_DONBAN])[0]->TONG;
-            $phivt = DB::select("select DONGIA from vanchuyen WHERE MA_VANCHUYEN = :MA_VANCHUYEN", ["MA_VANCHUYEN" => $ma_vt])[0]->DONGIA;
-            $giam = DB::select("select GIAMGIA from khuyenmai WHERE MA_KHUYENMAI = :MA_KHUYENMAI AND :DATE BETWEEN BATDAU and KETTHUC", 
-                    ["MA_KHUYENMAI" => $req->MA_KHUYENMAI, "DATE" => date("Y/m/d")]);
-            if($giam){
-                $tongtien = $tong + $phivt - $giam[0]->GIAMGIA;
-            }
-            else{
-                $tongtien = $tong + $phivt;
-            }
-            $sql = "update donhang set MA_TRANGTHAI = 2, MA_VANCHUYEN = :MA_VANCHUYEN, MA_THANHTOAN = :MA_THANHTOAN,"
-                    . " MA_KHUYENMAI = :MA_KHUYENMAI, NGAYDAT = :NGAYDAT, TONGTIEN = :TONGTIEN, MA_NOI = :MA_NOI, DIACHI = :DIACHI WHERE MA_DONBAN = :MA_DONBAN";
-            $param = ["MA_VANCHUYEN" => $ma_vt, "MA_THANHTOAN" => $ma_tt,
-                "MA_KHUYENMAI" => $req->MA_KHUYENMAI, "NGAYDAT" => date("Y/m/d"), "MA_DONBAN" => $item->MA_DONBAN, "MA_NOI" => $ma_noi, "DIACHI" => $req->CHITIET, "TONGTIEN" => $tongtien];
-            DB::update($sql, $param);
+        
+        if(is_null($req-> MA_THANHTOAN)){
+            array_push($error, "Vui lòng hình thức thanh toán");
         }
+        if(count($error) > 0){
+            $danhmuc = DB::select('select * from danhmuc');
+            $tinh = DB::select("select * from tinh");
+            $huyen  = DB::select("select * from huyen");
+            $xa = DB::select("select * from xa LIMIT 11283");
+            $user = Session::get("MA_NGUOIDUNG");
+            $thanhtoan = DB::SELECT('Select * from thanhtoan');
+            $vanchuyen = DB::select('Select * from vanchuyen');
+            $soluong = 0;
+
+            $noithanhtoan = DB::select("select ntt.*,xa.MA_HUYEN, huyen.MA_TINH  from noithanhtoan ntt "
+                    . "     join xa on xa.MA_XA = ntt.MA_XA JOIN huyen on huyen.MA_HUYEN = xa.MA_HUYEN where MA_NGUOIDUNG = :ID AND MACDINH =1",
+                            ['ID'=>$user->MA_NGUOIDUNG]);
+            if($noithanhtoan){
+                $noithanhtoan = $noithanhtoan[0];
+            }else
+            {
+                $noithanhtoan = new Noithanhtoan();
+            }
+
+
+            if($user){
+                $giohang = DB::select("select donhang.*, vt.DONGIA, KM.GIAMGIA from donhang LEFT JOIN vanchuyen vt ON vt.MA_VANCHUYEN = donhang.MA_VANCHUYEN LEFT JOIN KHUYENMAI KM ON KM.MA_KHUYENMAI = donhang.MA_KHUYENMAI where MA_NGUOIDUNG = :MA_NGUOIDUNG AND MA_TRANGTHAI = 1",["MA_NGUOIDUNG" => $user->MA_NGUOIDUNG]);
+
+                if($giohang){
+                    $giohang = $giohang[0];
+                }else{
+                    $giohang = new Donhang();
+                }
+
+                $soluong = DB::select("select COUNT(SOLUONG) AS SOLUONG from donhang dh "
+                        . "join ctdonhang ct on ct.ma_donban = dh.ma_donban AND dh.MA_TRANGTHAI = 1 WHERE MA_NGUOIDUNG = :ID", ['ID' => $user -> MA_NGUOIDUNG])[0]->SOLUONG;
+
+                $cuahang = DB::select("SELECT * FROM donhang JOIN cuahang ON cuahang.MA_CUAHANG = donhang.MA_CUAHANG WHERE MA_TRANGTHAI = 1 AND MA_NGUOIDUNG = :MA_NGUOIDUNG", ["MA_NGUOIDUNG" => $user->MA_NGUOIDUNG]);
+                $sp = DB:: select('select sanpham.*, ctdonhang.SOLUONG, ctdonhang.DONGIA, ctdonhang.SOLUONG * ctdonhang.DONGIA as THANHTIEN, donhang.* ,h1.URL from donhang 
+                                        inner join ctdonhang on donhang.MA_DONBAN = ctdonhang.MA_DONBAN
+                                        inner join sanpham on ctdonhang.MA_SP = sanpham.MA_SP 
+                                        inner JOIN (select ha.MA_SP, MIN(URL) as URL from HINHANH ha GROUP BY ha.MA_SP) as h1 on h1.MA_SP = sanpham.MA_SP
+                                        WHERE donhang.MA_TRANGTHAI = 1 And donhang.MA_NGUOIDUNG = :MA_NGUOIDUNG',['MA_NGUOIDUNG'=>$user->MA_NGUOIDUNG]);
+                return view ("cart.index",["cuahang" => $cuahang ,'giohang' => $giohang ,'noithanhtoan'=>$noithanhtoan,"vanchuyen"=>$vanchuyen,'errors' => $error,
+                    "thanhtoan"=>$thanhtoan,"sanpham"=>$sp,'danhmuc'=>$danhmuc,'soluong'=>$soluong,'user'=>$user,'tinh'=>$tinh,'huyen'=>$huyen,'xa'=>$xa]);
+            }
+        }
+//        DB::beginTransaction();
+//
+//        try {
+            if(count(DB::select("select * from noithanhtoan where MA_NGUOIDUNG = :MA_NGUOIDUNG AND MACDINH = 1",["MA_NGUOIDUNG" => $ma_nguoidung])) == 0){
+                $sql = "insert noithanhtoan (MA_XA, MA_NGUOIDUNG, CHITIET, MACDINH) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET, '1')";
+                $param = ["MA_XA" => $req->MA_XA, "MA_NGUOIDUNG" => $ma_nguoidung, "CHITIET"=> $req->CHITIET];
+                DB::insert($sql,$param);
+                $ma_noi = DB::select("select * from noithanhtoan where MA_NGUOIDUNG = :MA_NGUOIDUNG AND MACDINH = 1",["MA_NGUOIDUNG" => $ma_nguoidung])[0]->MA_NOI;
+            }
+            foreach($hoadon as $key => $item){
+                if (!is_null($list[0][$key])){
+                    $ma_vt = $list[0][$key];
+                }
+                $tong = DB::select("select sum(SOLUONG*DONGIA) as TONG from ctdonhang WHERE MA_DONBAN = :MA_DONBAN", ["MA_DONBAN" => $item->MA_DONBAN])[0]->TONG;
+                $phivt = DB::select("select DONGIA from vanchuyen WHERE MA_VANCHUYEN = :MA_VANCHUYEN", ["MA_VANCHUYEN" => $ma_vt])[0]->DONGIA;
+                $giam = DB::select("select GIAMGIA from khuyenmai WHERE MA_KHUYENMAI = :MA_KHUYENMAI AND :DATE BETWEEN BATDAU and KETTHUC", 
+                        ["MA_KHUYENMAI" => $req->MA_KHUYENMAI, "DATE" => date("Y/m/d")]);
+                if($giam){
+                    $tongtien = $tong + $phivt - $giam[0]->GIAMGIA;
+                }
+                else{
+                    $tongtien = $tong + $phivt;
+                }
+                $row = DB::select("select TEN_TINH, TEN_HUYEN, TEN_XA, huyen.LOAI as LOAI_H, xa.LOAI as LOAI_X from noithanhtoan nt join xa on xa.MA_XA = nt.MA_XA 
+                    join huyen on huyen.MA_HUYEN = xa.MA_HUYEN
+                    join tinh on tinh.MA_TINH = huyen.MA_TINH
+                    where MA_NOI = ?", [$ma_noi])[0];
+                $diachi = $row->TEN_TINH. ", ".$row->LOAI_H." ".$row->TEN_HUYEN.", ".$row->LOAI_X.", ".$row->TEN_XA. ", ".$req->CHITIET;
+                $sql = "update donhang set MA_TRANGTHAI = 2, MA_VANCHUYEN = :MA_VANCHUYEN, MA_THANHTOAN = :MA_THANHTOAN,"
+                        . " MA_KHUYENMAI = :MA_KHUYENMAI, NGAYDAT = :NGAYDAT, TONGTIEN = :TONGTIEN, MA_NOI = :MA_NOI, DIACHI = :DIACHI WHERE MA_DONBAN = :MA_DONBAN";
+                $param = ["MA_VANCHUYEN" => $ma_vt, "MA_THANHTOAN" => $ma_tt,
+                    "MA_KHUYENMAI" => $req->MA_KHUYENMAI, "NGAYDAT" => date("Y/m/d"), "MA_DONBAN" => $item->MA_DONBAN, "MA_NOI" => $ma_noi, "DIACHI" => $diachi, "TONGTIEN" => $tongtien];
+                DB::update($sql, $param);
+            }
+
+            $user = Session::get("MA_NGUOIDUNG");
+            if($user->STATUS == 1){
+                $sql = "select nd.TEN_NGUOIDUNG, vt.DONGIA, km.GIAMGIA, donhang.*,
+                        PHUONGTHUC_THANHTOAN, nd.SDT, PHUONGTHUC_VANCHUYEN, THOIGIADUKIEN
+                        from donhang 
+                        LEFT JOIN vanchuyen vt ON vt.MA_VANCHUYEN = donhang.MA_VANCHUYEN 
+                        LEFT JOIN KHUYENMAI KM ON KM.MA_KHUYENMAI = donhang.MA_KHUYENMAI 
+                        JOIN thanhtoan tt on tt.MA_THANHTOAN = donhang.MA_THANHTOAN
+                        JOIN nguoidung nd on nd.MA_NGUOIDUNG = donhang.MA_NGUOIDUNG
+                        where MA_DONBAN IN ('".join("','",array_column($hoadon, "MA_DONBAN")). "')";
+                $order = DB::select($sql);
+
+                foreach($order as $row){
+                    $detail = DB::select("select * from ctdonhang ct_dh JOIN sanpham sp on sp.MA_SP = ct_dh.MA_SP where MA_DONBAN = ?", [$row->MA_DONBAN]);
+
+                    $data = [
+                        "to" => $user->EMAIL,
+                        "subject" => "[Hóa đơn mua hàng] Hóa đơn #".$row->MA_DONBAN." mua hàng ngày ".date('Y/m/d')." tại shop SupperMarket",
+                        "template" => "order_mail",
+                        "data" => [
+                            "order" => $row,
+                            "detail" => $detail
+                        ]
+                    ];
+
+                    $email = new SendEmail($data);
+                    Mail::to($data["to"])->send($email);
+                }
+            }
+//            DB::commit();
+//            // all good
+//        } catch (\Exception $e) {
+//            DB::rollback();
+//            $this->error($e);
+////            return redirect("/cart");
+//            // something went wrong
+//        }
+        
+        
         Session::put("complete", true);
         return redirect("/cart/complete");
     }

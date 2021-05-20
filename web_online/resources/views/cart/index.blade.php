@@ -84,6 +84,14 @@ Giỏ Hàng
             
             
             @endforeach
+            
+            <ul class="message-error" >
+                @if (is_array($errors))
+                @foreach ($errors as $er)
+                <li>{{ $er }}</li>
+                @endforeach
+                @endif
+            </ul>
             <div class="panel-group">
                 <div class="panel panel-default">
                     <div class="panel-heading">
