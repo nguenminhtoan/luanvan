@@ -22,9 +22,9 @@ Login
             </div>
             <div class="col-sm-6">
                <div class="well col-sm-12">
-                  <h2>Đăng nhập tài khoản</h2>
+                  <h2>Quên mật khẩu</h2>
                   <p><strong></strong></p>
-                  <form action="/login/auth" method="post" enctype="multipart/form-data">
+                  <form action="/register/update_pass" method="post">
                       <ul class="" >
                         @if ($err != '')
                         <div class="alert alert-danger">
@@ -36,15 +36,10 @@ Login
                         </ul>
                         {{ csrf_field() }}
                      <div class="form-group">
-                        <label class="control-label" for="input-email"> Địa chỉ E-Mail hoặc Số điện thoại</label>
-                        <input type="username " name="EMAIL" value="{{$nguoidung ->EMAIL}}" placeholder="E-Mail hoặc số điện thoại" id="input-email" class="form-control">
+                        <label class="control-label" for="input-email"> Địa chỉ E-Mail</label>
+                        <input type="username " name="email" value="" placeholder="E-Mail" id="input-email" class="form-control">
                      </div>
-                     <div class="form-group">
-                        <label class="control-label" for="input-password">Mật khẩu</label>
-                        <input type="password" name="MATKHAU" value="{{$nguoidung ->MATKHAU}}" placeholder="Password" id="input-password" class="form-control">
-                        <a href="/register/rest">Quên mật khẩu</a>
-                     </div>
-                     <input type="submit" value="Login" class="btn btn-primary pull-left">  
+                     <input type="submit" value="Xác nhận" class="btn btn-primary pull-left">  
                   </form>
                   <column id="column-login" class="col-sm-8 pull-right">
                      <div class="row">
