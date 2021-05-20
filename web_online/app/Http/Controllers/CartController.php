@@ -122,7 +122,7 @@ class CartController extends Controller
         $ma_noi = $req->MA_NOI;
         
         $error = [];
-        if(is_null($ma_noi = $req->MA_XA)){
+        if(is_null($req->MA_XA)){
             array_push($error, "Vui lòng chọn nơi nhận hàng");
         }
         

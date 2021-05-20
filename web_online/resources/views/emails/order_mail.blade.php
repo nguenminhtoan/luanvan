@@ -26,7 +26,7 @@
                 <td colspan="2">Phương thức vận chuyển: {{$order->PHUONGTHUC_VANCHUYEN}}</td>
             </tr>
             <tr>
-                <td colspan="2">Phí vận chuyển: </td>
+                <td colspan="2">Phí vận chuyển: {{number_format($order->DONGIA)}} VNĐ</td>
             </tr>
             <tr>
                 <td colspan="2">Thời gian dự kiến giao hàng: {{date('Y/m/d', strtotime($order->NGAYDAT."+ ".$order->THOIGIADUKIEN." day"))}}</td>
