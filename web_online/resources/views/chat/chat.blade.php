@@ -53,7 +53,7 @@ Chăm sóc khách hàng
                                         @foreach($list_nguoidung as $item)
                                         <a href="/admin/chat/chat?id={{$item->MA_NGUOIDUNG}}" class="text-body" id="user_id_{{$item->MA_NGUOIDUNG}}">
                                             <div class="d-flex align-items-start mt-1 p-2">
-                                                <img src="images/user-1.jpg" class="me-2 rounded-circle" height="48" alt="{{ $item->TEN_NGUOIDUNG }}" />
+                                                <img src="/img/user.jpg" class="me-2 rounded-circle" height="48" alt="{{ $item->TEN_NGUOIDUNG }}" />
                                                 <div class="w-100 overflow-hidden">
                                                     <h5 class="mt-0 mb-0 font-14">
                                                         <span class="float-end text-muted font-12">{{ date("Y-m-d", strtotime($item->THOIGIAN)) == date("Y-m-d") ? date("H:m", strtotime($item->THOIGIAN)) : date("Y-m-d", strtotime($item->THOIGIAN))  }}</span>
@@ -143,7 +143,7 @@ Chăm sóc khách hàng
                         @else
                         <li class="clearfix">
                             <div class="chat-avatar">
-                                <img src="//" alt="dominic" class="rounded" />
+                                <img src="/img/user.jpg" alt="dominic" class="rounded" />
                                 <i class="time">{{ date("Y-m-d", strtotime($item->THOIGIAN)) == date("Y-m-d") ? date("H:m", strtotime($item->THOIGIAN)) : date("Y-m-d", strtotime($item->THOIGIAN))  }}</i>
                             </div>
                             <div class="conversation-text">
@@ -175,7 +175,7 @@ Chăm sóc khách hàng
                     <div class="row">
                         <div class="col">
                             <div class="mt-2 bg-light p-3 rounded">
-                                <div style="position: absolute; z-index: 0"><img id="show-temp" /></div>
+                                <div id="img_show" style="position: relative; z-index: 0; display: none;"></i><img onclick="remove_img()" id="show-temp" /></div>
                                 
                                 <form class="needs-validation" id="chat-form" name="chat-form" id="chat-form" action="/admin/chat/messages" method="post" enctype="multipart/form-data" >
                                     {{ csrf_field() }}
@@ -215,12 +215,11 @@ Chăm sóc khách hàng
         <script src="{{ asset('js/app.js') }}"></script>
         <style>
             #show-temp{
-                position: relative;
+                position: absolute;
                 top: -110px;
                 left: -20px;
                 height: 80px;
                 width: 80px;
-                display: none;
             }
             #send-message{
                 z-index: 100;
@@ -241,14 +240,15 @@ Chăm sóc khách hàng
             var img = $("#show-temp")
             reader.onload = function (e) {
                 img.attr("src", e.target.result);
-                img.css("display", "block");
+                $("#img_show").css("display", "block");
             }
             reader.readAsDataURL(event.files[0]); // convert to base64 string
         }
     }    
     
-    function remove_img(event){
-       $("#show-temp").remove();
+    function remove_img(){
+       $("#img_show").css("display", "none");
+       $("input[type='file']").val("");
     }
     
     // Subscribe to the channel we specified in our Laravel Event
@@ -271,7 +271,7 @@ Chăm sóc khách hàng
         if(data.data.FILE){
             
         }
-        clearImg();
+        remove_img();
         check = true;
     });
     $('form').submit(function() {
@@ -283,13 +283,8 @@ Chăm sóc khách hàng
         }
     });
     
-    function clearImg(){
-        $("input[type='file']").val("");
-        $("#show-temp").css("display", "none");
-    }
-    
     function send_chat(){
-        if(check && $("input#send-message").val() != ""){
+        if(check && $("input#send-message").val().trim() != ""){
             
             var form = $("#chat-form");
 
