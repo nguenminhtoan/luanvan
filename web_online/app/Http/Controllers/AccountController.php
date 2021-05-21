@@ -18,8 +18,55 @@ use App\Models\Nguoidung;
 
 use App\Models\Noithanhtoan;
 
+use Illuminate\Support\Facades\Hash;
+
 class AccountController extends Controller
 {
+    public function pass() {
+        $user = Session::get("MA_NGUOIDUNG");
+        $danhmuc = DB::select('select *from danhmuc');
+        
+        $nguoidung = new Nguoidung(); 
+        if ($user){
+            $soluong = DB::select("select COUNT(SOLUONG) AS SOLUONG from donhang dh join ctdonhang ct on ct.ma_donban = dh.ma_donban AND dh.MA_TRANGTHAI = 1 WHERE MA_NGUOIDUNG = :ID", ['ID' => $user -> MA_NGUOIDUNG])[0]->SOLUONG;
+        }else{
+            $soluong = 0;
+        }    
+        return view("account.pass",['nguoidung'=>$nguoidung,'err'=>'','danhmuc'=>$danhmuc,'user'=>$user,'soluong'=>$soluong]);
+    }
+    
+    public function update_pass(Request $req){
+        $user = Session::get("MA_NGUOIDUNG");
+        $nguoi_dung = DB::select('select * from Nguoidung where MA_NGUOIDUNG = :MA_NGUOIDUNG', ['MA_NGUOIDUNG' => $user->MA_NGUOIDUNG]);
+        if(Hash::check($req->MATKHAU_OLD, $nguoi_dung[0]->MATKHAU)){
+            if($req->MAKHAU_CONFIRM == $req->MATKHAU_NEW ){
+                if(strlen($req->MATKHAU_NEW) > 5){
+                    $mk = Hash::make($req->MATKHAU_NEW);
+                    DB::update("update nguoidung set MATKHAU = ? where MA_NGUOIDUNG = ? ", [$mk, $user->MA_NGUOIDUNG]);
+                    return redirect("/account/index");
+                }else{
+                    $danhmuc = DB::select('select *from danhmuc');
+                    $err = "Mật khẩu mới phải lớn hơn 5 ký tự!";
+                    return view("account.pass",['nguoidung'=> $nguoi_dung, 'err'=>$err,'danhmuc'=> $danhmuc,'user' => $user,  'soluong' => 0]);
+                    
+                }
+            }        
+            else
+            {
+                $danhmuc = DB::select('select *from danhmuc');
+                $err = "Mật khẩu xác nhập không đúng";
+                return view("account.pass",['nguoidung'=> $nguoi_dung, 'err'=>$err,'danhmuc'=> $danhmuc,'user' => $user,  'soluong' => 0]);
+            }
+        }
+        else
+        {
+            $danhmuc = DB::select('select *from danhmuc');
+            $err = "Mật khẩu không đúng";
+            return view("account.pass",['nguoidung'=> $nguoi_dung, 'err'=>$err,'danhmuc'=> $danhmuc,'user' => $user,  'soluong' => 0]);
+        }
+        
+        
+    }
     
     public function index() {
         $user = Session::get("MA_NGUOIDUNG");

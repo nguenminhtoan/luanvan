@@ -184,12 +184,14 @@ Route::group(['prefix' => '/account'], function () {
     Route::post('/return/{id}',"AccountController@update_return_orders");
     Route::get('/cancel/{id}',"AccountController@cancel");
     Route::get('/index',"AccountController@index");
-    Route::post('/update/{id}',"AccountController@update");
+    Route::post('/update/{id}',"AccountController@update");// vậy có pahir là nó gọi hàm update bên controller account k
     Route::get('/address',"AccountController@address");
     Route::get('/add_address',"AccountController@add_address");
     Route::post('/add_address/save',"AccountController@save");
     Route::get('/comment/{id}',"AccountController@comment");
     Route::post('/comment/{id}',"AccountController@update_comment");
+    Route::get('/pass',"AccountController@pass");
+    Route::post('/update_pass',"AccountController@update_pass");
     
 });
 

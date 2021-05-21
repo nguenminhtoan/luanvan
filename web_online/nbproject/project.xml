@@ -10,6 +10,7 @@
             <word>endforeach</word>
             <word>hàng</word>
             <word>KHUYENMAI</word>
+            <word>khẩu</word>
         </spellchecker-wordlist>
     </configuration>
 </project>
