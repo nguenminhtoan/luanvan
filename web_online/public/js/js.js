@@ -1,4 +1,3 @@
-
 function add_cart(ma_sp, soluong){
     $.ajax({
         url:"/cart/add",
@@ -12,12 +11,14 @@ function add_cart(ma_sp, soluong){
                 $("#cartquantity").html(Number($("#cartquantity").html()) + Number(data));
             }
             else{
-                alert("vui long đăng nhập");
+                alert("vui lòng đăng nhập");
+                window.location.href= '/login';
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            alert("vui long đăng nhập");
+            alert("vui lòng đăng nhập");
+            window.location.href= '/login';
         }
     });
-}
 
+}
