@@ -61,10 +61,15 @@ class ChatController extends Controller
         }
         $list_noidung = Traodoi::list_by_ch_nd($mach, $id);
         $ma_traodoi = Traodoi::ma_traodoi_by_ch_nd($mach, $id);
-        $khach = DB::select("select * from NGUOIDUNG 
-                            left join NOITHANHTOAN 
-                            on NGUOIDUNG.MA_NGUOIDUNG = NOITHANHTOAN.MA_NGUOIDUNG 
-                            WHERE  NGUOIDUNG.MA_NGUOIDUNG = ?", [$id])[0];
+        if (isset($id)){
+            $khach = DB::select("select * from NGUOIDUNG 
+                                left join NOITHANHTOAN 
+                                on NGUOIDUNG.MA_NGUOIDUNG = NOITHANHTOAN.MA_NGUOIDUNG 
+            WHERE  NGUOIDUNG.MA_NGUOIDUNG = ?", [$id])[0];
+            
+        }else{
+            $khach = null;
+        }
        return view("chat.chat",["khach" => $khach,"ma_traodoi" => $ma_traodoi,'id'=>$id,'list_nguoidung' => $list_nguoidung,'list_noidung' => $list_noidung,'cuahang'=>$cuahang[0],'khachhang'>$khachhang[0],'mach'=>$mach]);
     }
     
