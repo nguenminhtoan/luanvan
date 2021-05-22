@@ -17,11 +17,11 @@ class role
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Session::get("MA_NGUOIDUNG")->ADMIN == 2){
+        if (Session::get("MA_NGUOIDUNG")->ADMIN == 2 ){
             return $next($request);
         }else
         {
-            return redirect("/admin/register_shop");
+            return redirect("/register_shop");
         }
     }
 }

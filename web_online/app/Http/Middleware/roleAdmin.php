@@ -21,7 +21,7 @@ class roleAdmin
             return $next($request);
         }else
         {
-            return redirect("/admin/management");
+            return redirect("/home");
         }
     }
 }
