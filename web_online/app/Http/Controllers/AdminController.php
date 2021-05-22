@@ -24,16 +24,22 @@ class AdminController extends Controller
         $sanpham = Sanpham::list_sp_ch($req->id);
         return view("admin.detail",['cuahang' => $cuahang[0],'sanpham' => $sanpham]);
     }
-    public function update_status(Request $req) {
-        DB::update("update cuahang set trangthai = ? Where ma_cuahang = ?", [$req->TRANGTHAI ,$req->id]);
+    public function update_ch(Request $req) {
+        DB::update("update cuahang set TRANGTHAI = ? Where MA_CUAHANG = ?", [$req->TRANGTHAI ,$req->id]);
         return redirect("/admin/index");
     }
     public function customers() {
-        $nguoidung = DB::select('select nd.*, xa.TEN_XA, huyen.*, tinh.*, cuahang.TEN_CUAHANG from Nguoidung nd 
-                                join cuahang on cuahang.MA_CUAHANG = nd.MA_CUAHANG
+        $nguoidung = DB::select('select nd.*, xa.TEN_XA, huyen.*, tinh.* from Nguoidung nd 
                                 join xa on nd.MA_XA = xa.MA_XA 
                                 join huyen on huyen.MA_HUYEN = xa.MA_HUYEN 
-                                join tinh on tinh.MA_TINH = huyen.MA_TINH ');
-        return redirect("admin.customers",['nguoidung' =>$nguoidung]);
+                                join tinh on tinh.MA_TINH = huyen.MA_TINH
+                                ORDER BY nd.MA_NGUOIDUNG DESC');
+        return view("admin.customers",['nguoidung' =>$nguoidung]);
+    }
+    public function dashboard() {
+        $doanhthu = DB::select('SELECT cuahang.MA_CUAHANG, cuahang.TEN_CUAHANG,SUM(TONGTIEN)AS DOANHTHU FROM cuahang
+                        inner join donhang on donhang.MA_CUAHANG = cuahang.MA_CUAHANG 
+                        group by cuahang.MA_CUAHANG');
+        return view("admin.dashboard",['doanhthu'=>$doanhthu]);
     }
 }

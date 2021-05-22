@@ -66,20 +66,20 @@ class CartController extends Controller
         if(count(DB::select("select * from noithanhtoan where MA_NGUOIDUNG = :MA_NGUOIDUNG AND MACDINH = 1",["MA_NGUOIDUNG" => $ma_nguoidung])) > 0){
             //
             $ma_noi = DB::select("select * from noithanhtoan where MA_NGUOIDUNG = :MA_NGUOIDUNG AND MACDINH = 1",["MA_NGUOIDUNG" => $ma_nguoidung])[0]->MA_NOI;
-            $sql = "UPDATE noithanhtoan set MA_XA = :MA_XA, CHITIET = :CHITIET WHERE MA_NGUOIDUNG = :MA_NGUOIDUNG AND MA_NOI = :MA_NOI";
-            $param = ["MA_XA"=> $req->MA_XA, "CHITIET" => $req->CHITIET ,"MA_NGUOIDUNG" => $ma_nguoidung, "MA_NOI" => $ma_noi];
+            $sql = "UPDATE noithanhtoan set MA_XA = :MA_XA, CHITIET = :CHITIET, DT = :DT  WHERE MA_NGUOIDUNG = :MA_NGUOIDUNG AND MA_NOI = :MA_NOI";
+            $param = ["MA_XA"=> $req->MA_XA, "CHITIET" => $req->CHITIET, "DT" => $req->SDT ,"MA_NGUOIDUNG" => $ma_nguoidung, "MA_NOI" => $ma_noi];
             DB::update($sql,$param);
             return $ma_noi;
         }
         else
         {
-            $sql = "insert noithanhtoan (MA_XA, MA_NGUOIDUNG, CHITIET, MACDINH) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET, '1')";
-            $param = ["MA_XA" => $req->MA_XA, "MA_NGUOIDUNG" => $ma_nguoidung, "CHITIET"=> $req->CHITIET];
+            $sql = "insert noithanhtoan (MA_XA, MA_NGUOIDUNG, CHITIET, DT, MACDINH) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET, :DT, '1')";
+            $param = ["MA_XA" => $req->MA_XA, "MA_NGUOIDUNG" => $ma_nguoidung, "CHITIET"=> $req->CHITIET, "DT" => $req->SDT];
             DB::insert($sql,$param);
             $ma_noi = DB::select("select * from noithanhtoan where MA_NGUOIDUNG = :MA_NGUOIDUNG AND MACDINH = 1",["MA_NGUOIDUNG" => $ma_nguoidung])[0]->MA_NOI;
             return $ma_noi;
         }
-        
+         
     }
 //    public function update_pp(Request $req){
 //        $ma_nguoidung = Session::get("MA_NGUOIDUNG")->MA_NGUOIDUNG;
@@ -176,11 +176,12 @@ class CartController extends Controller
 //
 //        try {
             if(count(DB::select("select * from noithanhtoan where MA_NGUOIDUNG = :MA_NGUOIDUNG AND MACDINH = 1",["MA_NGUOIDUNG" => $ma_nguoidung])) == 0){
-                $sql = "insert noithanhtoan (MA_XA, MA_NGUOIDUNG, CHITIET, MACDINH) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET, '1')";
-                $param = ["MA_XA" => $req->MA_XA, "MA_NGUOIDUNG" => $ma_nguoidung, "CHITIET"=> $req->CHITIET];
+                $sql = "insert noithanhtoan (MA_XA, MA_NGUOIDUNG, CHITIET, DT, MACDINH) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET, :DT ,'1')";
+                $param = ["MA_XA" => $req->MA_XA, "MA_NGUOIDUNG" => $ma_nguoidung, "CHITIET"=> $req->CHITIET, "DT"=> $req->DT];
                 DB::insert($sql,$param);
                 $ma_noi = DB::select("select * from noithanhtoan where MA_NGUOIDUNG = :MA_NGUOIDUNG AND MACDINH = 1",["MA_NGUOIDUNG" => $ma_nguoidung])[0]->MA_NOI;
             }
+            
             foreach($hoadon as $key => $item){
                 if (!is_null($list[0][$key])){
                     $ma_vt = $list[0][$key];

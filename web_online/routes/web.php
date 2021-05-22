@@ -27,9 +27,11 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'admin', "middleware"=> "login"], function () {
     
+    Route::get('/index/dashboard',"AdminController@dashboard");
     Route::get('/index',"AdminController@index");
     Route::get('/index/detail/{id}',"AdminController@detail");
-    
+    Route::post('/index/update_status/{id}',"AdminController@update_ch");
+    Route::get('/customers',"AdminController@customers");
     
     Route::get('/register_shop',"RegisterController@register_shop");
     Route::post('/create_shop',"RegisterController@create_shop");
@@ -180,8 +182,7 @@ Route::group(['prefix' => '/cart'], function () {
     
 });
 
-
-Route::group(['prefix' => '/account'], function () {  
+Route::group(['prefix' => '/account', "middleware"=> "login"], function () {  
     Route::get('/orders',"AccountController@orders");
     Route::get('/orders/{id}',"AccountController@order_detail");
     Route::get('/return/{id}',"AccountController@return_orders");
@@ -218,11 +219,16 @@ Route::get('/register/rest',"RegisterController@rest_pass");
 Route::post('/register/update_pass',"RegisterController@update_pass");
 
 Route::get('/detail/{id}',"DetailController@index");
-Route::get('/account/{id}',"AccountController@index");
-Route::get('/cuahang/{id}',"AccountController@cuahang");
-Route::get('/edit/{id}',"AccountController@edit_cuahang");
-Route::post('/update/{id}',"AccountController@update_cuahang");
+Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
+Route::get('/callback/{provider}', 'SocialController@callback');
 
+
+Route::group(['prefix' => '', "middleware"=> "login"], function () {  
+    Route::get('/account/{id}',"AccountController@index");
+    Route::get('/cuahang/{id}',"AccountController@cuahang");
+    Route::get('/edit/{id}',"AccountController@edit_cuahang");
+    Route::post('/update/{id}',"AccountController@update_cuahang");
+});
 
 
 

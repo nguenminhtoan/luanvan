@@ -50,7 +50,7 @@
                     <ul class="side-nav">
                         <li class="side-nav-title side-nav-item"></li>
                         <li class="side-nav-item">
-                            <a  href="/admin/chat/chat" data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+                            <a  href="/admin/index/dashboard"  aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
                                 <i class="uil-home-alt"></i>
                                 <span>Tổng quan </span>
                             </a>
@@ -412,7 +412,8 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <form action="/admin/orders/update_status/{{$cuahang->MA_CUAHANG}}" method="post">
+                                    <form action="/admin/index/update_status/{{$cuahang->MA_CUAHANG}}" method="post">
+                                        <input name="TRANGTHAI" value="{{ $cuahang->TRANGTHAI == 2 ? '' : $cuahang->TRANGTHAI + 1 }}" hidden="" />
                                     <div class="tab-pane show active" id="luachonthanhtoan">
                                         {{ csrf_field() }}
                                         <div class="row">
@@ -422,7 +423,7 @@
 
                                                     <!-- end Cash on Delivery box-->
                                                     <div class="row mt-4">
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-2">
                                                             <a href="/admin/index" class="btn text-muted d-none d-sm-inline-block btn-link fw-semibold">
                                                                 <i class="mdi mdi-arrow-left"></i> Home </a>
                                                         </div>
@@ -433,10 +434,7 @@
                                                                     <i class="mdi mdi-cash-multiple me-1"></i> 
                                                                     @switch($cuahang->TRANGTHAI)
                                                                     @case(0)
-                                                                    Chờ duyệt
-                                                                    @break
-                                                                    @case(2)
-                                                                    Đã duyệt
+                                                                    Duyệt
                                                                     @break
                                                                     @default    
                                                                     Từ chối

@@ -50,7 +50,7 @@
                     <ul class="side-nav">
                         <li class="side-nav-title side-nav-item"></li>
                         <li class="side-nav-item">
-                            <a  href="/admin/index/dashboard"  class="side-nav-link">
+                            <a  href="/admin/chat/chat" data-bs-toggle="collapse" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
                                 <i class="uil-home-alt"></i>
                                 <span>Tổng quan </span>
                             </a>
@@ -330,121 +330,101 @@
                     <!-- end page title --> 
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+
+                                </div>
+                                <h4 class="page-title">Bảng Thống Kê</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+                    <div class="row">
+                        <div class="col-xl-3 ">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="card widget-flat">
+                                        <div class="card-body">
+                                            <div class="float-end">
+                                                <i class="mdi mdi-account-multiple widget-icon"></i>
+                                            </div>
+                                            <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Khách hàng đăng ký</h5>
+                                            <h3 class="mt-3 mb-3"> người</h3>
+                                            
+                                        </div>
+                                        <!-- end card-body-->
+                                    </div>
+                                    <!-- end card-->
+                                </div>
+                            </div>
+                            <!-- end row -->
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="card widget-flat">
+                                        <div class="card-body">
+                                            <div class="float-end">
+                                                <i class="mdi mdi-currency-usd widget-icon"></i>
+                                            </div>
+                                            <h5 class="text-muted fw-normal mt-0" title="Average Revenue">Cửa hàng đăng ký</h5>
+                                            <h3 class="mt-3 mb-3">cửa hàng</h3>
+                                            
+                                        </div>
+                                        <!-- end card-body-->
+                                    </div>
+                                    <!-- end card-->
+                                </div>
+                                <!-- end col-->
+                            </div>
+                            <!-- end row -->
+                        </div>
+                        <!-- end col -->
+                        <div class="col-xl-7 col-lg-8 ">
+                            <div class="card card-h-100">
                                 <div class="card-body">
-                                    <div class="row mb-2">
-                                        <div class="col-sm-3">
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <div class="text-sm-end">
-                                                <form action="" method="get">
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <select name="trangthai" class="form-control">
-                                                                <option value="" >Tất cả</option>
-                                                                <option value="1" >Chờ duyệt</option>
-                                                                <option value="2" >Duyệt</option>
-                                                                <option value="3" >Đã duyệt</option>
-                                                            </select>
-
-                                                        </div>
-
-                                                        <div class="col-md-3">
-                                                            <button type="submit" class="btn btn-light mb-2 me-1">Tìm kiếm</button>
-                                                            <button type="button" class="btn btn-light mb-2">Xuất HĐ</button>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <!-- end row -->
-                                                        </div>
-                                                    </div>    
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <!-- end col-->
+                                    <div class="dropdown float-end">
+                                        <a href="#bar-chart" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="mdi mdi-dots-vertical"></i>
+                                        </a>
                                     </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-centered w-100 dt-responsive nowrap" >
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th class="all" style="width: 20px;">
-                                                        <div class="form-check">
-                                                            <input type="checkbox" class="form-check-input" id="customCheck1">
-                                                            <label class="form-check-label" for="customCheck1">&nbsp;</label>
-                                                        </div>
-                                                    </th>
-                                                    <th class="all">Tên cửa hàng</th>
-                                                    <th>Chủ shop</th>
-                                                    <th>Địa chỉ</th>
-                                                    <th>Số điện Thoại</th>
-                                                    <th>Ngành bán</th>
-                                                    <th>Trạng thái</th>
-                                                    <th style="width: 85px;">Hoạt động</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (is_array($cuahang))
-                                                @foreach ($cuahang as $ch)
-                                                <tr>
+                                    <h4 class="header-title mb-3">Sơ đồ</h4>
+                                    <div dir="ltr">
+                                        <div id="high-performing-product" class="apex-charts" data-colors="#727cf5,#e3eaef">
+                                            <canvas id="bar-chart" width="200px" height="100px"></canvas>
+                                            <script>
+                                                new Chart(document.getElementById("bar-chart"), {
+                                                type: 'bar',
+                                                        data: {
+                                                        labels: [@foreach($doanhthu as $key => $item)
+                                                                @if ($key == 0)
+                                                                " {{$item->TEN_CUAHANG}}"
+                                                                @ else
+                                                                , " {{$item->TEN_CUAHANG}}"
+                                                                @endif
+                                                                @endforeach],
+                                                                datasets: [
+                                                                {
+                                                                label: "Population (millions)",
+                                                                        backgroundColor: ["#CF8AB3", "#E8B772", "#3cba9f", "#e8c3b9", "#c45850", "#C750BB", "#84828C", "#A6963A", "#3AA6A6", "#3AA6A6", "#3e95cd", "#9EE647","#CF8AB3", "#E8B772", "#3cba9f", "#e8c3b9", "#c45850", "#C750BB", "#84828C", "#A6963A", "#3AA6A6", "#3AA6A6", "#3e95cd", "#9EE647"],
+                                                                        data: [@foreach($doanhthu AS $key => $item)
+                                                                                @if ($key == 0)
+                                                                                {{$item -> DOANHTHU}}
+                                                                                @ else
+                                                                                , {{$item -> DOANHTHU}}
+                                                                                @endif
+                                                                               @endforeach]
+                                                                }
+                                                                ]
+                                                        },
+                                                        options: {
+                                                        legend: { display: false },
+                                                                title: {
+                                                                display: true,
+                                                                        text: 'Doanh thu của từng cửa hàng'
+                                                                }
+                                                        }
+                                                });
+                                            </script>
 
-                                                    <td>
-                                                        <div class="form-check">
-                                                            <input type="checkbox" class="form-check-input" id="customCheck13">
-                                                            <label class="form-check-label" for="customCheck13">&nbsp;</label>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p class="m-0 d-inline-block align-middle font-16">
-                                                            <a href="#" class="text-body">{{$ch -> TEN_CUAHANG}}</a>
-                                                        </p>    
-
-                                                    </td>
-                                                    <td>
-                                                        {{$ch -> TEN_NGUOIDUNG}} 
-                                                    </td>
-                                                    <td>
-                                                        {{$ch -> DIACHI}}
-                                                    </td>
-                                                    <td>
-                                                        {{$ch -> SDT}}
-                                                    </td>
-
-                                                    <td>
-                                                        {{$ch -> TEN}}
-                                                    </td>
-
-                                                    <td>
-                                                        @if($ch -> TRANGTHAI == 0) Chờ duyệt 
-                                                        @elseif($ch -> TRANGTHAI == 1) Đã Duyệt 
-                                                        @elseif($ch -> TRANGTHAI == 2) Từ chối
-                                                        @endif
-                                                    </td>
-                                                    <td class="table-action">
-                                                        <a href="/admin/index/detail/{{$ch -> MA_CUAHANG}}" class="action-icon"> <i class="mdi mdi-eye"></i></a>
-                                                    </td>
-
-                                                </tr>
-                                                @endforeach 
-                                                @endif
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="tab-pane show active" id="luachonthanhtoan">
-                                        <div class="row">
-                                            <div class="col-lg-8">
-
-                                                <div class="tab-pane show active" id="thongtinkhac">
-
-                                                    <!-- end Cash on Delivery box-->
-                                                    <div class="row mt-4">
-                                                        <div class="col-sm-6">
-                                                            <a href="/admin/index" class="btn text-muted d-none d-sm-inline-block btn-link fw-semibold">
-                                                                <i class="mdi mdi-arrow-left"></i> Home </a>
-                                                        </div>
-                                                        <!-- end col -->
-
-                                                    </div>
-                                                </div>          
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -454,6 +434,10 @@
                         </div>
                         <!-- end col -->
                     </div>
+                    <!-- end row -->
+                    
+                    <!-- end row -->
+                    
                     <!-- end row -->        
                 </div>
                 <!-- container -->

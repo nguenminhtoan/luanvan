@@ -320,10 +320,10 @@
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tất cả cửa hàng</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tất cả Khách hàng</a></li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Cửa hàng</h4>
+                                <h4 class="page-title">Khách Hàng</h4>
                             </div>
                         </div>
                     </div>
@@ -337,24 +337,7 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <div class="text-sm-end">
-                                                <form action="" method="get">
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <select name="trangthai" class="form-control">
-                                                                <option value="" >Tất cả</option>
-
-                                                            </select>
-
-                                                        </div>
-
-                                                        <div class="col-md-3">
-                                                            <button type="submit" class="btn btn-light mb-2 me-1">Tìm kiếm</button>
-                                                            <button type="button" class="btn btn-light mb-2">Xuất HĐ</button>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <!-- end row -->
-                                                        </div>
-                                                </form>
+                                                
                                             </div>
                                         </div>
                                         <!-- end col-->
@@ -370,12 +353,11 @@
                                                         </div>
                                                     </th>
                                                     <th class="all">Tên người dùng</th>
-                                                    <th>Chủ shop</th>
+                                                    <th>Ngày sinh</th>
                                                     <th>Giới tính</th>
                                                     <th>Địa chỉ</th>
                                                     <th>Địa chỉ EMAIL</th>
                                                     <th>Số điện Thoại</th>
-                                                    <th style="width: 85px;">Hoạt động</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -396,26 +378,19 @@
 
                                                     </td>
                                                     <td>
-                                                        @if($nd -> TEN_CUAHANG) {{$nd -> TEN_CUAHANG}} @else '' @endif
+                                                        {{$nd -> NGAYSINH}}
                                                     </td>
                                                     <td>
-                                                        {{$ch -> DIACHI}}
+                                                        {{$nd -> GIOITINH}}
                                                     </td>
                                                     <td>
-                                                        {{$ch -> EMAIL}}
+                                                        {{$nd -> TEN_XA}},{{$nd -> TEN_HUYEN}},{{$nd -> TEN_TINH }}
                                                     </td>
                                                     <td>
-                                                        {{$ch -> SDT}}
+                                                        {{$nd -> EMAIL}}
                                                     </td>
                                                     <td>
-                                                        {{$ch -> TEN}}
-                                                    </td>
-                                                    
-                                                    <td>
-                                                        @if($ch -> TRANGTHAI == 0) Xác nhận @else Đã xác nhận @endif
-                                                    </td>
-                                                    <td class="table-action">
-                                                        <a href="/admin/index/detail/{{$ch -> MA_CUAHANG}}" class="action-icon"> <i class="mdi mdi-eye"></i></a>
+                                                        {{$nd -> SDT}}
                                                     </td>
                                                     
                                                 </tr>
