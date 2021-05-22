@@ -159,7 +159,7 @@ class RegisterController extends Controller {
         
         if (DB::insert($sql,$param)){
             $ma_cuahang = DB::select("select MAX(MA_CUAHANG) AS MA_CUAHANG from cuahang")[0]->MA_CUAHANG;
-            DB::update("update nguoidung set MA_CUAHANG = :MA_CUAHANG WHERE MA_NGUOIDUNG = :MA_NGUOIDUNG", ["MA_CUAHANG" => $ma_cuahang, "MA_NGUOIDUNG" => $user->MA_NGUOIDUNG]);
+            DB::update("update nguoidung set MA_CUAHANG = :MA_CUAHANG, ADMIN = 2 WHERE MA_NGUOIDUNG = :MA_NGUOIDUNG", ["MA_CUAHANG" => $ma_cuahang, "MA_NGUOIDUNG" => $user->MA_NGUOIDUNG]);
             $nguoi_dung = DB::select('select * from Nguoidung where MA_NGUOIDUNG = :MA_NGUOIDUNG', ['MA_NGUOIDUNG' => $user->MA_NGUOIDUNG]); 
             Session::put("MA_NGUOIDUNG",$nguoi_dung[0]);
             return redirect("/admin/dashboard"); // chuyển tới trang tổng quan

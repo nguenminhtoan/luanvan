@@ -48,6 +48,7 @@
                 <div class="h-100" id="leftside-menu-container" data-simplebar>
                     <!--- Sidemenu -->
                     <ul class="side-nav">
+                        @if(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
                         <li class="side-nav-title side-nav-item"></li>
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
@@ -60,12 +61,10 @@
                                     <li>
                                         <a href="/admin/dashboard">Phân tích bán hàng</a>
                                     </li>
-                                    <li>
-                                        <a href="/admin/ship/shipper">Shipper</a>
-                                    </li>
                                 </ul>
                             </div>
                         </li>
+                        
                         <li class="side-nav-title side-nav-item">Ứng dụng</li>
                         <li class="side-nav-item">
                             <a href="/admin/categories/index" class="side-nav-link">
@@ -79,6 +78,7 @@
                                 <span>Trao đổi <span class="badge rounded-pill badge-success-lighten font-10 float-end"> Chăm sóc khách hàng </span> </span>
                             </a>
                         </li>
+                        
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
                                 <i class="uil-store"></i>
@@ -96,6 +96,7 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
                         
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
@@ -106,15 +107,24 @@
                             <div class="collapse" id="sidebarProjects">
                                 <ul class="side-nav-second-level">
                                     
+                                    @if(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
                                     <li>
-                                        <a href="/cuahang/{{$cuahang->MA_CUAHANG}}">Hồ sơ shop<span class="badge rounded-pill badge-light-lighten font-10 float-end">mới</span></a>
+                                        <a href="/admin/cuahang/{{$cuahang->MA_CUAHANG}}">Hồ sơ shop<span class="badge rounded-pill badge-light-lighten font-10 float-end">mới</span></a>
                                     </li>
+                                    <li>
+                                        <a href="/admin/cuahang/list">Ngành Hàng shop</a>
+                                    </li>
+                                    @else
                                     <li>
                                         <a href="/admin/industries/index">Ngành Hàng shop</a>
                                     </li>
+                                    @endif
                                 </ul>
                             </div>
                         </li>
+                        
+                        
+                        @if(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebargoods" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
                                 <i class="uil-briefcase"></i>
@@ -146,47 +156,50 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
                                 <i class="uil-copy-alt"></i>
-                                <span> Thiết lập shop </span>
+                                <span>Cài đặt</span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <div class="collapse" id="sidebarPages">
                                 <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="/admin/properties/index">Thuộc tính sản phẩm</a>
-                                    </li>
+                                    @if(Session::get("MA_NGUOIDUNG")->ADMIN == 3)
                                     <li>
                                         <a href="/admin/status/index">Các trạng thái sản phẩm</a>
                                     </li>
-                                    <li>
-                                        <a href="/admin/ship/index">Phương thức vận chuyển</a>
-                                    </li>
+                                    @else
                                     <li>
                                         <a href="/admin/voucher/index">Các hình thức khuyến mãi</a>
                                     </li>
+                                    <li>
+                                        <a href="/admin/properties/index">Thuộc tính sản phẩm</a>
+                                    </li>
+                                    @endif
                                 </ul>
                             </div>
                         </li>
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarTables" aria-expanded="false" aria-controls="sidebarTables" class="side-nav-link">
                                 <i class="uil-table"></i>
-                                <span> Tài chính </span>
+                                <span> Vận chuyển </span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <div class="collapse" id="sidebarTables">
                                 <ul class="side-nav-second-level">
+                                    @if(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
                                     <li>
-                                        <a href="index.html">Marketing</a>
+                                        <a href="/admin/ship/shipper">Shipper</a>
                                     </li>
+                                    @else
                                     <li>
-                                        <a href="projects.html">Dự án</a>
+                                        <a href="/admin/ship/index">Phương thức vận chuyển</a>
                                     </li>
+                                    @endif
                                 </ul>
                             </div>
                         </li>
-                        
                     </ul>
 
                     <!-- End Sidebar -->

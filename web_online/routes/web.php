@@ -24,12 +24,59 @@ Route::get('/', function () {
 });
 */
 
+Route::get('/admin/register_shop',"RegisterController@register_shop");
+Route::post('/admin/create_shop',"RegisterController@create_shop");
 
-Route::group(['prefix' => 'admin', "middleware"=> "login"], function () {
+Route::group(['prefix' => 'admin', "middleware"=> ["login", "roleAdmin"]], function () {
     
-    Route::get('/register_shop',"RegisterController@register_shop");
-    Route::post('/create_shop',"RegisterController@create_shop");
+    Route::group(['prefix' => '/ship'], function () {
+        Route::get('/index', "ShipmentController@shipment");
+        Route::get('/add', "ShipmentController@shipment_add");
+        Route::post('/save', "ShipmentController@shipment_save");
+        Route::get('/edit/{id}', "ShipmentController@shipment_edit");
+        Route::post('/update/{id}', "ShipmentController@update_status");
+        Route::get('/delete/{id}', "ShipmentController@shipment_detele");
+        Route::get('/shipper', "ShipmentController@shipper");
+        Route::get('/detail/{id}', "ShipmentController@detail");
+    });
+
+    Route::group(['prefix' => '/status'], function () {
+        Route::get('/index', "StatusController@status");
+        Route::get('/add', "StatusController@status_add");
+        Route::post('/save', "StatusController@status_save");
+        Route::get('/edit/{id}', "StatusController@status_edit");
+        Route::post('/update/{id}', "StatusController@status_update");
+        Route::get('/delete/{id}', "StatusController@status_detele");
+        
+    });
+
     
+    Route::group(['prefix' => '/payment'], function () {
+        Route::get('/index', "PaymentController@payment");
+        Route::get('/add', "PaymentController@payment_add");
+        Route::post('/save', "PaymentController@payment_save");
+        Route::get('/edit/{id}', "PaymentsController@payment_edit");
+        Route::post('/update/{id}', "PaymentController@payment_update");
+        Route::get('/delete/{id}', "PaymentController@payment_detele");
+        
+    });
+    
+    
+    Route::group(['prefix' => '/industries'], function () {
+        Route::get('/index', "IndustryController@industries");
+        Route::get('/add', "IndustryController@industries_add");
+        Route::post('/save', "IndustryController@industries_save");
+        Route::get('/edit/{id}', "IndustryController@industries_edit");
+        Route::post('/update/{id}', "IndustryController@industries_update");
+        Route::get('/delete/{id}', "IndustryController@industries_detele");
+        
+    });
+    
+});
+
+Route::group(['prefix' => 'admin', "middleware"=> ["login", "role"]], function () {
+    
+
     Route::get('/dashboard',"DashboardController@index");
     Route::get('/sodo',"DashboardController@sodo");
     Route::get('/sodo1',"DashboardController@sodo");
@@ -54,35 +101,6 @@ Route::group(['prefix' => 'admin', "middleware"=> "login"], function () {
         
     });
     
-    Route::group(['prefix' => '/industries'], function () {
-        Route::get('/index', "IndustryController@industries");
-        Route::get('/add', "IndustryController@industries_add");
-        Route::post('/save', "IndustryController@industries_save");
-        Route::get('/edit/{id}', "IndustryController@industries_edit");
-        Route::post('/update/{id}', "IndustryController@industries_update");
-        Route::get('/delete/{id}', "IndustryController@industries_detele");
-        
-    });
-    
-    Route::group(['prefix' => '/payment'], function () {
-        Route::get('/index', "PaymentController@payment");
-        Route::get('/add', "PaymentController@payment_add");
-        Route::post('/save', "PaymentController@payment_save");
-        Route::get('/edit/{id}', "PaymentsController@payment_edit");
-        Route::post('/update/{id}', "PaymentController@payment_update");
-        Route::get('/delete/{id}', "PaymentController@payment_detele");
-        
-    });
-    
-    Route::group(['prefix' => '/payment'], function () {
-        Route::get('/index', "PaymentController@payment");
-        Route::get('/add', "PaymentController@payment_add");
-        Route::post('/save', "PaymentController@payment_save");
-        Route::get('/edit/{id}', "PaymentController@payment_edit");
-        Route::post('/update/{id}', "PaymentController@payment_update");
-        Route::get('/delete/{id}', "PaymentController@payment_detele");
-        
-    });
     
     Route::group(['prefix' => '/properties'], function () {
         Route::get('/index', "PropertiesController@index");
@@ -94,27 +112,6 @@ Route::group(['prefix' => 'admin', "middleware"=> "login"], function () {
         
     });
     
-    Route::group(['prefix' => '/ship'], function () {
-        Route::get('/index', "ShipmentController@shipment");
-        Route::get('/add', "ShipmentController@shipment_add");
-        Route::post('/save', "ShipmentController@shipment_save");
-        Route::get('/edit/{id}', "ShipmentController@shipment_edit");
-        Route::post('/update/{id}', "ShipmentController@update_status");
-        Route::get('/delete/{id}', "ShipmentController@shipment_detele");
-        Route::get('/shipper', "ShipmentController@shipper");
-        Route::get('/detail/{id}', "ShipmentController@detail");
-    });
-
-    Route::group(['prefix' => '/status'], function () {
-        Route::get('/index', "StatusController@status");
-        Route::get('/add', "StatusController@status_add");
-        Route::post('/save', "StatusController@status_save");
-        Route::get('/edit/{id}', "StatusController@status_edit");
-        Route::post('/update/{id}', "StatusController@status_update");
-        Route::get('/delete/{id}', "StatusController@status_detele");
-        
-    });
-
     Route::group(['prefix' => '/voucher'], function () {
         Route::get('/index', "VoucherController@voucher");
         Route::get('/add', "VoucherController@voucher_add");
@@ -153,7 +150,13 @@ Route::group(['prefix' => 'admin', "middleware"=> "login"], function () {
         Route::get('/chat',"ChatController@chat");
         Route::post('reply', 'ChatController@replyMessage');
     });
-     
+    
+    
+    Route::group(['prefix' => 'cuahang'], function(){
+        Route::get('/{id}',"AccountController@cuahang");
+        Route::get('/edit/{id}',"AccountController@edit_cuahang");
+    });
+        
     Route::group(['prefix' => '/upload'], function()
     {
         Route::get("/", "UploadController@index");
@@ -199,7 +202,7 @@ Route::get("/chat", "ChatController@index_1");
 Route::get('/home',"HomeController@index");
 Route::get('/',"HomeController@index");
 Route::get('/search',"DetailController@search");
-
+Route::post('/admin/chat/reply', 'ChatController@replyMessage');
 
 Route::get('/load_xa',"HomeController@load_xa");
 
@@ -219,8 +222,6 @@ Route::get('/callback/{provider}', 'SocialController@callback');
 
 Route::group(['prefix' => '', "middleware"=> "login"], function () {  
     Route::get('/account/{id}',"AccountController@index");
-    Route::get('/cuahang/{id}',"AccountController@cuahang");
-    Route::get('/edit/{id}',"AccountController@edit_cuahang");
     Route::post('/update/{id}',"AccountController@update_cuahang");
 });
 
