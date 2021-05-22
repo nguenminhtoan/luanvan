@@ -38,7 +38,7 @@ class AccountController extends Controller
     public function update_pass(Request $req){
         $user = Session::get("MA_NGUOIDUNG");
         $nguoi_dung = DB::select('select * from Nguoidung where MA_NGUOIDUNG = :MA_NGUOIDUNG', ['MA_NGUOIDUNG' => $user->MA_NGUOIDUNG]);
-        if(Hash::check($req->MATKHAU_OLD, $nguoi_dung[0]->MATKHAU)){
+        if( is_null($nguoi_dung[0]->MATKHAU) || Hash::check($req->MATKHAU_OLD, $nguoi_dung[0]->MATKHAU)){
             if($req->MAKHAU_CONFIRM == $req->MATKHAU_NEW ){
                 if(strlen($req->MATKHAU_NEW) > 5){
                     $mk = Hash::make($req->MATKHAU_NEW);
