@@ -16,10 +16,12 @@ Account
                     <legend>Địa chỉ của tôi</legend>
                     <div class="form-group required" style="display:  none ;">
                         <label class="col-sm-2 control-label">Customer Group</label>
-                        <div class="col-sm-10">                            <div class="radio">
+                        <div class="col-sm-10">                            
+                            <div class="radio">
                                 <label>
                                     <input type="radio" name="customer_group_id" value="1" checked="checked">
-                                    Default</label>
+                                    Default
+                                </label>
                             </div>
                         </div>
                     </div>

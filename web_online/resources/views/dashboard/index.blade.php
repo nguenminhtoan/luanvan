@@ -227,7 +227,7 @@
                     @if($hnay->DOANHTHU > 0)
                     <h5>Thu thập hôm nay: {{number_format($hnay->DOANHTHU)}} VNĐ</h5>
                     @else 
-                    <h5>Thu thập hôm nay: Chưa có đơn hàng</h5>
+                    <h5>Thu thập hôm nay: <!--Chưa có đơn hàng--></h5>
                     @endif
                 </div>
                 <div dir="ltr">

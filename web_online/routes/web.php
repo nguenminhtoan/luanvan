@@ -27,6 +27,10 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'admin', "middleware"=> "login"], function () {
     
+    Route::get('/index',"AdminController@index");
+    Route::get('/index/detail/{id}',"AdminController@detail");
+    
+    
     Route::get('/register_shop',"RegisterController@register_shop");
     Route::post('/create_shop',"RegisterController@create_shop");
     

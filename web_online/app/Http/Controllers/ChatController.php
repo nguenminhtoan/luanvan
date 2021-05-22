@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 use App\Events\MessageSent; 
 use App\Events\MessageReply; 
+use App\Models\Nguoidung;
 use DB;
 use App\Models\Traodoi;
 
@@ -66,11 +67,12 @@ class ChatController extends Controller
                                 left join NOITHANHTOAN 
                                 on NGUOIDUNG.MA_NGUOIDUNG = NOITHANHTOAN.MA_NGUOIDUNG 
             WHERE  NGUOIDUNG.MA_NGUOIDUNG = ?", [$id])[0];
-            
+            $khachhang = $khachhang[0];
         }else{
-            $khach = null;
+            $khach = new Nguoidung();
+            $khachhang = [];
         }
-       return view("chat.chat",["khach" => $khach,"ma_traodoi" => $ma_traodoi,'id'=>$id,'list_nguoidung' => $list_nguoidung,'list_noidung' => $list_noidung,'cuahang'=>$cuahang[0],'khachhang'>$khachhang[0],'mach'=>$mach]);
+       return view("chat.chat",["khach" => $khach,"ma_traodoi" => $ma_traodoi,'id'=>$id,'list_nguoidung' => $list_nguoidung,'list_noidung' => $list_noidung,'cuahang'=>$cuahang[0],'khachhang'>$khachhang,'mach'=>$mach]);
     }
     
     /**
