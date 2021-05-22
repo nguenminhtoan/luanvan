@@ -57,6 +57,12 @@ Add Address
                             <input type="text" name="CHITIET" value="{{$noithanhtoan->CHITIET}}" placeholder="Đường / Số nhà" id="input-postcode" class="form-control">
                         </div>
                     </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-postcode">Số điện thoại</label>
+                        <div class="col-sm-10">
+                            <input type="number" name="DT" value="{{$noithanhtoan->DT}}" placeholder="số điện thoại" id="input-postcode" class="form-control">
+                        </div>
+                    </div>
                 </fieldset>
                 <div class="buttons">
                     <div class="pull-right">

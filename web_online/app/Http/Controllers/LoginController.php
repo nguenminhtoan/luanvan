@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use DB;
-
 use App\Models\Nguoidung;
 use Illuminate\Support\Facades\Hash;
 
 use Session;
-
 class LoginController extends Controller
 {
     public function index(){
@@ -22,7 +20,6 @@ class LoginController extends Controller
     
     public function auth(Request $req){
         
-        $user = Session::get("MA_NGUOIDUNG");
         $nguoidung = new Nguoidung(["EMAIL"=>$req->EMAIL,"MATKHAU"=>$req->MATKHAU]);
         $taikhoan = DB::select('select * from Nguoidung where EMAIL = :EMAIL or SDT = :SDT', ['EMAIL' => $nguoidung->EMAIL, 'SDT'=>$nguoidung->EMAIL]);
         if(count($taikhoan)> 0 && Hash::check($nguoidung->MATKHAU, $taikhoan[0]->MATKHAU)){
@@ -33,7 +30,7 @@ class LoginController extends Controller
         {
             $danhmuc = DB::select('select *from danhmuc');
             $err = "Email hoặc mật khẩu không đúng";
-            return view("login.login",['nguoidung'=> $nguoidung, 'err'=>$err,'danhmuc'=> $danhmuc,'user' => $user,  'soluong' => 0]);
+            return view("login.login",['nguoidung'=> $nguoidung, 'err'=>$err,'danhmuc'=> $danhmuc,'user' => '',  'soluong' => 0]);
         }
 
     }

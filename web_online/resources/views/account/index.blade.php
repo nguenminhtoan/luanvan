@@ -11,6 +11,15 @@ Account
     <div class="row">
         <div id="content" class="col-sm-9">
             <h1>Tài khoản của tôi</h1>
+            <ul class="" >
+                @if ($err != '')
+                <div class="alert alert-danger">
+                    <ul>
+                        <li>{{ $err }}</li>
+                    </ul>
+                </div>
+                @endif
+            </ul>
             <form action="/account/update/{{$nguoidung->MA_NGUOIDUNG}}" method="post" enctype="multipart/form-data" class="form-horizontal">
                 {{ csrf_field() }}
                 <fieldset id="account">
@@ -52,7 +61,7 @@ Account
                     <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-lastname">Ngày sinh</label>
                         <div class="col-sm-10">
-                            <input name="NGAYSINH" value="{{$nguoidung ->NGAYSINH}}" id="input-lastname" class="form-control">
+                            <input type="date" name="NGAYSINH" value="{{$nguoidung ->NGAYSINH}}" id="input-lastname" class="form-control">
                         </div>
                     </div>
                     <style>

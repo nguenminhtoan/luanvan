@@ -24,7 +24,7 @@ Login
                <div class="well col-sm-12">
                   <h2>Đăng nhập tài khoản</h2>
                   <p><strong></strong></p>
-                  <form action="/login/auth" method="post" enctype="multipart/form-data">
+                  <form action="/login/auth" method="post">
                       <ul class="" >
                         @if ($err != '')
                         <div class="alert alert-danger">
@@ -49,7 +49,7 @@ Login
                   <column id="column-login" class="col-sm-8 pull-right">
                      <div class="row">
                         <div class="social_login pull-right" id="so_sociallogin">
-                           <a href="https://www.facebook.com/v2.4/dialog/oauth?client_id=442675926063537&amp;state=c667dd9e51a5c97eed0293a84167d7c6&amp;response_type=code&amp;sdk=php-sdk-5.5.0&amp;redirect_uri=https%3A%2F%2Fopencart.opencartworks.com%2Fthemes%2Fso_supermarket%2Findex.php%3Froute%3Dextension%2Fmodule%2Fso_sociallogin%2FFacebookLogin&amp;scope=public_profile%2Cemail" class="btn btn-social-icon btn-sm btn-facebook"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></a>
+                           <a href="{{ url('/auth/redirect/facebook') }}" class="btn btn-social-icon btn-sm btn-facebook"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></a>
                            <a href="https://opencart.opencartworks.com/themes/so_supermarket/index.php?route=extension/module/so_sociallogin/TwitterLogin" class="btn btn-social-icon btn-sm btn-twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></a>
                            <a href="https://accounts.google.com/o/oauth2/auth?response_type=code&amp;redirect_uri=https%3A%2F%2Fopencart.opencartworks.com%2Fthemes%2Fso_supermarket%2Findex.php%3Froute%3Dextension%2Fmodule%2Fso_sociallogin%2FGoogleLogin&amp;client_id=21690390667-tco9t3ca2o89d3sshkb2fmppoioq5mfq.apps.googleusercontent.com&amp;scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&amp;access_type=offline&amp;approval_prompt=force" class="btn btn-social-icon btn-sm btn-google-plus"><i class="fa fa-google fa-fw" aria-hidden="true"></i></a>
                            <a href="https://opencart.opencartworks.com/themes/so_supermarket/index.php?route=extension/module/so_sociallogin/LinkedinLogin" class="btn btn-social-icon btn-sm btn-linkdin"><i class="fa fa-linkedin fa-fw" aria-hidden="true"></i></a>

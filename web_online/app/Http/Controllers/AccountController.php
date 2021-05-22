@@ -64,8 +64,6 @@ class AccountController extends Controller
             $err = "Mật khẩu không đúng";
             return view("account.pass",['nguoidung'=> $nguoi_dung, 'err'=>$err,'danhmuc'=> $danhmuc,'user' => $user,  'soluong' => 0]);
         }
-        
-        
     }
     
     public function index() {
@@ -74,45 +72,67 @@ class AccountController extends Controller
         $tinh = DB::select("select *from tinh");
         $huyen  = DB::select("select *from huyen");
         $xa = DB::select("select * from xa LIMIT 11283");
-        $noithanhtoan = DB::select("select ntt.*,xa.MA_HUYEN, huyen.MA_TINH  from noithanhtoan ntt "
-                . "     join xa on xa.MA_XA = ntt.MA_XA JOIN huyen on huyen.MA_HUYEN = xa.MA_HUYEN where MA_NGUOIDUNG = :ID AND MACDINH =1",
-                        ['ID'=>$user->MA_NGUOIDUNG]);
-        if($noithanhtoan){
-            $noithanhtoan = $noithanhtoan[0];
-        }else
-        {
-            $noithanhtoan = new Noithanhtoan();
-        }
-        $nguoi_dung = DB::select('select nd.*, xa.TEN_XA, huyen.*, tinh.* from Nguoidung nd join xa on nd.MA_XA = xa.MA_XA join huyen on huyen.MA_HUYEN = xa.MA_HUYEN join tinh on tinh.MA_TINH = huyen.MA_TINH where MA_NGUOIDUNG = :MA_NGUOIDUNG', ['MA_NGUOIDUNG' => $user->MA_NGUOIDUNG]); 
+       
+        $nguoi_dung = DB::select('select nd.*, xa.TEN_XA, huyen.*, tinh.* from Nguoidung nd left join xa on nd.MA_XA = xa.MA_XA left join huyen on huyen.MA_HUYEN = xa.MA_HUYEN left join tinh on tinh.MA_TINH = huyen.MA_TINH where MA_NGUOIDUNG = :MA_NGUOIDUNG', ['MA_NGUOIDUNG' => $user->MA_NGUOIDUNG]); 
         if ($user){
             $soluong = DB::select("select COUNT(SOLUONG) AS SOLUONG from donhang dh join ctdonhang ct on ct.ma_donban = dh.ma_donban AND dh.MA_TRANGTHAI = 1 WHERE MA_NGUOIDUNG = :ID", ['ID' => $user -> MA_NGUOIDUNG])[0]->SOLUONG;
         }else{
             $soluong = 0;
         }    
-        return view("account.index",['nguoidung'=>$nguoi_dung[0],'danhmuc'=>$danhmuc,'user'=>$user,'soluong'=>$soluong,'tinh'=>$tinh,'huyen'=>$huyen,'xa'=>$xa,'noithanhtoan'=>$noithanhtoan]);
+        return view("account.index",["err" => "" ,'nguoidung'=>$nguoi_dung[0],
+            'danhmuc'=>$danhmuc,'user'=>$user,'soluong'=>$soluong,'tinh'=>$tinh,'huyen'=>$huyen,'xa'=>$xa]);
     }
     
     public function update(Request $req){
         $user = Session::get("MA_NGUOIDUNG");
-        $nguoidung = new Nguoidung(['TEN_NGUOIDUNG'=>$req->TEN_NGUOIDUNG, 'GIOITINH'=>$req->GIOITINH,'EMAIL'=>$req->EMAIL,'NGAYSINH'=>$req->NGAYSINH,'MA_XA'=>$req->MA_XA, 'SDT'=>$req->SDT]);
+        $nguoidung = new Nguoidung([ "MA_NGUOIDUNG" => $user->MA_NGUOIDUNG,'TEN_NGUOIDUNG'=>$req->TEN_NGUOIDUNG,
+            'GIOITINH'=>$req->GIOITINH,'EMAIL'=>$req->EMAIL,'NGAYSINH'=>$req->NGAYSINH,
+            "MA_TINH" => $req->MA_TINH, "MA_HUYEN" => $req->MA_HUYEN, 'MA_XA'=>$req->MA_XA, 'SDT'=>$req->SDT]);
+        
+        $err = "";
+        
+        if (count(DB::select('select * from Nguoidung where SDT = :SDT AND MA_NGUOIDUNG != :MA_NGUOIDUNG',
+                ['SDT' => $nguoidung->SDT, "MA_NGUOIDUNG" => $user->MA_NGUOIDUNG])) > 0) {
+            $err = "Số điện thoại đã được sử dụng !";  
+        } 
+        
+        if (strlen($nguoidung->SDT) < 9 || strlen($nguoidung->SDT) > 11) {
+            $err = "Số điện thoại không chính xác !";
+        }
+        
+        
+        if ($err != "") {
+            $user = Session::get("MA_NGUOIDUNG");
+            $danhmuc = DB::select('select *from danhmuc');
+            $tinh = DB::select("select *from tinh");
+            $huyen  = DB::select("select *from huyen");
+            $xa = DB::select("select * from xa LIMIT 11283");
+            if ($user){
+                $soluong = DB::select("select COUNT(SOLUONG) AS SOLUONG from donhang dh join ctdonhang ct on ct.ma_donban = dh.ma_donban AND dh.MA_TRANGTHAI = 1 WHERE MA_NGUOIDUNG = :ID", ['ID' => $user -> MA_NGUOIDUNG])[0]->SOLUONG;
+            }else{
+                $soluong = 0;
+            } 
+            return view("account.index",[ "err"=>$err,
+                'nguoidung'=>$nguoidung,'danhmuc'=>$danhmuc,'user'=>$user,'soluong'=>$soluong,'tinh'=>$tinh,'huyen'=>$huyen,'xa'=>$xa]);
+    
+        } 
         $param = ['TEN_NGUOIDUNG'=>$nguoidung->TEN_NGUOIDUNG, 'GIOITINH'=>$nguoidung->GIOITINH,'EMAIL'=>$nguoidung->EMAIL,'NGAYSINH'=>$nguoidung->NGAYSINH,'MA_XA'=>$nguoidung->MA_XA, 'SDT'=>$nguoidung->SDT, "MA_NGUOIDUNG" => $user->MA_NGUOIDUNG];
         $sql = 'UPDATE `nguoidung` SET `TEN_NGUOIDUNG` = :TEN_NGUOIDUNG, `GIOITINH` = :GIOITINH,`EMAIL` = :EMAIL,`NGAYSINH` = :NGAYSINH,`MA_XA`= :MA_XA, `SDT` = :SDT WHERE MA_NGUOIDUNG =:MA_NGUOIDUNG';
-        if(DB::insert($sql,$param)){
-            return redirect("/account/index".$req->id);
+        if(DB::insert($sql, $param)){
+            return redirect("/account/index");
         }
     }
 
     public function address(Request $req){
         $user = Session::get("MA_NGUOIDUNG");
         $danhmuc = DB::select('select *from danhmuc');
-        $noithanhtoan = DB::select("select noithanhtoan.CHITIET, noithanhtoan.MA_NGUOIDUNG, noithanhtoan.MACDINH, nguoidung.TEN_NGUOIDUNG, nguoidung.SDT, xa.TEN_XA, huyen.TEN_HUYEN, tinh.TEN_TINH  from noithanhtoan 
+        $noithanhtoan = DB::select("select noithanhtoan.DT,noithanhtoan.CHITIET, noithanhtoan.MA_NGUOIDUNG, noithanhtoan.MACDINH, nguoidung.TEN_NGUOIDUNG, nguoidung.SDT, xa.TEN_XA, huyen.TEN_HUYEN, tinh.TEN_TINH  from noithanhtoan 
                      join nguoidung on nguoidung.MA_NGUOIDUNG = noithanhtoan.MA_NGUOIDUNG
                      join xa on xa.MA_XA = noithanhtoan.MA_XA 
                      JOIN huyen on huyen.MA_HUYEN = xa.MA_HUYEN 
                      JOIN tinh on tinh.MA_TINH = huyen.MA_TINH
                      where noithanhtoan.MA_NGUOIDUNG = :ID",
                      ['ID'=>$user->MA_NGUOIDUNG]);
-        
         if ($user){
             $soluong = DB::select("select COUNT(SOLUONG) AS SOLUONG from donhang dh join ctdonhang ct on ct.ma_donban = dh.ma_donban AND dh.MA_TRANGTHAI = 1 WHERE MA_NGUOIDUNG = :ID", ['ID' => $user -> MA_NGUOIDUNG])[0]->SOLUONG;
         }else{
@@ -136,7 +156,7 @@ class AccountController extends Controller
         {
             $noithanhtoan = new Noithanhtoan();
         }
-        $nguoi_dung = DB::select('select nd.*, xa.TEN_XA, huyen.*, tinh.* from Nguoidung nd join xa on nd.MA_XA = xa.MA_XA join huyen on huyen.MA_HUYEN = xa.MA_HUYEN join tinh on tinh.MA_TINH = huyen.MA_TINH where MA_NGUOIDUNG = :MA_NGUOIDUNG', ['MA_NGUOIDUNG' => $user->MA_NGUOIDUNG]); 
+        $nguoi_dung = DB::select('select nd.*, xa.TEN_XA, huyen.*, tinh.* from Nguoidung nd left join xa on nd.MA_XA = xa.MA_XA left join huyen on huyen.MA_HUYEN = xa.MA_HUYEN left join tinh on tinh.MA_TINH = huyen.MA_TINH where MA_NGUOIDUNG = :MA_NGUOIDUNG', ['MA_NGUOIDUNG' => $user->MA_NGUOIDUNG]); 
         if ($user){
             $soluong = DB::select("select COUNT(SOLUONG) AS SOLUONG from donhang dh join ctdonhang ct on ct.ma_donban = dh.ma_donban AND dh.MA_TRANGTHAI = 1 WHERE MA_NGUOIDUNG = :ID", ['ID' => $user -> MA_NGUOIDUNG])[0]->SOLUONG;
         }else{
@@ -152,13 +172,13 @@ class AccountController extends Controller
                 . "     join xa on xa.MA_XA = ntt.MA_XA JOIN huyen on huyen.MA_HUYEN = xa.MA_HUYEN where MA_NGUOIDUNG = :ID AND MACDINH =0",
                         ['ID'=>$user->MA_NGUOIDUNG]);
         if($check){
-            $sql = 'INSERT INTO `noithanhtoan`(`MA_XA`,`MA_NGUOIDUNG`,`CHITIET`, MACDINH) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET, 1)';
+            $sql = 'INSERT INTO `noithanhtoan`(`MA_XA`,`MA_NGUOIDUNG`,`CHITIET`, DT, MACDINH) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET, :DT, 1)';
         }else
         {
-            $sql = 'INSERT INTO `noithanhtoan`(`MA_XA`,`MA_NGUOIDUNG`,`CHITIET`, MACDINH) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET, 0)';
+            $sql = 'INSERT INTO `noithanhtoan`(`MA_XA`,`MA_NGUOIDUNG`,`CHITIET` ,DT, MACDINH) VALUES(:MA_XA, :MA_NGUOIDUNG, :CHITIET, :DT, 0)';
         }
         
-        $param = ["MA_XA" => $noithanhtoan->MA_XA, "MA_NGUOIDUNG" => $user->MA_NGUOIDUNG, "CHITIET"=> $noithanhtoan->CHITIET];
+        $param = ["MA_XA" => $noithanhtoan->MA_XA, "MA_NGUOIDUNG" => $user->MA_NGUOIDUNG, "CHITIET"=> $noithanhtoan->CHITIET,"DT" => $req->DT];
         if(DB::insert($sql, $param)){
             return redirect("/account/address".$req->id);
         }
@@ -235,7 +255,6 @@ class AccountController extends Controller
     
     
     public function update_comment(Request $req){
-        
         $user = Session::get("MA_NGUOIDUNG");
         $images = $req->file('input_img');
         $ma_sp = $req->MA_SP;
@@ -265,9 +284,7 @@ class AccountController extends Controller
             $sql .= " ) VALUE (?,?,?,?,?,? ".$sql_img." )";
             DB::insert($sql, $param); 
         }
-        return redirect("/account/orders");
-        
-        
+        return redirect("/account/orders");   
     }
     
     public function order_detail(Request $req){
@@ -305,7 +322,8 @@ class AccountController extends Controller
             $soluong = DB::select("select COUNT(SOLUONG) AS SOLUONG from donhang dh join ctdonhang ct on ct.ma_donban = dh.ma_donban AND dh.MA_TRANGTHAI = 1 WHERE MA_NGUOIDUNG = :ID", ['ID' => $user -> MA_NGUOIDUNG])[0]->SOLUONG;
         }else{
             $soluong = 0;
-        }   
+        }
+        
         $donhang = Donhang::get_dh_ma($req->id);
         $noithanhtoan = DB::select("select noithanhtoan.CHITIET, noithanhtoan.MA_NGUOIDUNG, noithanhtoan.MACDINH, nguoidung.TEN_NGUOIDUNG, nguoidung.SDT, xa.TEN_XA, huyen.TEN_HUYEN, tinh.TEN_TINH  from noithanhtoan 
                      join nguoidung on nguoidung.MA_NGUOIDUNG = noithanhtoan.MA_NGUOIDUNG

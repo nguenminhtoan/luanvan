@@ -15,7 +15,6 @@ Giỏ Hàng
             <?php $thanhtien=0; ?>
             @foreach($cuahang as $item)
             {{ csrf_field() }}
-            
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -141,6 +140,12 @@ Giỏ Hàng
                                     <label class="col-sm-2 control-label" for="input-postcode">Đường / Số nhà</label>
                                     <div class="col-sm-10">
                                         <input type="text" name="CHITIET" value="{{$noithanhtoan->CHITIET}}" placeholder="Đường / Số nhà" id="input-postcode" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <label class="col-sm-2 control-label" for="input-postcode">Số điện thoại</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" name="SDT" value="{{$noithanhtoan->DT}}" placeholder="số điện thoại người nhận hàng" class="form-control">
                                     </div>
                                 </div>
                                 <button type="button" onclick="update_address()" id="button-quote" data-loading-text="Loading..." class="btn btn-primary">Cập nhật thành mặc định</button>
@@ -396,8 +401,9 @@ Giỏ Hàng
         url: '/cart/update_address',
                 type: 'get',
                 data:{
-                MA_XA : ma_xa,
-                        CHITIET : chitiet
+                    MA_XA : ma_xa,
+                    CHITIET : chitiet,
+                    SDT : $("input[name='SDT']").val()
                 },
                 success: function(data) {
                     alert("cập nhật thành công!");

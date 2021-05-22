@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Noithanhtoan extends Model
 {
     use HasFactory;
-    protected $fillable = ['MA_NOI', 'MA_XA', 'MA_NGUOIDUNG','CHITIET'];
+    protected $fillable = ['MA_NOI', 'MA_XA', 'MA_NGUOIDUNG','CHITIET', "DT"];
 }

@@ -38,7 +38,7 @@ Account
                     <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-firstname">Số điện thoại</label>
                         <div class="col-sm-10">
-                            <input disabled="" type="number" name="SDT" value="{{$item ->SDT}}"id="input-firstname" class="form-control">
+                            <input disabled="" type="number" name="DT" value="{{$item ->DT}}"id="input-firstname" class="form-control">
                         </div>
                     </div>
                 </fieldset>
