@@ -111,7 +111,7 @@ Add Address
                 <a href="/account/index" class="list-group-item">Tài khoản của tôi</a>
                 <a href="/account/address" class="list-group-item">Địa chỉ giao hàng</a> 
                 <a href="/search?cookie=1" class="list-group-item">Sản phẩm vừa xem</a>
-                <a href="/account/orders" class="list-group-item">Mua hàng</a>
+                <a href="/account/orders" class="list-group-item">Lịch sử mua hàng</a>
                 <a href="/chat" class="list-group-item">Trao đỏi với shop</a>
                 <a href="/voucher" class="list-group-item">Lấy mã khuyến mãi</a> 
                 <a href="/account/pass" class="list-group-item">cập nhật mật khẩu</a> 

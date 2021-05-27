@@ -3,31 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/D:/luan_van/code/web_online/.env</file>
-            <file>file:/D:/luan_van/code/web_online/app/Http/Controllers/LoginController.php</file>
-            <file>file:/D:/luan_van/code/web_online/app/Http/Controllers/AccountController.php</file>
-            <file>file:/D:/luan_van/code/web_online/app/Http/Controllers/RegisterController.php</file>
-            <file>file:/D:/luan_van/code/web_online/resources/views/register/verify.blade.php</file>
-            <file>file:/D:/luan_van/code/web_online/resources/views/register/reset_pass.blade.php</file>
-            <file>file:/D:/luan_van/code/web_online/app/Http/Controllers/ChatController.php</file>
-            <file>file:/D:/luan_van/code/web_online/resources/views/account/pass.blade.php</file>
-            <file>file:/D:/luan_van/code/web_online/resources/views/layouts/layout_admin.blade.php</file>
+            <file>file:/D:/luan_van/code/web_online/resources/views/home/index.blade.php</file>
+            <file>file:/D:/luan_van/code/web_online/resources/views/admin/detail.blade.php</file>
+            <file>file:/D:/luan_van/code/web_online/resources/views/products/product_add.blade.php</file>
+            <file>file:/D:/luan_van/code/web_online/resources/views/products/product_all.blade.php</file>
+            <file>file:/D:/luan_van/code/web_online/app/Models/Sanpham.php</file>
+            <file>file:/D:/luan_van/code/web_online/app/Http/Controllers/AdminController.php</file>
             <file>file:/D:/luan_van/code/web_online/routes/web.php</file>
-            <file>file:/D:/luan_van/code/web_online/resources/views/chat/chat.blade.php</file>
-=======
-            <file>file:/D:/git/luanvan/web_online/app/Http/Controllers/ChatController.php</file>
-            <file>file:/D:/git/luanvan/web_online/app/Http/Middleware/VerifyCsrfToken.php</file>
-            <file>file:/D:/git/luanvan/web_online/app/Http/Controllers/CartController.php</file>
-            <file>file:/D:/git/luanvan/web_online/routes/web.php</file>
-            <file>file:/D:/git/luanvan/web_online/app/Http/Controllers/LoginController.php</file>
-            <file>file:/D:/git/luanvan/web_online/config/session.php</file>
-            <file>file:/D:/git/luanvan/web_online/app/Http/Middleware/checkLogin.php</file>
-            <file>file:/D:/git/luanvan/web_online/app/Http/Controllers/AccountController.php</file>
-            <file>file:/D:/git/luanvan/web_online/.env</file>
-            <file>file:/D:/git/luanvan/web_online/app/Http/Controllers/SocialController.php</file>
-            <file>file:/D:/git/luanvan/web_online/app/Http/Controllers/RegisterController.php</file>
->>>>>>> 94af218ca7afa9599ce9c792dec893d25a65dbd2
+            <file>file:/D:/luan_van/code/web_online/app/Http/Controllers/ProductsController.php</file>
+            <file>file:/D:/luan_van/code/web_online/app/Http/Controllers/HomeController.php</file>
         </group>
     </open-files>
 </project-private>

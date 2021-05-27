@@ -11,7 +11,7 @@ Giỏ Hàng
     <div class="row">
         <div id="content" class="col-sm-12">
             <h1>Sản phẩm trong giỏ của bạn</h1>
-            <form action="/cart/checkout" method="post" enctype="multipart/form-data">
+            <form id="check_out" action="/cart/checkout" method="post" enctype="multipart/form-data">
             <?php $thanhtien=0; ?>
             @foreach($cuahang as $item)
             {{ csrf_field() }}
@@ -55,6 +55,7 @@ Giỏ Hàng
                             <td class="text-right">{{number_format($sp->DONGIA)}}VNĐ</td>
                             <td class="text-right">{{number_format($sp->THANHTIEN)}}VNĐ</td>
                             <?php $tong += $sp->THANHTIEN ?>
+                            
                         </tr>
                         @endif
                         @endforeach 
@@ -77,6 +78,7 @@ Giỏ Hàng
                             <td colspan="4" class="text-right">Thành tiền</td>
                             <td class="text-right">{{ number_format($tong) }}VNĐ</td>
                         </tr>
+                        
                     </tbody>
                 </table> 
             
@@ -194,19 +196,98 @@ Giỏ Hàng
                                 <td class="text-right"><strong>Thành tiền:</strong></td>
                                 <td class="text-right" id="toanbo">{{ number_format($thanhtien + $giohang->DONGIA - $giohang->GIAMGIA) }}VNĐ</td>
                             </tr>
+                            <tr>
+                                <td colspan="5" class="text-right">
+                                    @php
+                                        $tien = ($thanhtien + $giohang->DONGIA - $giohang->GIAMGIA)/2308;
+                                    @endphp
+                                    <div id="paypal-button" style="display: none"></div>
+                                    <input type ="hidden" name="DATHANHTOAN" value="0">
+                                    <input type ="hidden" id="tien" value="{{round($tien,2)}}">
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="buttons clearfix">
                 <div class="pull-left"><a href="/home" class="btn btn-default">Tiếp tục mua</a></div>
-                <div class="pull-right"><button class="btn btn-primary">Đặt hàng</button></div>
+                
+                <div class="pull-right">
+                    <input id="btn-1" type="submit" class="btn btn-primary" value="Đặt hàng" >
+                    <input id="btn-2" style="display: none" type="button" onclick="submit_all();" class="btn btn-primary" value="Thanh toán online" />
+                </div>
             </div>
+            </form>
+            
+            <form action="/vnpay_create" id="create_form" method="post">   
+                @csrf
+                <input hidden id="amount" name="amount" type="number" value="{{ $thanhtien + $giohang->DONGIA - $giohang->GIAMGIA }}"/>
             </form>
         </div>
     </div>
 </div>
 
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+    var usd = document.getElementById("tien").value;
+  paypal.Button.render({
+    // Configure environment
+    env: 'sandbox',
+    client: {
+      sandbox: 'Aapr7wgjfRQYXqCGidgVb-HfM8iU7LdaqLEHYt0e_e0auYndrqmdoJZlQWDCYudFrDU9T24IcaefrNvi',
+      production: 'demo_production_client_id'
+    },
+    // Customize button (optional)
+    locale: 'en_US',
+    style: {
+      size: 'small',
+      color: 'gold',
+      shape: 'pill',
+    },
+
+    // Enable Pay Now checkout flow (optional)
+    commit: true,
+
+    // Set up a payment
+    payment: function(data, actions) {
+      return actions.payment.create({
+        transactions: [{
+          amount: {
+            total: `${usd}`,
+            currency: 'USD'
+          }
+        }]
+      });
+    },
+    // Execute the payment
+    onAuthorize: function(data, actions) {
+      return actions.payment.execute().then(function() {
+        // Show a confirmation message to the buyer
+        $("input[name='DATHANHTOAN']").val(1);
+        window.alert('Cảm ơn bạn đã đặt hàng!');
+        $("#check_out").submit();
+      });
+    }
+  }, '#paypal-button');
+
+
+    $("select[name='MA_THANHTOAN']").change(function(){
+       if($(this).val() == 1 ){
+           $("#btn-1").css("display","block");
+           $("#btn-2").css("display","none");
+           $("#btn-3").css("display","none");
+       }else if ($(this).val() == 2 ){
+           $("#btn-1").css("display","none");
+           $("#btn-2").css("display","none");
+           $("#paypal-button").css("display","block");
+       }else{
+           $("#btn-1").css("display","none");
+           $("#btn-2").css("display","block");
+           $("#paypal-button").css("display","none");
+       }
+    });
+</script>
 <script type="text/javascript">
     var giamgia = 0;
     $("#customer_id_province").change(function () {
@@ -324,6 +405,7 @@ Giỏ Hàng
                             }
                         });
                         giamgia = 0;
+                        $("#amount").val(toanbo - giamgia);
                         $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo - giamgia) + "VNĐ");
                     }
                 }
@@ -388,6 +470,7 @@ Giỏ Hàng
                             toanbo = toanbo + Number($(value).find("tbody tr:last-child").find("td:last-child").html().replace("VNĐ", "").replaceAll(",", ""));
                         }
                     });
+                    $("#amount").val(toanbo - giamgia);
                     $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo - giamgia) + "VNĐ");
 
                 }
@@ -456,6 +539,7 @@ Giỏ Hàng
                 toanbo = toanbo + Number($(value).find("tbody tr:last-child").find("td:last-child").html().replace("VNĐ", "").replaceAll(",", ""));
             }
         });
+        $("#amount").val(toanbo - giamgia);
         $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo - giamgia) + "VNĐ");
 //        $.ajax({
 //        url: '/cart/update_pp',
@@ -494,6 +578,33 @@ Giỏ Hàng
 //                }
 //        });
 //        window.location.href = "/add_order"
+    }
+    
+    
+    function submit_all(){
+        var postData = $("#order_cart").serialize();
+        var submitUrl = $("#order_cart").attr("action");
+        $.ajax({
+            type: "POST",
+            url: submitUrl,
+            data: postData,
+            dataType: 'JSON',
+            success: function (x) {
+                if (x.code === '00') {
+                    if (window.vnpay) {
+                        vnpay.open({width: 768, height: 600, url: x.data});
+                    } else {
+//                        location.href = x.data;
+                        
+                        $('#create_form').submit();
+                    }
+                    return false;
+                } else {
+                    alert(x.Message);
+                }
+            }
+        });
+        return false;
     }
 </script>
 @endsection

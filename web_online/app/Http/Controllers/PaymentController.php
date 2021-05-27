@@ -55,4 +55,5 @@ class PaymentController extends Controller
         DB::delete('DELETE FROM `thanhtoan` WHERE `thanhtoan`.`MA_THANHTOAN` = :ID',["ID" => $req->id]);
         return redirect("/admin/payment/index");
     }
+    
 }
