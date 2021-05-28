@@ -212,7 +212,7 @@ Chăm sóc khách hàng
             </div>
             <!-- end card -->
         </div>
-        <script src="{{ asset('js/app.js') }}"></script>
+        
         <style>
             #show-temp{
                 position: absolute;
@@ -228,11 +228,7 @@ Chăm sóc khách hàng
 <script>
 
     var check = true;
-    var pusher = new Pusher('24d4b050dc48945113d1', {
-        encrypted: true,
-        cluster: "ap1"
-    });
-
+ 
     function change_img(event){
        
         if (event.files && event.files[0]) {
@@ -334,7 +330,6 @@ Chăm sóc khách hàng
             item.find("p").find(".w-75").html(data.data.NOIDUNG);
         }
     });
-    
     
     window.onload = function(){
     // short timeout

@@ -82,7 +82,15 @@ class Donhang extends Model
         return $list;
     }
     
+    public static function list_notifi($ch){
+        $sql = "select * from donhang where MA_CUAHANG = ? AND MA_TRANGTHAI = 2 AND THONGBAO = 0 order by NGAYDAT DESC";
+        $param = [$ch];
+        $list = DB::select($sql, $param);
+        return $list;
+    }
+
     
+
     public static function get_dh_ma($madb){
         $sql = "select * from donhang
                 inner join nguoidung nd on nd.MA_NGUOIDUNG = donhang.MA_NGUOIDUNG

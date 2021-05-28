@@ -35,11 +35,15 @@ class OrdersController extends Controller
         $cuahang = DB::select('select nd.*, xa.TEN_XA, huyen.TEN_HUYEN, tinh.TEN_TINH from Cuahang nd left join xa on nd.MA_XA = xa.MA_XA left join huyen on huyen.MA_HUYEN = xa.MA_HUYEN left join tinh on tinh.MA_TINH = huyen.MA_TINH WHERE nd.MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);        
         $ctiet = Donhang::list_ct_dh($req->id);
         $donhang = Donhang::get_dh_ma($req->id);
+        DB::update("update donhang set THONGBAO = 1 Where ma_donban = ?", [$req->id]);
         return view("orders.detail_orders",['donhangban'=>$ctiet,'cuahang'=>$cuahang[0],'mach'=>$mach, "donhang"=>$donhang]);
     }
     
-    
-    
+    public function notifi_read(){
+        DB::update("update donhang set THONGBAO = 1 Where MA_CUAHANG = ?", [Session::get("MA_NGUOIDUNG")->MA_CUAHANG]);
+        return true;
+    }
+
     public function update_status(Request $req) {
         $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
         DB::update("update donhang set ma_trangthai = ?, NGAYBAN =? Where ma_donban = ?", [$req->MA_TRANGTHAI ,date("Y/m/d") ,$req->id]);

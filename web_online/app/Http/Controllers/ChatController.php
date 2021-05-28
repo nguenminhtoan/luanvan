@@ -9,6 +9,7 @@ use App\Events\MessageReply;
 use App\Models\Nguoidung;
 use DB;
 use App\Models\Traodoi;
+use Phpml\Classification\KNearestNeighbors;
 
 class ChatController extends Controller
 {
@@ -127,6 +128,37 @@ class ChatController extends Controller
         return ['status' => 'Message Sent!'];
     }
     
+    public function sendMessageBox(Request $request)
+    {
+//      \
+        $samples = [["shop cho mình hỏi", "ban có rảnh không"], [1, 4], [2, 4], [3, 1], [4, 1], [4, 2]];
+        $labels = ['có vấn đề gì vậy', 'a', 'a', 'b', 'b', 'b'];
+
+        $classifier = new KNearestNeighbors();
+        $classifier->train($samples, $labels);
+
+        $traloi = $classifier->predict([3, 2]);
+//        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+//        $cuahang = DB::select('select *from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach])[0];
+        
+//        $data = [
+//            "MA_NGUOIDUNG" => $request->MA_NGUOIDUNG,
+//            "NOIDUNG"=>$request->NOIDUNG,
+//            "MA_CUAHANG" => $cuahang->MA_CUAHANG,
+//            "THOIGIAN" => date("H:m"),
+//            "TEN_CUAHANG" => $cuahang->TEN_CUAHANG,
+//            "HINHANH" => $cuahang->HINHANH,
+//            "MA_TRAODOI" => $request->MA_TRAODOI,
+//            "FILE" => $name
+//        ];
+//        $message = $user->messages()->create([
+//          'message' => $request->input('message')
+//        ]);
+//        broadcast(new MessageSent($user, $message))->toOthers();
+//        event(new MessageSent($data));
+//        Traodoi::tl_save($data["MA_TRAODOI"],$data["MA_NGUOIDUNG"], $data["MA_CUAHANG"], $data["NOIDUNG"], date("Y-m-d H:m:s"), $name);
+        return $traloi;
+    }
     
      public function replyMessage(Request $request)
     {

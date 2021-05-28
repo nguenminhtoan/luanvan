@@ -24,11 +24,6 @@ Route::get('/', function () {
 });
 */
 
-Route::get('/admin/register_shop',"RegisterController@register_shop");
-Route::post('/admin/create_shop',"RegisterController@create_shop");
-
-Route::get('/register_shop',"RegisterController@register_shop");
-Route::post('/create_shop',"RegisterController@create_shop");
 
 Route::group(['prefix' => 'admin', "middleware"=> ["login", "roleAdmin"]], function () {
     
@@ -149,6 +144,7 @@ Route::group(['prefix' => 'admin', "middleware"=> ["login", "role"]], function (
         Route::get('/detail/{id}', "OrdersController@detail");
         Route::post('/update_status/{id}', "OrdersController@update_status");
         Route::get('/history',"OrdersController@history");
+        Route::get('/notifi', "OrdersController@notifi_read");
         
     });
     
@@ -230,6 +226,8 @@ Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
 Route::get('/callback/{provider}', 'SocialController@callback');
 
 
+Route::get('/register_shop',"RegisterController@register_shop");
+Route::post('/create_shop',"RegisterController@create_shop");
 Route::group(['prefix' => '', "middleware"=> "login"], function () {  
     Route::get('/account/{id}',"AccountController@index");
     Route::post('/update/{id}',"AccountController@update_cuahang");
@@ -238,5 +236,8 @@ Route::group(['prefix' => '', "middleware"=> "login"], function () {
 
 
 
+Route::get('/vnpay',"CartController@payvn");
+Route::post('/vnpay_create',"CartController@create_vnpay");
+Route::get('/vnpay',"CartController@payvn");
 
 

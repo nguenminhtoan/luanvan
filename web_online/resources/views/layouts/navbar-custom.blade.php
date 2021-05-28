@@ -13,80 +13,43 @@
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <i class="dripicons-bell noti-icon"></i>
-                <span class="noti-icon-badge"></span>
+                <span id="alert" class="noti-icon-badge" style="{{ count($thongbao) > 0 ? "display: block" : ""}}"></span>
             </a>
             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg">
                 <!-- item-->
                 <div class="dropdown-item noti-title">
                     <h5 class="m-0">
                         <span class="float-end">
-                            <a href="javascript: void(0);" class="text-dark">
+                            <a href="javascript:void(0);" onclick="clearAlert();" class="text-dark">
                                 <small>Làm sạch tât cả</small>
                             </a>
                         </span>Thông báo
                     </h5>
                 </div>
-                <div style="max-height: 230px;" data-simplebar>
+                <div id="clear" style="max-height: 230px;" data-simplebar>
                     <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <a href="/admin/orders/detail/" id="template_notifi" class="dropdown-item notify-item">
                         <div class="notify-icon bg-primary">
                             <i class="mdi mdi-comment-account-outline"></i>
                         </div>
-                        <p class="notify-details">Caleb Flakelar commented on Admin
-                            <small class="text-muted">1 min ago</small>
+                        <p class="notify-details">
+                            <small class="text-muted"></small>
                         </p>
                     </a>
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon bg-info">
-                            <i class="mdi mdi-account-plus"></i>
-                        </div>
-                        <p class="notify-details">New user registered.
-                            <small class="text-muted">5 hours ago</small>
-                        </p>
-                    </a>
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon">
-                            <img src="assets/images/users/avatar-2.jpg" class="img-fluid rounded-circle" alt="" /> 
-                        </div>
-                        <p class="notify-details">Cristina Pride</p>
-                        <p class="text-muted mb-0 user-msg">
-                            <small>Hi, How are you? What about our next meeting</small>
-                        </p>
-                    </a>
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    @foreach($thongbao as $item)
+                    <a href="/admin/orders/detail/{{$item->MA_DONBAN}}" class="dropdown-item notify-item">
                         <div class="notify-icon bg-primary">
                             <i class="mdi mdi-comment-account-outline"></i>
                         </div>
-                        <p class="notify-details">Caleb Flakelar commented on Admin
-                            <small class="text-muted">4 days ago</small>
+                        <p class="notify-details">
+                            <small class="text-muted">{{$item->NGAYDAT}}</small>
+                            Mã đơn #{{$item->MA_DONBAN}}, {{$item->DIACHI}}
                         </p>
                     </a>
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon">
-                            <img src="assets/images/users/avatar-4.jpg" class="img-fluid rounded-circle" alt="" /> 
-                        </div>
-                        <p class="notify-details">Karen Robinson</p>
-                        <p class="text-muted mb-0 user-msg">
-                            <small>Wow ! this admin looks good and awesome design</small>
-                        </p>
-                    </a>
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon bg-info">
-                            <i class="mdi mdi-heart"></i>
-                        </div>
-                        <p class="notify-details">Carlos Crouch liked
-                            <b>Admin</b>
-                            <small class="text-muted">13 days ago</small>
-                        </p>
-                    </a>
+                    @endforeach
                 </div>
                 <!-- All-->
-                <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
+                <a href="/admin/orders/index" class="dropdown-item text-center text-primary notify-item notify-all">
                     Xem tất cả
                 </a>
             </div>
@@ -245,4 +208,72 @@
         </div>
     </div>
 </div>
+<audio id="notification" src="/mp3/notifi.ogg" muted allow="autoplay"></audio>
+
+
+<style>
+    #template_notifi, #alert{
+        display: none;
+    }
+    
+</style>
+<script src="{{ asset('js/app.js') }}"></script>
+<script>
+    
+    
+    var pusher = new Pusher('24d4b050dc48945113d1', {
+        encrypted: true,
+        cluster: "ap1"
+    });
+
+    // Subscribe to the channel we specified in our Laravel Event
+    var channel = pusher.subscribe('notifi');
+    
+    // Bind a function to a Event (the full Laravel class)
+    channel.bind('App\\Events\\Notifi', function(data) {
+        
+        $.each(data.data,function(key, item){
+            if(item.MA_CUAHANG == {{$cuahang ? $cuahang->MA_CUAHANG : "0" }}){
+                temp = $("#template_notifi").clone();
+                temp.removeAttr("id");
+                temp.find("p").append("Mã đơn #" + item.MA_DONBAN + ", " + item.DIACHI);
+                temp.find("small").html(item.NGAYDAT);
+                temp.find("a").attr("href", "/admin/orders/detail/" + item.MA_DONBAN);
+                $("#template_notifi").before(temp);
+                $("#alert").css("display", "block");
+                src = "http://localhost:8000/mp3/notifi.mp3";
+//                var audio = new Audio(src);
+                document.getElementById('notification').muted = false;
+                document.getElementById('notification').play();
+                
+            }
+        })
+    });
+    
+    
+    //Plays the sound
+    function play() {
+       //Set the current time for the audio file to the beginning
+       soundFile.currentTime = 0.01;
+       soundFile.volume = volume;
+
+       //Due to a bug in Firefox, the audio needs to be played after a delay
+       setTimeout(function(){soundFile.play();},1);
+    }
+    function clearAlert(){
+        $.ajax({
+            method: "get",
+            url: "/admin/orders/notifi",
+            success: (function(data){
+                $("#alert").css("display", "none");
+                $.each($("#clear").find("a"), function(key, value){
+                   if($(value).attr("id") != "template_notifi")
+                   {
+                       $(value).remove();
+                   }
+                });
+            })
+        });
+    }
+</script>
 <!-- end Topbar -->

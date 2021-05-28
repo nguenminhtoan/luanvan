@@ -11,7 +11,7 @@ Giỏ Hàng
     <div class="row">
         <div id="content" class="col-sm-12">
             <h1>Sản phẩm trong giỏ của bạn</h1>
-            <form action="/cart/checkout" method="post" enctype="multipart/form-data">
+            <form action="/cart/checkout" method="post" enctype="multipart/form-data" id="order_cart">
             <?php $thanhtien=0; ?>
             @foreach($cuahang as $item)
             {{ csrf_field() }}
@@ -170,8 +170,10 @@ Giỏ Hàng
                                         @foreach ($thanhtoan as $item)
                                         <option  {{ $item->MA_THANHTOAN == $giohang->MA_THANHTOAN ? "selected" : "" }}  value="{{$item->MA_THANHTOAN}}" >{{$item->PHUONGTHUC_THANHTOAN}}</option>
                                         @endforeach
+                                        <option value="2" >Thanh toán online</option>
                                     </select>    
-                                </div>
+                                    
+                                    </div>
                             </div>
                             <div class="panel-body">
                                 <label class="col-sm-2 control-label" for="input-voucher">Phiếu khuyến mãi của bạn</label>
@@ -179,6 +181,7 @@ Giỏ Hàng
                                     <input type="text" name="MA_KHUYENMAI" value="{{$giohang->MA_KHUYENMAI}}" placeholder="Voucher của bạn" id="input-voucher" class="form-control">
                                     <span class="input-group-btn">
                                         <input type="button" onclick="check_voucher()" value="Kiểm tra mã" id="button-voucher" data-loading-text="Loading..." class="btn btn-primary">
+                                        
                                     </span> 
                                 </div>
                             </div>
@@ -200,8 +203,16 @@ Giỏ Hàng
             </div>
             <div class="buttons clearfix">
                 <div class="pull-left"><a href="/home" class="btn btn-default">Tiếp tục mua</a></div>
-                <div class="pull-right"><button class="btn btn-primary">Đặt hàng</button></div>
+                <div class="pull-right">
+                    <input id="btn-1" type="submit" class="btn btn-primary" value="Đặt hàng" >
+                    <input id="btn-2" style="display: none" type="button" onclick="submit_all();" class="btn btn-primary" value="Thanh toán online" />
+                </div>
+                 
             </div>
+            </form>
+            <form action="/vnpay_create" id="create_form" method="post">   
+                @csrf
+                <input hidden id="amount" name="amount" type="number" value="{{ $thanhtien + $giohang->DONGIA - $giohang->GIAMGIA }}"/>
             </form>
         </div>
     </div>
@@ -241,6 +252,16 @@ Giỏ Hàng
                 });
             }
         });
+    });
+    
+    $("select[name='MA_THANHTOAN']").change(function(){
+       if($(this).val() == 1 ){
+           $("#btn-1").css("display","block");
+           $("#btn-2").css("display","none");
+       }else{
+           $("#btn-1").css("display","none");
+           $("#btn-2").css("display","block");
+       }
     });
 
     $(document).ready(function() {
@@ -324,6 +345,7 @@ Giỏ Hàng
                             }
                         });
                         giamgia = 0;
+                        $("#amount").val(toanbo - giamgia);
                         $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo - giamgia) + "VNĐ");
                     }
                 }
@@ -388,6 +410,7 @@ Giỏ Hàng
                             toanbo = toanbo + Number($(value).find("tbody tr:last-child").find("td:last-child").html().replace("VNĐ", "").replaceAll(",", ""));
                         }
                     });
+                    $("#amount").val(toanbo - giamgia);
                     $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo - giamgia) + "VNĐ");
 
                 }
@@ -429,6 +452,7 @@ Giỏ Hàng
                         toanbo = toanbo + Number($(value).find("tbody tr:last-child").find("td:last-child").html().replace("VNĐ", "").replaceAll(",", ""));
                     }
                 });
+                $("#amount").val(toanbo - giamgia);
                 $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo - giamgia) + "VNĐ");
             }
             else{
@@ -456,44 +480,32 @@ Giỏ Hàng
                 toanbo = toanbo + Number($(value).find("tbody tr:last-child").find("td:last-child").html().replace("VNĐ", "").replaceAll(",", ""));
             }
         });
+        $("#amount").val(toanbo - giamgia);
         $("#toanbo").html(Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(toanbo - giamgia) + "VNĐ");
-//        $.ajax({
-//        url: '/cart/update_pp',
-//                type: 'get',
-//                data:{
-//                    MA_THANHTOAN : ma_thanhtoan,
-//                        MA_VANCHUYEN : ma_vanchuyen
-//                },
-//                success: function(data) {
-//
-//                }
-//        });
-//        var ma_xa = $("select[name='MA_XA']").find("option:selected").val();
-//        var chitiet = $("input[name='CHITIET']").val();
-//        $.ajax({
-//        url: '/cart/update_address',
-//                type: 'get',
-//                data:{
-//                MA_XA : ma_xa,
-//                        CHITIET : chitiet
-//                },
-//                success: function(data) {
-//
-//                }
-//        });
-//        var ma_khuyenmai = $("input[name='MA_KHUYENMAI']").val();
-//        $.ajax({
-//        url: '/cart/update_voucher',
-//                type: 'get',
-//                data:{
-//                MA_KHUYENMAI : ma_khuyenmai
-//                },
-//                success: function(data) {
-//
-//
-//                }
-//        });
-//        window.location.href = "/add_order"
-    }
+        
+        function submit_all(){
+            var postData = $("#order_cart").serialize();
+            var submitUrl = $("#order_cart").attr("action");
+            $.ajax({
+                type: "POST",
+                url: submitUrl,
+                data: postData,
+                dataType: 'JSON',
+                success: function (x) {
+                    if (x.code === '00') {
+                        if (window.vnpay) {
+                            vnpay.open({width: 768, height: 600, url: x.data});
+                        } else {
+                            location.href = x.data;
+                        }
+                        return false;
+                    } else {
+                        alert(x.Message);
+                    }
+                }
+            });
+            return false;
+            $('#create_form').submit();
+        }
 </script>
 @endsection
