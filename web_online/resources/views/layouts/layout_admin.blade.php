@@ -55,7 +55,7 @@
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
                                 <i class="uil-home-alt"></i>
-                                <span class="badge bg-success float-end">2</span>
+                                <span class="badge bg-success float-end">1</span>
                                 <span>Tổng quan</span>
                             </a>
                             <div class="collapse" id="sidebarDashboards">
@@ -77,15 +77,15 @@
                         <li class="side-nav-item">
                             <a href="/admin/chat/chat" class="side-nav-link">
                                 <i class="uil-comments-alt"></i>
-                                <span>Trao đổi <span class="badge rounded-pill badge-success-lighten font-10 float-end"> Chăm sóc khách hàng </span> </span>
+                                <span>Trao đổi <span class="badge rounded-pill badge-light-lighten font-10 float-end">Chăm sóc khách hàng</span> </span>
                             </a>
                         </li>
                         
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
-                                <i class="uil-store"></i>
+                                <i class="uil-briefcase"></i>
+                                <span class="badge bg-success float-end">2</span>
                                 <span> Quản lý sản phẩm </span>
-                                <span class="menu-arrow"></span>
                             </a>
                             <div class="collapse" id="sidebarEcommerce">
                                 <ul class="side-nav-second-level">
@@ -103,7 +103,7 @@
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
                                 <i class="uil-home-alt"></i>
-                                <span class="badge bg-success float-end">2</span>
+                                <span class="badge bg-success float-end">1</span>
                                 <span>Tổng quan</span>
                             </a>
                             <div class="collapse" id="sidebarDashboards">
@@ -114,21 +114,28 @@
                                 </ul>
                             </div>
                         </li>
-                        
+                        <li class="side-nav-title side-nav-item">Ứng dụng</li>
+
+                        <li class="side-nav-item">
+                            <a href="/admin/customers" class="side-nav-link">
+                                <i class="uil-calender"></i>
+                                <span>Tất cả Khách hàng <span class="badge rounded-pill badge-success-lighten font-10 float-end"> mới</span> </span>
+                            </a>
+                        </li>
+
                         @endif
                         
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
-                                <i class="uil-briefcase"></i>
-                                <span> Quản lý shop </span>
-                                <span class="menu-arrow"></span>
+                                <i class="uil-store"></i>
+                                <span class="badge rounded-pill badge-light-lighten font-10 float-end">mới</span><span> Quản lý shop </span>
                             </a>
                             <div class="collapse" id="sidebarProjects">
                                 <ul class="side-nav-second-level">
                                     
                                     @if(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
                                     <li>
-                                        <a href="/admin/cuahang/{{$cuahang->MA_CUAHANG}}">Hồ sơ shop<span class="badge rounded-pill badge-light-lighten font-10 float-end">mới</span></a>
+                                        <a href="/admin/cuahang/{{$cuahang->MA_CUAHANG}}">Hồ sơ shop</a>
                                     </li>
                                     @else
                                     <li>
@@ -147,8 +154,7 @@
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebargoods" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
                                 <i class="uil-briefcase"></i>
-                                <span> Quản lý nhập hàng </span>
-                                <span class="menu-arrow"></span>
+                                <span> Quản lý nhập hàng </span><span class="badge bg-success float-end">2</span>
                             </a>
                             <div class="collapse" id="sidebargoods">
                                 <ul class="side-nav-second-level">
@@ -194,6 +200,9 @@
                                     </li>
                                     <li>
                                         <a href="/admin/properties/index">Thuộc tính sản phẩm</a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/chat/autochat">Tự động trả lời</a>
                                     </li>
                                     @endif
                                 </ul>

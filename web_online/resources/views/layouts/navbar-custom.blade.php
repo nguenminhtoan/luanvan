@@ -112,12 +112,20 @@
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
                aria-expanded="false">
-                @if($cuahang)
+                
+                @if(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
                 <span class="account-user-avatar"> 
                     <img data-src="{{$cuahang->HINHANH}}" src="{{$cuahang->HINHANH}}" class="rounded-circle">
                 </span>
                 <span>
                     <span class="account-position">{{$cuahang->TEN_CUAHANG}}</span>
+                </span>
+                @else
+                <span class="account-user-avatar"> 
+                    <img data-src="/img/B612_20181214_203550_766.jpg" src="/img/B612_20181214_203550_766.jpg" class="rounded-circle">
+                </span>
+                <span>
+                    <span class="account-position">ADMIN</span>
                 </span>
                 @endif
             </a>
@@ -126,6 +134,7 @@
                 <div class=" dropdown-header noti-title">
                     <h6 class="text-overflow m-0">Chào mừng !</h6>
                 </div>
+                @if(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
                 <!-- item-->
                 <a href="/cuahang/{{$cuahang->MA_CUAHANG}}" class="dropdown-item notify-item">
                     <i class="mdi mdi-account-circle me-1"></i>
@@ -145,6 +154,12 @@
                     <i class="mdi mdi-logout me-1"></i>
                     <span>Đăng xuất</span>
                 </a>
+                @else
+                <a href="/logout" class="dropdown-item notify-item">
+                    <i class="mdi mdi-logout me-1"></i>
+                    <span>Đăng xuất</span>
+                </a>
+                @endif
             </div>
         </li>
     </ul>

@@ -24,6 +24,10 @@ class LoginController extends Controller
         $taikhoan = DB::select('select * from Nguoidung where EMAIL = :EMAIL or SDT = :SDT', ['EMAIL' => $nguoidung->EMAIL, 'SDT'=>$nguoidung->EMAIL]);
         if(count($taikhoan)> 0 && Hash::check($nguoidung->MATKHAU, $taikhoan[0]->MATKHAU)){
             Session::put("MA_NGUOIDUNG",$taikhoan[0]);
+            $mach = Session::get("MA_NGUOIDUNG");
+            if (isset($mach) && $mach->MA_CUAHANG != ""){
+                DB::update("update cuahang set ONLINE = 1 where ma_cuahang = ? ", [$mach->MA_CUAHANG]);
+            }
             return redirect("/home");
         }
         else
@@ -36,6 +40,10 @@ class LoginController extends Controller
     }
     
     public function logout(){
+        $mach = Session::get("MA_NGUOIDUNG");
+        if (isset($mach) && $mach->MA_CUAHANG != ""){
+            DB::update("update cuahang set ONLINE = 0 where ma_cuahang = ? ", [$mach->MA_CUAHANG]);
+        }
         Session::flush("");
         return redirect("/home");
     }

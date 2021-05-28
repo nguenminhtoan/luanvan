@@ -24,6 +24,9 @@ Route::get('/', function () {
 });
 */
 
+Route::get('/admin/register_shop',"RegisterController@register_shop");
+Route::post('/admin/create_shop',"RegisterController@create_shop");
+
 
 Route::group(['prefix' => 'admin', "middleware"=> ["login", "roleAdmin"]], function () {
     
@@ -155,10 +158,13 @@ Route::group(['prefix' => 'admin', "middleware"=> ["login", "role"]], function (
         Route::post('messages', 'ChatController@sendMessage');
         Route::get('/chat',"ChatController@chat");
         Route::post('reply', 'ChatController@replyMessage');
+        Route::get('autochat', 'ChatController@autochat');
+        Route::post('save', 'ChatController@save');
     });
     
     
     Route::group(['prefix' => 'cuahang'], function(){
+        Route::get('/products/{id}',"AccountController@cuahang");
         Route::get('/{id}',"AccountController@cuahang");
         Route::get('/edit/{id}',"AccountController@edit_cuahang");
     });
@@ -225,6 +231,7 @@ Route::get('/detail/{id}',"DetailController@index");
 Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
 Route::get('/callback/{provider}', 'SocialController@callback');
 
+Route::get("/vnpay", "VNpayController@index");
 
 Route::get('/register_shop',"RegisterController@register_shop");
 Route::post('/create_shop',"RegisterController@create_shop");
@@ -235,6 +242,10 @@ Route::group(['prefix' => '', "middleware"=> "login"], function () {
 
 
 
+
+Route::get('/vnpay',"CartController@payvn");
+Route::post('/vnpay_create',"CartController@create_vnpay");
+Route::get('/vnpay',"CartController@payvn");
 
 Route::get('/vnpay',"CartController@payvn");
 Route::post('/vnpay_create',"CartController@create_vnpay");

@@ -11,6 +11,7 @@
             <word>hàng</word>
             <word>KHUYENMAI</word>
             <word>khẩu</word>
+            <word>php</word>
         </spellchecker-wordlist>
     </configuration>
 </project>

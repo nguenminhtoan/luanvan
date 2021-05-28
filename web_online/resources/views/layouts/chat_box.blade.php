@@ -165,6 +165,8 @@
 
                     var d = $('#content_noidung');
                     $("#content_noidung").scrollTop(d.prop("scrollHeight"));
+                    $("#show_box").addClass("src-components-MainLayout-index__container--pU83Q");
+                    localStorage.setItem("chat-box",1);
                 })
             });
     }

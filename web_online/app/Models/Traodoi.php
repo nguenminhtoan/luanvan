@@ -52,7 +52,7 @@ class Traodoi extends Model
     public static  function tl_save($traodoi,$mand, $mach,$noidung, $thoigian, $file){
         $sql = "INSERT INTO traodoi(TRA_MA_TRAODOI,MA_NGUOIDUNG,MA_CUAHANG,NOIDUNG,THOIGIAN,FILE_1, TRANGTHAI) VALUE(?,?,?,?,?, ?, 0)";
         DB::insert($sql, [$traodoi,$mand, $mach,$noidung, $thoigian, $file]);
-        return DB::select("select MAX(MA_TRAODOI) from traodoi")[0];
+        return DB::select("select MAX(MA_TRAODOI) as MA_TRAODOI from traodoi")[0]->MA_TRAODOI;
     }
     
     public static  function  ma_traodoi_by_ch_nd($mach, $mand){

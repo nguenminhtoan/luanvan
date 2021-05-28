@@ -204,10 +204,12 @@ class CartController extends Controller
                     join huyen on huyen.MA_HUYEN = xa.MA_HUYEN
                     join tinh on tinh.MA_TINH = huyen.MA_TINH
                     where MA_NOI = ?", [$ma_noi])[0];
+                
+                $datt = $req->DATHANHTOAN;
                 $diachi = $row->TEN_TINH. ", ".$row->LOAI_H." ".$row->TEN_HUYEN.", ".$row->LOAI_X.", ".$row->TEN_XA. ", ".$req->CHITIET;
-                $sql = "update donhang set MA_TRANGTHAI = 2, MA_VANCHUYEN = :MA_VANCHUYEN, MA_THANHTOAN = :MA_THANHTOAN,"
+                $sql = "update donhang set MA_TRANGTHAI = 2, MA_VANCHUYEN = :MA_VANCHUYEN, MA_THANHTOAN = :MA_THANHTOAN, DATHANHTOAN = :DATHANHTOAN, "
                         . " MA_KHUYENMAI = :MA_KHUYENMAI, NGAYDAT = :NGAYDAT, TONGTIEN = :TONGTIEN, MA_NOI = :MA_NOI, DIACHI = :DIACHI WHERE MA_DONBAN = :MA_DONBAN";
-                $param = ["MA_VANCHUYEN" => $ma_vt, "MA_THANHTOAN" => $ma_tt,
+                $param = ["MA_VANCHUYEN" => $ma_vt, "MA_THANHTOAN" => $ma_tt, "DATHANHTOAN" => $datt,
                     "MA_KHUYENMAI" => $req->MA_KHUYENMAI, "NGAYDAT" => date("Y/m/d"), "MA_DONBAN" => $item->MA_DONBAN, "MA_NOI" => $ma_noi, "DIACHI" => $diachi, "TONGTIEN" => $tongtien];
                 DB::update($sql, $param);
             }
@@ -385,7 +387,6 @@ class CartController extends Controller
         return view("cart.vnpay");
     }
     
-    
     public function create_vnpay(Request $request)
     {
         session(['cost_id' => $request->id]);
@@ -452,7 +453,4 @@ class CartController extends Controller
         session()->forget('url_prev');
         return redirect($url)->with('errors' ,'Lỗi trong quá trình thanh toán phí dịch vụ');
     }
-    
-    
-    
 }

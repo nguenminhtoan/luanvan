@@ -1,16 +1,19 @@
 @extends('layouts.layout_admin')
-@section('title',"ADMIN - Supermarket| E-Commerce")
+@section('title')
+Tất cả sản phẩm
+@endsection
 @section('content')
-
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Tất cả Khách hàng</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Tất cả sản phẩm</a></li>
+                    <li class="breadcrumb-item active">Sản Phẩm</li>
                 </ol>
             </div>
-            <h4 class="page-title">Khách Hàng</h4>
+            <h4 class="page-title">Tất Cả Sản Phẩm</h4>
         </div>
     </div>
 </div>
@@ -20,11 +23,14 @@
         <div class="card">
             <div class="card-body">
                 <div class="row mb-2">
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
+                        <a href="/admin/product/add" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Thêm Sản Phẩm</a>
                     </div>
-                    <div class="col-sm-9">
+                    <div class="col-sm-8">
                         <div class="text-sm-end">
-
+                            <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog-outline"></i></button>
+                            <button type="button" class="btn btn-light mb-2 me-1">Nhập khẩu</button>
+                            <button type="button" class="btn btn-light mb-2">Xuất khẩu</button>
                         </div>
                     </div>
                     <!-- end col-->
@@ -39,19 +45,20 @@
                                         <label class="form-check-label" for="customCheck1">&nbsp;</label>
                                     </div>
                                 </th>
-                                <th class="all">Tên người dùng</th>
-                                <th>Ngày sinh</th>
-                                <th>Giới tính</th>
-                                <th>Địa chỉ</th>
-                                <th>Địa chỉ EMAIL</th>
-                                <th>Số điện Thoại</th>
+                                <th class="all">Sản Phẩm</th>
+                                <th>Loại</th>
+                                <th>Giá</th>
+                                <th>Giảm giá</th>
+                                <th>Kho</th>
+                                <th>Đã bán</th>
+
+                                <th style="width: 85px;">Hoạt động</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (is_array($nguoidung))
-                            @foreach ($nguoidung as $nd)
+                            @if (is_array($sanpham))
+                            @foreach ($sanpham as $sp)
                             <tr>
-
                                 <td>
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="customCheck13">
@@ -60,28 +67,30 @@
                                 </td>
                                 <td>
                                     <p class="m-0 d-inline-block align-middle font-16">
-                                        <a href="#" class="text-body">{{$nd -> TEN_NGUOIDUNG}}</a>
+                                        <a href="apps-ecommerce-products-details.html" class="text-body">{{$sp->TEN_SP}}</a>
                                     </p>    
-
+                                    
                                 </td>
                                 <td>
-                                    {{$nd -> NGAYSINH}}
+                                    {{$sp->TEN_DANHMUC}}
                                 </td>
                                 <td>
-                                    {{$nd -> GIOITINH}}
+                                    {{$sp->GIA}}
                                 </td>
                                 <td>
-                                    {{$nd -> TEN_XA}},{{$nd -> TEN_HUYEN}},{{$nd -> TEN_TINH }}
+                                    {{$sp->GIAMGIA}}
                                 </td>
                                 <td>
-                                    {{$nd -> EMAIL}}
+                                    {{$sp->KHO}}
                                 </td>
                                 <td>
-                                    {{$nd -> SDT}}
+                                    {{$sp->SOLUONG}}
                                 </td>
-
+                                <td class="table-action">
+                                    <a href="/admin/product/edit/{{$sp->MA_SP}}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                </td>
                             </tr>
-                            @endforeach 
+                            @endforeach
                             @endif
                         </tbody>
                     </table>
@@ -99,7 +108,7 @@
                                             <i class="mdi mdi-arrow-left"></i> Home </a>
                                     </div>
                                     <!-- end col -->
-
+                                    
                                 </div>
                             </div>          
                         </div>
@@ -113,4 +122,7 @@
     <!-- end col -->
 </div>
 <!-- end row -->        
+</div>
+<!-- container -->
+</div>
 @endsection

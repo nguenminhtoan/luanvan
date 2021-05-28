@@ -126,7 +126,7 @@ class AccountController extends Controller
     public function address(Request $req){
         $user = Session::get("MA_NGUOIDUNG");
         $danhmuc = DB::select('select *from danhmuc');
-        $noithanhtoan = DB::select("select noithanhtoan.DT,noithanhtoan.CHITIET, noithanhtoan.MA_NGUOIDUNG, noithanhtoan.MACDINH, nguoidung.TEN_NGUOIDUNG, nguoidung.SDT, xa.TEN_XA, huyen.TEN_HUYEN, tinh.TEN_TINH  from noithanhtoan 
+        $noithanhtoan = DB::select("select noithanhtoan.MA_NOI,noithanhtoan.DT,noithanhtoan.CHITIET, noithanhtoan.MA_NGUOIDUNG, noithanhtoan.MACDINH, nguoidung.TEN_NGUOIDUNG, nguoidung.SDT, xa.TEN_XA, huyen.TEN_HUYEN, tinh.TEN_TINH  from noithanhtoan 
                      join nguoidung on nguoidung.MA_NGUOIDUNG = noithanhtoan.MA_NGUOIDUNG
                      join xa on xa.MA_XA = noithanhtoan.MA_XA 
                      JOIN huyen on huyen.MA_HUYEN = xa.MA_HUYEN 

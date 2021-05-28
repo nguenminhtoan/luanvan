@@ -214,11 +214,13 @@ tinymce.init({
                                             <div class="col-sm-6">
                                                 <div class="text-sm-end">
                                                     <input name="AN_HIEN" value="1" type="hidden"  />
+                                                    @if($cuahang -> TRANGTHAI == 1)
                                                     <a href="javascript:void(0);" onclick="submit(1);" class="btn btn-danger">
                                                         <i class="mdi mdi-cash-multiple me-1"></i> Lưu và hiễn thị </a>
-                                                
+                                                    @else    
                                                     <a href="javascript:void(0);" onclick="submit(0);"  class="btn btn-danger">
                                                         <i class="mdi mdi-cash-multiple me-1"></i> Lưu và Ẩn </a>
+                                                    @endif    
                                                 </div>
                                                 
                                             </div>

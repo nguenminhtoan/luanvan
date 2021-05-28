@@ -76,6 +76,29 @@ class ChatController extends Controller
        return view("chat.chat",["khach" => $khach,"ma_traodoi" => $ma_traodoi,'id'=>$id,'list_nguoidung' => $list_nguoidung,'list_noidung' => $list_noidung,'cuahang'=>$cuahang[0],'khachhang'>$khachhang,'mach'=>$mach]);
     }
     
+    
+    public function autochat(){
+        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+        $cuahang = DB::select('select *from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach]);
+        $cauhoi = DB::select("select * from autotraloi where MA_CUAHANG = ? ", [$mach]);
+       
+        return view("chat.autochat", ['cuahang'=>$cuahang[0], "traloi" => $cauhoi]);
+    }
+    
+    
+    public function save(Request $req){
+        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
+        DB::delete("delete from autotraloi where MA_CUAHANG = ?", [$mach]);
+        $traloi = $req->REPLY;
+        
+        DB::update("update cuahang set TRALOI = ?, MACDINH = ? where ma_cuahang = ? ", [$req->ONOFF, $req->MACDINH, $mach]);
+        foreach ($req->TRIGGE as $key => $value){
+            if ($value != ""){
+                DB::insert("insert into autotraloi (MA_CUAHANG, TRIGGE, REPLY) value (?,?,?)", [$mach, $value, $traloi[$key]]);
+            }
+        }
+        return redirect('/admin/chat/autochat');
+    }
     /**
     * Fetch all messages
     *
@@ -109,6 +132,8 @@ class ChatController extends Controller
             $name = "";
         }
         
+        
+        
         $data = [
             "MA_NGUOIDUNG" => $request->MA_NGUOIDUNG,
             "NOIDUNG"=>$request->NOIDUNG,
@@ -128,36 +153,37 @@ class ChatController extends Controller
         return ['status' => 'Message Sent!'];
     }
     
-    public function sendMessageBox(Request $request)
+    public function sendMessageBox($hoi, $cuahang, $nguoidung, $traodoi)
     {
-//      \
-        $samples = [["shop cho mình hỏi", "ban có rảnh không"], [1, 4], [2, 4], [3, 1], [4, 1], [4, 2]];
-        $labels = ['có vấn đề gì vậy', 'a', 'a', 'b', 'b', 'b'];
-
-        $classifier = new KNearestNeighbors();
-        $classifier->train($samples, $labels);
-
-        $traloi = $classifier->predict([3, 2]);
-//        $mach = Session::get("MA_NGUOIDUNG")->MA_CUAHANG;
-//        $cuahang = DB::select('select *from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $mach])[0];
+//        $samples = [["shop cho mình hỏi", "ban có rảnh không"], [1, 4], [2, 4], [3, 1], [4, 1], [4, 2]];
+//        $labels = ['có vấn đề gì vậy', 'a', 'a', 'b', 'b', 'b'];
+//
+//        $classifier = new KNearestNeighbors();
+//        $classifier->train($samples, $labels);
+//
+//        $traloi = $classifier->predict([3, 2]);
         
-//        $data = [
-//            "MA_NGUOIDUNG" => $request->MA_NGUOIDUNG,
-//            "NOIDUNG"=>$request->NOIDUNG,
-//            "MA_CUAHANG" => $cuahang->MA_CUAHANG,
-//            "THOIGIAN" => date("H:m"),
-//            "TEN_CUAHANG" => $cuahang->TEN_CUAHANG,
-//            "HINHANH" => $cuahang->HINHANH,
-//            "MA_TRAODOI" => $request->MA_TRAODOI,
-//            "FILE" => $name
-//        ];
+        $noidung = $this->botchat($hoi);
+        if ($noidung == ""){
+            $noidung = $cuahang->MACDINH;
+        }
+        $data = [
+            "MA_NGUOIDUNG" => $nguoidung,
+            "NOIDUNG"=>$noidung,
+            "MA_CUAHANG" => $cuahang->MA_CUAHANG,
+            "THOIGIAN" => date("H:m"),
+            "TEN_CUAHANG" => $cuahang->TEN_CUAHANG,
+            "HINHANH" => $cuahang->HINHANH,
+            "MA_TRAODOI" => $traodoi,
+            "FILE" => ''
+        ];
 //        $message = $user->messages()->create([
 //          'message' => $request->input('message')
 //        ]);
 //        broadcast(new MessageSent($user, $message))->toOthers();
-//        event(new MessageSent($data));
-//        Traodoi::tl_save($data["MA_TRAODOI"],$data["MA_NGUOIDUNG"], $data["MA_CUAHANG"], $data["NOIDUNG"], date("Y-m-d H:m:s"), $name);
-        return $traloi;
+        event(new MessageSent($data));
+        Traodoi::tl_save($data["MA_TRAODOI"],$data["MA_NGUOIDUNG"], $data["MA_CUAHANG"], $data["NOIDUNG"], date("Y-m-d H:m:s"), '');
+        return true;
     }
     
      public function replyMessage(Request $request)
@@ -192,9 +218,19 @@ class ChatController extends Controller
 //        ]);
 //        broadcast(new MessageSent($user, $message))->toOthers();
         event(new MessageReply($data));
+        $cuahang = DB::select('select *from Cuahang where MA_CUAHANG = :MA_CUAHANG', ['MA_CUAHANG' => $data["MA_CUAHANG"]])[0];
+        if($cuahang->TRALOI == 1 && $cuahang->ONLINE == 0){
+            sleep(3);
+            $this->sendMessageBox($data["NOIDUNG"], $cuahang,$data["MA_NGUOIDUNG"],$data['MA_TRAODOI']);
+        }
         return ['status' => 'Message Sent!'];
     }
     
+    private function botchat($msg){
+        $sql = "SELECT *, MATCH (`TRIGGE`) AGAINST (?) AS score FROM autotraloi WHERE MATCH (`TRIGGE`) AGAINST (?)";
+        $res = DB::select($sql, [$msg, $msg]);
+        return $res ? $res[0]->REPLY : "";
+    }
     
      private function tl_save($traodoi,$mand, $mach,$noidung, $thoigian, $file){
         $sql = "INSERT INTO traodoi(TRA_MA_TRAODOI,MA_NGUOIDUNG,MA_CUAHANG,NOIDUNG,THOIGIAN,FILE_1) VALUE(?,?,?,?,?)";
