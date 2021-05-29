@@ -36,6 +36,7 @@
                             <small class="text-muted"></small>
                         </p>
                     </a>
+                    @if(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
                     @foreach($thongbao as $item)
                     <a href="/admin/orders/detail/{{$item->MA_DONBAN}}" class="dropdown-item notify-item">
                         <div class="notify-icon bg-primary">
@@ -47,9 +48,22 @@
                         </p>
                     </a>
                     @endforeach
+                    @elseif(Session::get("MA_NGUOIDUNG")->ADMIN == 3)
+                    @foreach($thongbao as $item)
+                    <a href="/admin/cuahang/detail/{{$item->MA_CUAHANG}}" class="dropdown-item notify-item">
+                        <div class="notify-icon bg-primary">
+                            <i class="mdi mdi-comment-account-outline"></i>
+                        </div>
+                        <p class="notify-details">
+                            <small class="text-muted">{{$item->TEN_CUAHANG}}</small>
+                            {{$item->MOTA}}
+                        </p>
+                    </a>
+                    @endforeach
+                    @endif
                 </div>
                 <!-- All-->
-                <a href="/admin/orders/index" class="dropdown-item text-center text-primary notify-item notify-all">
+                <a href="{{ Session::get("MA_NGUOIDUNG")->ADMIN == 2 ? "/admin/orders/index" : "/admin/cuahang/list" }}" class="dropdown-item text-center text-primary notify-item notify-all">
                     Xem tất cả
                 </a>
             </div>
@@ -120,13 +134,19 @@
                 <span>
                     <span class="account-position">{{$cuahang->TEN_CUAHANG}}</span>
                 </span>
-                @else
+                @elseif(Session::get("MA_NGUOIDUNG")->ADMIN == 3)
                 <span class="account-user-avatar"> 
                     <img data-src="/img/B612_20181214_203550_766.jpg" src="/img/B612_20181214_203550_766.jpg" class="rounded-circle">
                 </span>
                 <span>
                     <span class="account-position">ADMIN</span>
                 </span>
+                @elseif(Session::get("MA_NGUOIDUNG")->ADMIN == 1)
+                <span class="account-user-avatar"> 
+                    <img data-src="/img/B612_20181214_203550_766.jpg" src="/img/B612_20181214_203550_766.jpg" class="rounded-circle">
+                </span>
+                <span>
+                    <span class="account-position">{{$user->TEN_NGUOIDUNG}}</span>
                 @endif
             </a>
             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
@@ -136,12 +156,12 @@
                 </div>
                 @if(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
                 <!-- item-->
-                <a href="/cuahang/{{$cuahang->MA_CUAHANG}}" class="dropdown-item notify-item">
+                <a href="/admin/cuahang/{{$cuahang->MA_CUAHANG}}" class="dropdown-item notify-item">
                     <i class="mdi mdi-account-circle me-1"></i>
                     <span>Tài khoản của tôi</span>
                 </a>
                 <!-- item-->
-                <a href="/edit/{{$cuahang->MA_CUAHANG}}" class="dropdown-item notify-item">
+                <a href="/admin/edit/{{$cuahang->MA_CUAHANG}}" class="dropdown-item notify-item">
                     <i class="mdi mdi-account-edit me-1"></i>
                     <span>Cài đặt</span>
                 </a>
@@ -240,7 +260,8 @@
         encrypted: true,
         cluster: "ap1"
     });
-
+    
+    @if(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
     // Subscribe to the channel we specified in our Laravel Event
     var channel = pusher.subscribe('notifi');
     
@@ -266,15 +287,6 @@
     });
     
     
-    //Plays the sound
-    function play() {
-       //Set the current time for the audio file to the beginning
-       soundFile.currentTime = 0.01;
-       soundFile.volume = volume;
-
-       //Due to a bug in Firefox, the audio needs to be played after a delay
-       setTimeout(function(){soundFile.play();},1);
-    }
     function clearAlert(){
         $.ajax({
             method: "get",
@@ -289,6 +301,39 @@
                 });
             })
         });
+    }
+    @elseif(Session::get("MA_NGUOIDUNG")->ADMIN == 3)
+    var channel = pusher.subscribe('notifi-cuahang');
+    
+    // Bind a function to a Event (the full Laravel class)
+    channel.bind('App\\Events\\NotifiCh', function(data) {
+        temp = $("#template_notifi").clone();
+        temp.removeAttr("id");
+        temp.find("p").append(data.data.MOTA );
+        temp.find("small").html(data.data.TEN_CUAHANG);
+        temp.find("a").attr("href", "/admin/cuahang/detail/" + data.data.MA_CUAHANG);
+        $("#template_notifi").before(temp);
+        $("#alert").css("display", "block");
+        src = "http://localhost:8000/mp3/notifi.mp3";
+//                var audio = new Audio(src);
+        document.getElementById('notification').muted = false;
+        document.getElementById('notification').play();
+    });
+    
+    function clearAlert(){
+        
+    }
+    @endif
+    
+    
+    //Plays the sound
+    function play() {
+       //Set the current time for the audio file to the beginning
+       soundFile.currentTime = 0.01;
+       soundFile.volume = volume;
+
+       //Due to a bug in Firefox, the audio needs to be played after a delay
+       setTimeout(function(){soundFile.play();},1);
     }
 </script>
 <!-- end Topbar -->

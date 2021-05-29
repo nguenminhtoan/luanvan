@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendEmail;
 use Session;
+use App\Events\NotifiCh;
 
 /**
  * Description of RegisterController
@@ -160,7 +161,9 @@ class RegisterController extends Controller {
         if (DB::insert($sql,$param)){
             $ma_cuahang = DB::select("select MAX(MA_CUAHANG) AS MA_CUAHANG from cuahang")[0]->MA_CUAHANG;
             DB::update("update nguoidung set MA_CUAHANG = :MA_CUAHANG, ADMIN = 2 WHERE MA_NGUOIDUNG = :MA_NGUOIDUNG", ["MA_CUAHANG" => $ma_cuahang, "MA_NGUOIDUNG" => $user->MA_NGUOIDUNG]);
+            $cuahang = DB::select("select * from cuahang where ma_cuahang = ? ", [$ma_cuahang])[0];
             $nguoi_dung = DB::select('select * from Nguoidung where MA_NGUOIDUNG = :MA_NGUOIDUNG', ['MA_NGUOIDUNG' => $user->MA_NGUOIDUNG]); 
+            event(new NotifiCh($cuahang));
             Session::put("MA_NGUOIDUNG",$nguoi_dung[0]);
             return redirect("/admin/dashboard"); // chuyển tới trang tổng quan
         }
@@ -206,7 +209,25 @@ class RegisterController extends Controller {
         }
    
     }
+    
+    public function register_shipper(){
+        
+        $user = Session::get("MA_NGUOIDUNG");
+        $mavt = DB::select("select * from nhanvien where ma_nguoidung = ?" , [$user->MA_NGUOIDUNG]);
+        if (count($mavt) > 0 ){
+            return redirect("/admin/ship/dashboard");
+        }
+        $danhmuc = DB::SELECT('select *from danhmuc');
+        $vanchuyen = DB::select('Select * from vanchuyen');
+        return view("register.register_shipper", ["danhmuc" => $danhmuc, "vanchuyen"=> $vanchuyen, "soluong" => 0, 'user' => $user]);
+    }
 
+    public function create_shipper(Request $req){
+        $user = Session::get("MA_NGUOIDUNG");
+        DB::insert("insert into nhanvien(MA_NGUOIDUNG, MA_VANCHUYEN, PHUONGTIEN,CAP) value(?,?,?,1)",
+                [$user->MA_NGUOIDUNG, $req->MA_VANCHUYEN, $req->PHUONGTIEN]);
+        return redirect("/admin/ship/dashboard");
+    }
     public function generateRandomString($length = 10) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);

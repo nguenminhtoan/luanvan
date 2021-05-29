@@ -48,9 +48,7 @@
                 <div class="h-100" id="leftside-menu-container" data-simplebar>
                     <!--- Sidemenu -->
                     <ul class="side-nav">
-                        
-                        
-                        @if(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
+                       
                         <li class="side-nav-title side-nav-item"></li>
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
@@ -60,14 +58,28 @@
                             </a>
                             <div class="collapse" id="sidebarDashboards">
                                 <ul class="side-nav-second-level">
+                                    
+                                    @if(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
                                     <li>
                                         <a href="/admin/dashboard">Phân tích bán hàng</a>
                                     </li>
+                                    @elseif(Session::get("MA_NGUOIDUNG")->ADMIN == 3)
+                                    <li>
+                                        <a href="/admin/management/dashboard">Thống kê cửa hàng</a>
+                                    </li>
+                                    @endif
+                                    
+                                    @if($ship)
+                                    <li>
+                                        <a href="/admin/ship/dashboard">Phân tích chở hàng</a>
+                                    </li>
+                                    @endif
                                 </ul>
                             </div>
                         </li>
                         
                         <li class="side-nav-title side-nav-item">Ứng dụng</li>
+                        @if(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
                         <li class="side-nav-item">
                             <a href="/admin/categories/index" class="side-nav-link">
                                 <i class="uil-calender"></i>
@@ -98,33 +110,24 @@
                                 </ul>
                             </div>
                         </li>
-                        @else
-                        <li class="side-nav-title side-nav-item"></li>
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
-                                <i class="uil-home-alt"></i>
-                                <span class="badge bg-success float-end">1</span>
-                                <span>Tổng quan</span>
-                            </a>
-                            <div class="collapse" id="sidebarDashboards">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="/admin/management/dashboard">Thống kê cửa hàng</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="side-nav-title side-nav-item">Ứng dụng</li>
-
+                        @elseif(Session::get("MA_NGUOIDUNG")->ADMIN == 3)
+                        
                         <li class="side-nav-item">
                             <a href="/admin/customers" class="side-nav-link">
                                 <i class="uil-calender"></i>
                                 <span>Tất cả Khách hàng <span class="badge rounded-pill badge-success-lighten font-10 float-end"> mới</span> </span>
                             </a>
                         </li>
+                        
+                        <li class="side-nav-item">
+                            <a href="/admin/shipper" class="side-nav-link">
+                                <i class="uil-calender"></i>
+                                <span>Tất cả Shipper </span>
+                            </a>
+                        </li>
 
                         @endif
-                        
+                        @if (Session::get("MA_NGUOIDUNG")->ADMIN == 2 || Session::get("MA_NGUOIDUNG")->ADMIN == 3)
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
                                 <i class="uil-store"></i>
@@ -148,7 +151,7 @@
                                 </ul>
                             </div>
                         </li>
-                        
+                        @endif
                         
                         @if(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
                         <li class="side-nav-item">
@@ -182,6 +185,7 @@
                             </div>
                         </li>
                         @endif
+                        @if (Session::get("MA_NGUOIDUNG")->ADMIN == 2 || Session::get("MA_NGUOIDUNG")->ADMIN == 3)
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
                                 <i class="uil-copy-alt"></i>
@@ -194,7 +198,7 @@
                                     <li>
                                         <a href="/admin/status/index">Các trạng thái sản phẩm</a>
                                     </li>
-                                    @else
+                                    @elseif(Session::get("MA_NGUOIDUNG")->ADMIN == 2)
                                     <li>
                                         <a href="/admin/voucher/index">Các hình thức khuyến mãi</a>
                                     </li>
@@ -228,6 +232,45 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
+                        
+                        @if($ship)
+                        
+                        <li class="side-nav-item">
+                            <a href="/admin/ship/info" class="side-nav-link">
+                                <i class="uil-briefcase"></i>
+                                <span class="badge bg-success float-end"></span>
+                                <span> Thông tin cá nhân </span>
+                            </a>
+                            
+                        </li>
+                        <li class="side-nav-title side-nav-item">Vân chuyển hàng</li>
+                        <li class="side-nav-item">
+                            <a href="/admin/ship/padding" class="side-nav-link">
+                                <i class="uil-comments-alt"></i>
+                                <span>Đơn hàng chờ tiếp nhận </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="/admin/ship/order" class="side-nav-link">
+                                <i class="uil-calender"></i>
+                                <span>Đơn hàng vận chuyển </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="/admin/ship/complete" class="side-nav-link">
+                                <i class="uil-comments-alt"></i>
+                                <span>Đã giao </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="/admin/ship/cancel" class="side-nav-link">
+                                <i class="uil-comments-alt"></i>
+                                <span>Đã bị hủy</span>
+                            </a>
+                        </li>
+                        
+                        @endif
                     </ul>
 
                     <!-- End Sidebar -->

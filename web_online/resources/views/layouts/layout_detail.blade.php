@@ -332,7 +332,9 @@
                                 @if($user)
                                 <div class="telephone hidden-xs hidden-sm hidden-md" >
                                     <ul>
+                                        <li></li>
                                         <li><a href="/admin/register_shop"><i class="fa fa-user"></i>Kênh bán hàng</a></li>
+                                        <li><a href="/register_shipper"><i class="fa fa-user"></i>Chuyển hàng</a></li>
                                     </ul>
                                 </div>
                                 <div class="signin-w font-title hidden-md hidden-sm hidden-xs">
@@ -344,6 +346,7 @@
                                 @else
                                 <div class="telephone hidden-xs hidden-sm hidden-md" >
                                     <ul>
+                                        <li></li>
                                         <li><a href="/register"><i class="fa fa-register"></i>Đăng ký</a></li>
                                     </ul>
                                 </div>

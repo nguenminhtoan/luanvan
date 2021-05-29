@@ -23,11 +23,6 @@ Route::get('/', function () {
     return view('categories/categories');
 });
 */
-
-Route::get('/admin/register_shop',"RegisterController@register_shop");
-Route::post('/admin/create_shop',"RegisterController@create_shop");
-
-
 Route::group(['prefix' => 'admin', "middleware"=> ["login", "roleAdmin"]], function () {
     
     Route::group(['prefix' => '/ship'], function () {
@@ -177,6 +172,25 @@ Route::group(['prefix' => 'admin', "middleware"=> ["login", "role"]], function (
 });
 
 
+
+Route::group(['prefix' => 'admin',"middleware"=> ["login","roleShip"]], function () {
+    
+    Route::group(['prefix' => 'ship'], function(){
+        Route::get('/dashboard',"ShipController@dashboard");
+        Route::get('/info',"ShipController@info");
+        Route::get('/padding',"ShipController@index");
+        Route::get('/tiepnhan',"ShipController@save");
+        Route::get('/order',"ShipController@order");
+        Route::get('/giaohang',"ShipController@save_order");
+        Route::get('/complete',"ShipController@complete");
+        Route::get('/trahang',"ShipController@save_cancel");
+        Route::get('/hoanlai',"ShipController@save_return");
+        Route::get('/cancel',"ShipController@cancel");
+    });
+        
+});
+
+
 Route::group(['prefix' => '/cart'], function () {  
     Route::get('/add',"CartController@add_cart");
     Route::get('/',"CartController@index");
@@ -234,7 +248,11 @@ Route::get('/callback/{provider}', 'SocialController@callback');
 Route::get("/vnpay", "VNpayController@index");
 
 Route::get('/register_shop',"RegisterController@register_shop");
+Route::get('/admin/register_shop',"RegisterController@register_shop");
 Route::post('/create_shop',"RegisterController@create_shop");
+Route::post('/admin/create_shop',"RegisterController@create_shop");
+Route::get('/register_shipper',"RegisterController@register_shipper");
+Route::post('/admin/create_shipper',"RegisterController@create_shipper");
 Route::group(['prefix' => '', "middleware"=> "login"], function () {  
     Route::get('/account/{id}',"AccountController@index");
     Route::post('/update/{id}',"AccountController@update_cuahang");

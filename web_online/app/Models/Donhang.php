@@ -28,6 +28,91 @@ class Donhang extends Model
         return $list;
     }
     
+    public static function list_all_chovt($batdau, $ketthuc, $dv_vt){
+        $sql = "select donhang.*, vt.THOIGIADUKIEN, tt.PHUONGTHUC_THANHTOAN,
+                 t.TEN_TRANGTHAI, km.TEN_KM, km.GIAMGIA, ct.DIACHI as CH_DIACHI, XA.TEN_XA, HUYEN.TEN_HUYEN, TINH.TEN_TINH from donhang 
+                 inner join vanchuyen vt on vt.MA_VANCHUYEN = donhang.MA_VANCHUYEN 
+                 inner join thanhtoan tt on tt.MA_THANHTOAN = donhang.MA_THANHTOAN 
+                 left join khuyenmai km on km.MA_KHUYENMAI = donhang.MA_KHUYENMAI 
+                 inner join trangthai t on t.MA_TRANGTHAI = donhang.MA_TRANGTHAI
+                 left join cuahang ct on ct.MA_CUAHANG = donhang.MA_CUAHANG
+                 left join XA on xa.MA_XA = ct.MA_XA
+                 left join HUYEN on HUYEN.MA_HUYEN = XA.MA_XA
+                 left join TINH on TINH.MA_TINH = HUYEN.MA_TINH
+                 WHERE t.MA_TRANGTHAI = 4 AND donhang.MA_VANCHUYEN = ? AND NGAYDAT BETWEEN ? AND ?  AND 
+                 NOT EXISTS (select * from giaohang where giaohang.MA_DONBAN = donhang.MA_DONBAN)";
+        
+        $param = [$dv_vt, $batdau, $ketthuc];
+        $sql .= " ORDER BY  ma_donban DESC, ngaydat ASC  ";
+        
+        $list = DB::select($sql, $param);
+        return $list;
+    }
+    
+    
+    public static function list_all_tn($batdau, $ketthuc, $manv){
+        $sql = "select donhang.*, vt.THOIGIADUKIEN, tt.PHUONGTHUC_THANHTOAN, giaohang.THOIGIAN as TIEPNHAN,
+                 t.TEN_TRANGTHAI, km.TEN_KM, km.GIAMGIA, ct.DIACHI as CH_DIACHI, XA.TEN_XA, HUYEN.TEN_HUYEN, TINH.TEN_TINH from donhang 
+                 inner join vanchuyen vt on vt.MA_VANCHUYEN = donhang.MA_VANCHUYEN 
+                 inner join thanhtoan tt on tt.MA_THANHTOAN = donhang.MA_THANHTOAN 
+                 left join khuyenmai km on km.MA_KHUYENMAI = donhang.MA_KHUYENMAI 
+                 inner join trangthai t on t.MA_TRANGTHAI = donhang.MA_TRANGTHAI
+                 left join cuahang ct on ct.MA_CUAHANG = donhang.MA_CUAHANG
+                 left join XA on xa.MA_XA = ct.MA_XA
+                 left join HUYEN on HUYEN.MA_HUYEN = XA.MA_XA
+                 left join TINH on TINH.MA_TINH = HUYEN.MA_TINH
+                 inner join giaohang on giaohang.MA_DONBAN = donhang.MA_DONBAN
+                 WHERE t.MA_TRANGTHAI = 5 AND giaohang.MA_NV = ? AND NGAYDAT BETWEEN ? AND ?  ";
+        
+        $param = [$manv, $batdau, $ketthuc];
+        $sql .= " ORDER BY  ma_donban DESC, ngaydat ASC  ";
+        
+        $list = DB::select($sql, $param);
+        return $list;
+    }
+    
+    public static function list_all_complete($batdau, $ketthuc, $manv){
+        $sql = "select donhang.*, vt.THOIGIADUKIEN, tt.PHUONGTHUC_THANHTOAN, giaohang.THOIGIAN as TIEPNHAN,
+                 t.TEN_TRANGTHAI, km.TEN_KM, km.GIAMGIA, ct.DIACHI as CH_DIACHI, XA.TEN_XA, HUYEN.TEN_HUYEN, TINH.TEN_TINH from donhang 
+                 inner join vanchuyen vt on vt.MA_VANCHUYEN = donhang.MA_VANCHUYEN 
+                 inner join thanhtoan tt on tt.MA_THANHTOAN = donhang.MA_THANHTOAN 
+                 left join khuyenmai km on km.MA_KHUYENMAI = donhang.MA_KHUYENMAI 
+                 inner join trangthai t on t.MA_TRANGTHAI = donhang.MA_TRANGTHAI
+                 left join cuahang ct on ct.MA_CUAHANG = donhang.MA_CUAHANG
+                 left join XA on xa.MA_XA = ct.MA_XA
+                 left join HUYEN on HUYEN.MA_HUYEN = XA.MA_XA
+                 left join TINH on TINH.MA_TINH = HUYEN.MA_TINH
+                 inner join giaohang on giaohang.MA_DONBAN = donhang.MA_DONBAN
+                 WHERE t.MA_TRANGTHAI = 6 AND giaohang.MA_NV = ? AND NGAYDAT BETWEEN ? AND ?  ";
+        
+        $param = [$manv, $batdau, $ketthuc];
+        $sql .= " ORDER BY  ma_donban DESC, ngaydat ASC  ";
+        
+        $list = DB::select($sql, $param);
+        return $list;
+    }
+    
+    public static function list_all_cancel($batdau, $ketthuc, $manv){
+        $sql = "select donhang.*, vt.THOIGIADUKIEN, tt.PHUONGTHUC_THANHTOAN,
+                 t.TEN_TRANGTHAI, km.TEN_KM, km.GIAMGIA, ct.DIACHI as CH_DIACHI, XA.TEN_XA, HUYEN.TEN_HUYEN, TINH.TEN_TINH from donhang 
+                 inner join vanchuyen vt on vt.MA_VANCHUYEN = donhang.MA_VANCHUYEN 
+                 inner join thanhtoan tt on tt.MA_THANHTOAN = donhang.MA_THANHTOAN 
+                 left join khuyenmai km on km.MA_KHUYENMAI = donhang.MA_KHUYENMAI 
+                 inner join trangthai t on t.MA_TRANGTHAI = donhang.MA_TRANGTHAI
+                 left join cuahang ct on ct.MA_CUAHANG = donhang.MA_CUAHANG
+                 left join XA on xa.MA_XA = ct.MA_XA
+                 left join HUYEN on HUYEN.MA_HUYEN = XA.MA_XA
+                 left join TINH on TINH.MA_TINH = HUYEN.MA_TINH
+                 WHERE t.MA_TRANGTHAI in (7,8) AND NGAYDAT BETWEEN ? AND ?  AND 
+                 EXISTS (select * from giaohang where giaohang.MA_DONBAN = donhang.MA_DONBAN and giaohang.MA_NV = ?)";
+        
+        $param = [$batdau, $ketthuc, $manv];
+        $sql .= " ORDER BY  ma_donban DESC, ngaydat ASC  ";
+        
+        $list = DB::select($sql, $param);
+        return $list;
+    }
+    
     public static function list_dh_ch($mach, $batdau, $ketthuc, $tt){
         $sql = "select donhang.*, vt.PHUONGTHUC_VANCHUYEN, tt.PHUONGTHUC_THANHTOAN,
                  t.TEN_TRANGTHAI, km.TEN_KM, km.GIAMGIA from donhang 
@@ -89,7 +174,11 @@ class Donhang extends Model
         return $list;
     }
 
-    
+    public static function list_notifi_ch(){
+        $sql = "select * from cuahang where TRANGTHAI = 0 order by MA_CUAHANG DESC";
+        $list = DB::select($sql);
+        return $list;
+    }
 
     public static function get_dh_ma($madb){
         $sql = "select * from donhang

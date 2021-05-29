@@ -851,13 +851,15 @@
 				});
 				//]]>
 			</script>
-			</div>
-                    </div> 
-                </div>  
-            </div>
-         </div>
-      </div>
-   </div>
+                                </div>
+                            </div> 
+                        </div>  
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+    </div>
 </div>
 <script>
 $(".product_quantity_up").on("click", function(){
